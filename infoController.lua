@@ -27,8 +27,11 @@ function InfoController()
             end 
             
             if test == true then
-                local gameObject = GameObject("PSVita", value.name, value.path)
-                --tmpInfo = {id = value.name, path = value.path, title = gameInfo.TITLE, region = gameInfo.REGION, version = gameInfo.APP_VER}
+                local title, region, version = self.getVitaInfo(value.name)
+                local category = self.getVitaCategory(value.name)
+                
+                local gameObject = GameObject("PSVita", value.name, value.path, title, region, version, category)
+
                 table.insert(self.appInfos, gameObject)
             end
         end
@@ -58,49 +61,61 @@ function InfoController()
             end
             
             if test == true then
-                local title = computeTitle()
-                local region = computeRegion(value.name)
-                local version = computeVersion()
-                local genre = computeGenre(value.name, pPath)
+                local title = self.computeRomTitle(value.name)
+                local region = self.computeRomRegion(value.name)
+                local version = self.computeRomVersion()
+                local category = self.computeCategory(value.name, pPath)
                 
-                local gameObject = GameObject(pPlateform, value.name, value.path, title, region, version)
+                local gameObject = GameObject(pPlateform, value.name, value.path, title, region, version, category)
                 
                 table.insert(self.appInfos, gameObject)
             end
         end
     end
 
-    --local function computeInfo (pName, pPath)
---
-    --end
+    function self.getVitaInfo ( pName )
+        local title, region, version  = ""
 
-    local function computeTitle( pName )
+        return title, region, version
+    end
+
+    function getVitaCategory ( pName )
+        local category = ""
+
+        return category
+    end
+
+    function self.computeRomTitle( pName )
         local title = ""
-        
-        title = string.gsub(pName, "\(.*\)", "")
+
+        local i, j = string.find(pName, "(", 0, true)
+
+        if i != nil then
+            title = string.sub(pName, 0, i-1)
+        end
         
         return title
     end
 
-    local function computeRegion( pName )
+    function self.computeRomRegion( pName )
         local region = ""
 
         --string.find (s, pattern [, init [, plain]])
         
-        local testFilter = string.match(value.name, '.*\(USA\).*')
-        if testFilter == true then
+        local testFilter = string.match(pName, '.*USA.*')
+        if testFilter != nil then
             region = "USA"
         else
-            testFilter = string.match(value.name, '.*\(Europe\).*')
-            if testFilter == true then
+            testFilter = string.match(pName, '.*Europe.*')
+            if testFilter != nil then
                 region = "Europe"
             else
-                testFilter = string.match(value.name, '.*\(Japan\).*')
-                if testFilter == true then
+                testFilter = string.match(pName, '.*Japan.*')
+                if testFilter != nil then
                     region = "Japan"
                 else
-                    testFilter = string.match(value.name, '.*\(World\).*')
-                    if testFilter == true then
+                    testFilter = string.match(pName, '.*World.*')
+                    if testFilter != nil then
                         region = "World"
                     else
                         region = "Unk"
@@ -111,18 +126,51 @@ function InfoController()
 
         return region
     end
+
+    function self.computeVitaRegion ( pId )
+        local region = ""
+
+        --string.find (s, pattern [, init [, plain]])
+        
+        --local testFilter = string.match(pId, '.*PCS(E)|(A).*')
+        local testFilter = string.match(pId, '.*PCSE.*')
+        local testFilter2 = string.match(pId, '.*PCSA.*')
+        if testFilter != nil or testFilter2 != nil then
+            region = "USA"
+        else
+            local testFilter = string.match(pId, '.*PCSB.*')
+            local testFilter2 = string.match(pId, '.*PCSF.*')
+            if testFilter != nil or testFilter2 != nil then
+                region = "Europe"
+            else
+                testFilter = string.match(pId, '.*PCSG.*')
+                if testFilter != nil then
+                    region = "Japan"
+                else
+                    testFilter = string.match(pId, '.*PCSH.*')
+                    if testFilter != nil then
+                        region = "Asia"
+                    else
+                        region = "Unk"
+                    end
+                end
+            end
+        end
+
+        return region
+    end
     
-    local function computeVersion( pName )
+    function self.computeRomVersion( pName )
         local version = ""
         
         return version
     end
 
     
-    local function computeGenre( pName, pPath )
-        local genre = ""
+    function self.computeCategory( pName, pPath )
+        local category = ""
 
-        return genre
+        return category
     end
 
     --function self.writeToXml()

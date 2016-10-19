@@ -68,11 +68,11 @@ function batteryCharge ()
     return res
 end
 
-function batteryLow ()
+function isBatteryLow ()
     return batt.low()
 end
 
-function batteryCharging ()
+function isBatteryCharging ()
     return batt.charging()
 end
 
@@ -93,6 +93,17 @@ function imageLoad ( pFilename )
     return res
 end
 
+function spriteLoad ( pFilename, pWidth, pHeight )
+    local res = nil
+    
+    local test = filesExists(pFilename)
+    if test == true then
+        res = image.load(pFilename, pWidth, pHeight)
+    end
+        
+    return res
+end
+
 function imageBlit ( pImage, pX, pY, pAlpha )
     if pImage != nil then
         if pAlpha != nil then
@@ -106,6 +117,12 @@ end
 function imageBlitPart ( pImage, pX, pY, pXi, pXi, pWidth, pHeight )
     if pImage != nil then 
         pImage:blit(pX, pY, pXi, pXi, pWidth, pHeight)
+    end
+end
+
+function spriteBlit ( pSprite, pX, pY, pAnim )
+    if pSprite != nil then 
+        pSprite:blitsprite(pX,pY,pAnim)
     end
 end
 

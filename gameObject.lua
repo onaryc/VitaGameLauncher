@@ -1,4 +1,4 @@
-function GameObject( pPlateform, pId, pPath, pTitle, pRegion, pVersion, pGenre )
+function GameObject( pPlateform, pId, pPath, pTitle, pRegion, pVersion, pCategory )
     local self = {}
 
     -- public variables
@@ -8,7 +8,7 @@ function GameObject( pPlateform, pId, pPath, pTitle, pRegion, pVersion, pGenre )
     self.title = pTitle
     self.region = pRegion
     self.version = pVersion
-    self.genre = pGenre
+    self.category = pCategory
 
     if self.plateform == "PSVita" then
         local bkFile = self.path.."/sce_sys/pic0.png"

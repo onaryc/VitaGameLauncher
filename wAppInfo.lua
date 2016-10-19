@@ -7,7 +7,7 @@ function WAppInfo( pScreenWidth, pScreenHeight )
     local width = screenWidth -1
     local height = 60
     
-    local xULP = 1
+    local xULP = 0
     local yULP = screenHeight - height
 
     local xPart = {}
@@ -34,8 +34,9 @@ function WAppInfo( pScreenWidth, pScreenHeight )
             end
 
             printScreen(pAppInfos[pCurrentAppIndex].plateform, xPart[1], yPart[1])
-            printScreen(pAppInfos[pCurrentAppIndex].id, xPart[2], yPart[2])
-            printScreen(pAppInfos[pCurrentAppIndex].region, xPart[3], yPart[3])
+            printScreen(pAppInfos[pCurrentAppIndex].region, xPart[2], yPart[2])
+            printScreen(pAppInfos[pCurrentAppIndex].title, xPart[3], yPart[3])
+            printScreen(pAppInfos[pCurrentAppIndex].id, xPart[4], yPart[4])
         end
     end
 

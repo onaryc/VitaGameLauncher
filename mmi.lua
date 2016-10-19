@@ -9,7 +9,7 @@ function Mmi(pScreenWidth, pScreenHeight)
     local screenHeight = pScreenHeight
     
     function self.initialization ()
-        splashScreen()
+        --splashScreen()
 
         loadpalette()
 
@@ -21,7 +21,7 @@ function Mmi(pScreenWidth, pScreenHeight)
     function self.update( pAppInfos, pCurrentAppIndex, pDebug )
         --platformWheel("left", 150, 544, true)
         --filterWheel("right", 150, 544, true)
-        local fps = screen.fps()
+        --local fps = screen.fps()
         
         wBackground.update(pAppInfos, pCurrentAppIndex, "appBackground", 255, pDebug)
         wSystemInfo.update(pDebug)
@@ -29,7 +29,7 @@ function Mmi(pScreenWidth, pScreenHeight)
 
         -- specific debug info
         if pDebug  == true then
-            printScreen (tostring(fps), 1, 1)
+            --printScreen (tostring(fps), 1, 1)
 
             self.touchDebug()
         end
