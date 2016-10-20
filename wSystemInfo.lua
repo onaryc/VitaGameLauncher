@@ -65,13 +65,13 @@ function WSystemInfo( pScreenWidth, pScreenHeight )
                     if batteryCharging.direction == "left" then
                         batteryCharging.anim += 1
                         if batteryCharging.anim > batteryCharging.nbAnim then
-                            batteryCharging.direction "right"
+                            batteryCharging.direction = "right"
                             batteryCharging.anim -= 2
                         end
                     else
                         batteryCharging.anim -= 1
                         if batteryCharging.anim < 0 then
-                            batteryCharging.direction "left"
+                            batteryCharging.direction = "left"
                             batteryCharging.anim += 2
                         end
                     end                    

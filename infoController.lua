@@ -5,6 +5,8 @@ function InfoController()
     self.snesFilters = {"sfc"}
     self.appInfos = {}
 
+    local sfoInformation = SfoInformation()
+
     function self.refreshInfo()
         self.gatherVitaInfo("ux0:/app")
         self.gatherRomInfo("snes", "ux0:/roms/snes")
@@ -27,7 +29,7 @@ function InfoController()
             end 
             
             if test == true then
-                local title, region, version = self.getVitaInfo(value.name)
+                local title, region, version = self.getVitaInfo(value.path)
                 local category = self.getVitaCategory(value.name)
                 
                 local gameObject = GameObject("PSVita", value.name, value.path, title, region, version, category)
@@ -73,13 +75,17 @@ function InfoController()
         end
     end
 
-    function self.getVitaInfo ( pName )
+    function self.getVitaInfo ( pPath )
         local title, region, version  = ""
 
+        paramSfoFile = pPath.."/sce_sys/param.sfo"
+
+        sfoInformation.analyze(paramSfoFile)
+        
         return title, region, version
     end
 
-    function getVitaCategory ( pName )
+    function self.getVitaCategory ( pName )
         local category = ""
 
         return category

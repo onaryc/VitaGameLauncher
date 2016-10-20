@@ -17,6 +17,7 @@
 dofile("app0:/main.lua")
 dofile("app0:/libWrapper.lua")
 
+dofile("app0:/sfoTools.lua")
 dofile("app0:/gameObject.lua")
 
 dofile("app0:/buttonController.lua")
