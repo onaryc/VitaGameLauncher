@@ -5,8 +5,6 @@ function InfoController()
     self.snesFilters = {"sfc"}
     self.appInfos = {}
 
-    local sfoInformation = SfoInformation()
-
     function self.refreshInfo()
         self.gatherVitaInfo("ux0:/app")
         self.gatherRomInfo("snes", "ux0:/roms/snes")
@@ -29,10 +27,7 @@ function InfoController()
             end 
             
             if test == true then
-                local title, region, version = self.getVitaInfo(value.path)
-                local category = self.getVitaCategory(value.name)
-                
-                local gameObject = GameObject("PSVita", value.name, value.path, title, region, version, category)
+                local gameObject = GameVitaObject(value.name, value.path)
 
                 table.insert(self.appInfos, gameObject)
             end
@@ -42,7 +37,6 @@ function InfoController()
     -- gather roms information from retro systems (snes, nes, ...)
     -- the directories shall follow the following hierarchy :
     -- ux0:/roms/<system name>
-    -- The id of the info is the id of the retroarch vpk corresponding of the system name
     function self.gatherRomInfo ( pPlateform, pPath )
         local files = files.listfiles(pPath)
 
@@ -63,120 +57,11 @@ function InfoController()
             end
             
             if test == true then
-                local title = self.computeRomTitle(value.name)
-                local region = self.computeRomRegion(value.name)
-                local version = self.computeRomVersion()
-                local category = self.computeCategory(value.name, pPath)
-                
-                local gameObject = GameObject(pPlateform, value.name, value.path, title, region, version, category)
+                local gameObject = GameRomObject(pPlateform, value.name, value.path)
                 
                 table.insert(self.appInfos, gameObject)
             end
         end
-    end
-
-    function self.getVitaInfo ( pPath )
-        local title, region, version  = ""
-
-        paramSfoFile = pPath.."/sce_sys/param.sfo"
-
-        sfoInformation.analyze(paramSfoFile)
-        
-        return title, region, version
-    end
-
-    function self.getVitaCategory ( pName )
-        local category = ""
-
-        return category
-    end
-
-    function self.computeRomTitle( pName )
-        local title = ""
-
-        local i, j = string.find(pName, "(", 0, true)
-
-        if i != nil then
-            title = string.sub(pName, 0, i-1)
-        end
-        
-        return title
-    end
-
-    function self.computeRomRegion( pName )
-        local region = ""
-
-        --string.find (s, pattern [, init [, plain]])
-        
-        local testFilter = string.match(pName, '.*USA.*')
-        if testFilter != nil then
-            region = "USA"
-        else
-            testFilter = string.match(pName, '.*Europe.*')
-            if testFilter != nil then
-                region = "Europe"
-            else
-                testFilter = string.match(pName, '.*Japan.*')
-                if testFilter != nil then
-                    region = "Japan"
-                else
-                    testFilter = string.match(pName, '.*World.*')
-                    if testFilter != nil then
-                        region = "World"
-                    else
-                        region = "Unk"
-                    end
-                end
-            end
-        end
-
-        return region
-    end
-
-    function self.computeVitaRegion ( pId )
-        local region = ""
-
-        --string.find (s, pattern [, init [, plain]])
-        
-        --local testFilter = string.match(pId, '.*PCS(E)|(A).*')
-        local testFilter = string.match(pId, '.*PCSE.*')
-        local testFilter2 = string.match(pId, '.*PCSA.*')
-        if testFilter != nil or testFilter2 != nil then
-            region = "USA"
-        else
-            local testFilter = string.match(pId, '.*PCSB.*')
-            local testFilter2 = string.match(pId, '.*PCSF.*')
-            if testFilter != nil or testFilter2 != nil then
-                region = "Europe"
-            else
-                testFilter = string.match(pId, '.*PCSG.*')
-                if testFilter != nil then
-                    region = "Japan"
-                else
-                    testFilter = string.match(pId, '.*PCSH.*')
-                    if testFilter != nil then
-                        region = "Asia"
-                    else
-                        region = "Unk"
-                    end
-                end
-            end
-        end
-
-        return region
-    end
-    
-    function self.computeRomVersion( pName )
-        local version = ""
-        
-        return version
-    end
-
-    
-    function self.computeCategory( pName, pPath )
-        local category = ""
-
-        return category
     end
 
     --function self.writeToXml()
