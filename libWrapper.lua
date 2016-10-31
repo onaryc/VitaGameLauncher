@@ -1,5 +1,5 @@
 function listDirectories ( pPath )
-    local res = files.listdirs("ux0:/app")
+    local res = files.listdirs(pPath)
 
     return res
 end
@@ -78,7 +78,13 @@ end
 
 -- files
 function filesExists ( pFilename )
-    return files.exists(pFilename)
+    local res = false 
+
+    if pFilename then
+        res = files.exists(pFilename)
+    end
+    
+    return res
 end
 
 -- image

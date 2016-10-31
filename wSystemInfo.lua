@@ -1,4 +1,4 @@
-function WSystemInfo( pScreenWidth, pScreenHeight )
+function WSystemInfo( pScreenWidth, pScreenHeight, pX, pY, pHeight )
     local self = {}
 
     -- private variables
@@ -6,7 +6,7 @@ function WSystemInfo( pScreenWidth, pScreenHeight )
     local screenHeight = pScreenHeight
     
     local width = screenWidth -1
-    local height = 40
+    local height = pHeight
     local xULP = 1
     local yULP = 1
 

@@ -13,20 +13,22 @@ function Mmi(pScreenWidth, pScreenHeight)
 
         loadpalette()
 
-        wSystemInfo = WSystemInfo(screenWidth, screenHeight)
-        wAppInfo = WAppInfo(screenWidth, screenHeight)
+        wSystemInfo = WSystemInfo(screenWidth, screenHeight, 1, 1, 40)
+        wAppInfo = WAppInfo(screenWidth, screenHeight, 0, screenHeight - 60, 60)
         wBackground = WBackground()
+        wAppList = WAppList(screenWidth, screenHeight, pX, pY, 11)
     end
 
-    function self.update( pAppInfos, pCurrentAppIndex, pDebug )
+    function self.update( pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug )
         --platformWheel("left", 150, 544, true)
         --filterWheel("right", 150, 544, true)
         --local fps = screen.fps()
         
-        wBackground.update(pAppInfos, pCurrentAppIndex, "appBackground", 255, pDebug)
+        wBackground.update(pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, "appBackground", 255, pDebug)
         wSystemInfo.update(pDebug)
-        wAppInfo.update(pAppInfos, pCurrentAppIndex, pDebug)
-
+        wAppInfo.update(pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug)
+        wAppList.update(pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug)
+        
         -- specific debug info
         if pDebug  == true then
             --printScreen (tostring(fps), 1, 1)

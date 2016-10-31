@@ -12,13 +12,19 @@
 --      * mecanisme de layout : description d'un layout (xml) avec les elements obligatoire : boutons, ...
 -- * prendre en compte retroarch et permettre de lancer directement les roms dispo!
 
+-- * obtenir des info supplémentaire des rdb de retroarch?
+
 -- PB :
 -- * comment revenir au game launcher après la sortie d'un jeu?
+dofile("app0:/slaxml.lua")
+
 dofile("app0:/main.lua")
 dofile("app0:/libWrapper.lua")
 
 dofile("app0:/sfoTools.lua")
 dofile("app0:/gameObject.lua")
+dofile("app0:/gameVitaObject.lua")
+dofile("app0:/gameRomObject.lua")
 
 dofile("app0:/buttonController.lua")
 dofile("app0:/infoController.lua")
