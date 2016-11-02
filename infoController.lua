@@ -3,8 +3,9 @@ function InfoController()
 
     self.vitaFilters = {'^PCS.*'}
     self.snesFilters = {"sfc"}
-    --self.appInfos = {}
+    self.appInfos = {}
     self.appInfos = nil
+    self.plateforms = {"All"}
     self.categories = {"All"}
     
     function self.refreshInfo()
@@ -36,14 +37,21 @@ function InfoController()
                 local gameObject = GameVitaObject(value.name, value.path)
 
                 --table.insert(self.appInfos, gameObject)
-                table.insert(self.appInfos["All"]["All"], gameObject)
-                table.insert(self.appInfos["PSVita"]["All"], gameObject)
+                insertMatrix2(self.appInfos, "All", "All", gameObject)
+                insertMatrix2(self.appInfos, "PSVita", "All", gameObject)
                 if gameObject.category then
-                    table.insert(self.appInfos["All"][gameObject.category], gameObject)
-                    table.insert(self.appInfos["PSVita"][gameObject.category], gameObject)
-                    table.insert(self.categories,gameObject.category)
+                    insertMatrix2(self.appInfos, "All", gameObject.category, gameObject)
+                    insertMatrix2(self.appInfos, "PSVita", gameObject.category, gameObject)
+                    insertTable(self.categories, gameObject.category)
                 end
-                --self.appInfos[gameObject.title] = gameObject
+                
+                --table.insert(self.appInfos["All"]["All"], gameObject)
+                --table.insert(self.appInfos["PSVita"]["All"], gameObject)
+                --if gameObject.category then
+                    --table.insert(self.appInfos["All"][gameObject.category], gameObject)
+                    --table.insert(self.appInfos["PSVita"][gameObject.category], gameObject)
+                    --table.insert(self.categories,gameObject.category)
+                --end
             end
         end
     end

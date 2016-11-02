@@ -20,8 +20,6 @@ function Mmi(pScreenWidth, pScreenHeight)
     end
 
     function self.update( pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug )
-        --platformWheel("left", 150, 544, true)
-        --filterWheel("right", 150, 544, true)
         --local fps = screen.fps()
         
         wBackground.update(pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, "appBackground", 255, pDebug)

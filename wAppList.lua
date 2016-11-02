@@ -22,6 +22,9 @@ function WAppList( pScreenWidth, pScreenHeight, pX, pY, pNbItem )
         local plateformIcon = nil
         local x = xList
         local y = yList
+
+        local fontSize = 1
+        local fontColor = color.black
         
         for i=1,nbItem do
             index = pCurrentAppIndex + i - nbItem / 2 -1  
@@ -32,16 +35,21 @@ function WAppList( pScreenWidth, pScreenHeight, pX, pY, pNbItem )
 
             -- display title
             title = pAppInfos[pCurrentPlateform][pCurrentCategory][index].title
-            printScreen(title, x + 40, y)
+            --printScreen(title, x + 40, y)
 
-            -- highlight the title
+            -- highlight the current title
             if index == pCurrentAppIndex then
-
+                fontSize = 1
+                fontColor = color.blue
+            else
+                fontSize = 1
+                fontColor = color.black
             end
+
+            screen.print(x + 40, y, title, fontSize, fontColor) 
 
             y = y + 20
         end
-        
     end
     
     return self

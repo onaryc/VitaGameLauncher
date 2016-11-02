@@ -12,8 +12,9 @@ function main ( pDebug )
     
     local appInfos = infoController.appInfos
     local categories = infoController.categories
+    local plateforms = infoController.plateforms
 
-    buttonController.setCategories(categories)
+    buttonController.initialize(categories, plateforms)
     
     if appInfos then -- the emptiness of appInfos does not appear to be correctly tested
         local currentAppIndex = 1
