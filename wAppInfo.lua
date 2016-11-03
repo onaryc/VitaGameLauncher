@@ -23,26 +23,28 @@ function WAppInfo( pScreenWidth, pScreenHeight, pX, pY, pHeight )
         end
     end
     
-    function self.update( pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug )        
-        if pDebug == true then
-            --printScreen("Game Selected : "..pAppInfos[pCurrentAppIndex].id, xULP, yULP)
-            --printScreen("Game Path : "..pAppInfos[pCurrentAppIndex].path, xULP, yULP + 20)
+    function self.update( pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug )
+        if pAppInfos[pCurrentPlateform][pCurrentCategory] then
+            if pDebug == true then
+                --printScreen("Game Selected : "..pAppInfos[pCurrentAppIndex].id, xULP, yULP)
+                --printScreen("Game Path : "..pAppInfos[pCurrentAppIndex].path, xULP, yULP + 20)
 
-            draw.fillrect(xULP, yULP, width, height, color.black)
-            for i=1,nbPart do
-                drawRectangle(xPart[i], yPart[i], partWidth, height, color.blue)
+                draw.fillrect(xULP, yULP, width, height, color.black)
+                for i=1,nbPart do
+                    drawRectangle(xPart[i], yPart[i], partWidth, height, color.blue)
+                end
+
+                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].plateform, xPart[1], yPart[1])
+                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].id, xPart[1], yPart[1] + 20)
+
+                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].region, xPart[2], yPart[2])
+                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].title, xPart[2], yPart[2] + 20)
+
+                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].category, xPart[3], yPart[3])
+                printScreen(pCurrentPlateform, xPart[3], yPart[3]+20)
+                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].version, xPart[4], yPart[4])
+                printScreen(pCurrentCategory, xPart[4], yPart[4]+20)
             end
-
-            printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].plateform, xPart[1], yPart[1])
-            printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].id, xPart[1], yPart[1] + 20)
-
-            printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].region, xPart[2], yPart[2])
-            printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].title, xPart[2], yPart[2] + 20)
-
-            printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].category, xPart[3], yPart[3])
-            printScreen(pCurrentPlateform, xPart[3], yPart[3]+20)
-            printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].version, xPart[4], yPart[4])
-            printScreen(pCurrentCategory, xPart[4], yPart[4]+20)
         end
     end
 

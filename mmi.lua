@@ -7,7 +7,7 @@ function Mmi(pScreenWidth, pScreenHeight)
 
     local screenWidth = pScreenWidth
     local screenHeight = pScreenHeight
-    
+
     function self.initialization ()
         --splashScreen()
 
@@ -30,6 +30,9 @@ function Mmi(pScreenWidth, pScreenHeight)
         -- specific debug info
         if pDebug  == true then
             --printScreen (tostring(fps), 1, 1)
+            --printScreen ("App index : "..tostring(pCurrentAppIndex), 100, 100)
+            --printScreen ("Current Plateform : "..tostring(pCurrentPlateform), 100, 120)
+            --printScreen ("Current Category : : "..tostring(pCurrentCategory), 100, 140)
 
             self.touchDebug()
         end

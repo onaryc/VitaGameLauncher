@@ -4,7 +4,7 @@ function InfoController()
     self.vitaFilters = {'^PCS.*'}
     self.snesFilters = {"sfc"}
     self.appInfos = {}
-    self.appInfos = nil
+    --self.appInfos = nil
     self.plateforms = {"All"}
     self.categories = {"All"}
     
@@ -20,6 +20,8 @@ function InfoController()
     -- get vita application information in a specified directories
     function self.gatherVitaInfo ( pPath )
         local directories = listDirectories(pPath)
+
+        insertTable(self.plateforms, "PSVita")
         
         for key,value in pairs(directories) do
             local test = false
@@ -36,7 +38,6 @@ function InfoController()
             if test == true then
                 local gameObject = GameVitaObject(value.name, value.path)
 
-                --table.insert(self.appInfos, gameObject)
                 insertMatrix2(self.appInfos, "All", "All", gameObject)
                 insertMatrix2(self.appInfos, "PSVita", "All", gameObject)
                 if gameObject.category then
@@ -44,14 +45,6 @@ function InfoController()
                     insertMatrix2(self.appInfos, "PSVita", gameObject.category, gameObject)
                     insertTable(self.categories, gameObject.category)
                 end
-                
-                --table.insert(self.appInfos["All"]["All"], gameObject)
-                --table.insert(self.appInfos["PSVita"]["All"], gameObject)
-                --if gameObject.category then
-                    --table.insert(self.appInfos["All"][gameObject.category], gameObject)
-                    --table.insert(self.appInfos["PSVita"][gameObject.category], gameObject)
-                    --table.insert(self.categories,gameObject.category)
-                --end
             end
         end
     end
@@ -62,6 +55,8 @@ function InfoController()
     function self.gatherRomInfo ( pPlateform, pPath, pCategory )
         local files = files.listfiles(pPath)
 
+        insertTable(self.plateforms, pPlateform)
+        
         if pPlateform == "snes" then
             filters = self.snesFilters
         else
@@ -81,14 +76,13 @@ function InfoController()
             if test == true then
                 local gameObject = GameRomObject(pPlateform, value.name, value.path, pCategory)
 
-                table.insert(self.appInfos["All"]["All"], gameObject)
-                table.insert(self.appInfos[pPlateform]["All"], gameObject)
+                insertMatrix2(self.appInfos, "All", "All", gameObject)
+                insertMatrix2(self.appInfos, pPlateform, "All", gameObject)
                 if gameObject.category then
-                    table.insert(self.appInfos["All"][gameObject.category], gameObject)
-                    table.insert(self.appInfos[pPlateform][gameObject.category], gameObject)
-                    table.insert(self.categories,gameObject.category)
+                    insertMatrix2(self.appInfos, "All", gameObject.category, gameObject)
+                    insertMatrix2(self.appInfos, pPlateform, gameObject.category, gameObject)
+                    insertTable(self.categories, gameObject.category)
                 end
-                --self.appInfos[gameObject.title] = gameObject
             end
         end
 

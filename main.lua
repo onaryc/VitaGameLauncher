@@ -16,7 +16,7 @@ function main ( pDebug )
 
     buttonController.initialize(categories, plateforms)
     
-    if appInfos then -- the emptiness of appInfos does not appear to be correctly tested
+    if appInfos then -- the emptiness of appInfos does not appear to be correctly tested, to check with an empty list of games/apps!!!
         local currentAppIndex = 1
         local currentCategory = "All"
         local debugLevel = pDebug
@@ -28,6 +28,7 @@ function main ( pDebug )
             currentAppIndex = buttonController.currentAppIndex
             currentCategory = buttonController.currentCategory
             currentPlateform = buttonController.currentPlateform
+            --currentAppIndex = buttonController.indexByContext[currentPlateform][currentCategory]
             debugLevel = buttonController.debug
             
             -- display widgets

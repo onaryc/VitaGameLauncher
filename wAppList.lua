@@ -25,30 +25,32 @@ function WAppList( pScreenWidth, pScreenHeight, pX, pY, pNbItem )
 
         local fontSize = 1
         local fontColor = color.black
-        
-        for i=1,nbItem do
-            index = pCurrentAppIndex + i - nbItem / 2 -1  
 
-            -- display icon
-            plateformIcon = pAppInfos[pCurrentPlateform][pCurrentCategory][index].plateformIcon
-            imageBlit(plateformIcon, x, y)
+        if pAppInfos[pCurrentPlateform][pCurrentCategory] then
+            for i=1,nbItem do
+                index = pCurrentAppIndex + i - nbItem / 2 -1  
 
-            -- display title
-            title = pAppInfos[pCurrentPlateform][pCurrentCategory][index].title
-            --printScreen(title, x + 40, y)
+                -- display icon
+                plateformIcon = pAppInfos[pCurrentPlateform][pCurrentCategory][index].plateformIcon
+                imageBlit(plateformIcon, x, y)
 
-            -- highlight the current title
-            if index == pCurrentAppIndex then
-                fontSize = 1
-                fontColor = color.blue
-            else
-                fontSize = 1
-                fontColor = color.black
+                -- display title
+                title = pAppInfos[pCurrentPlateform][pCurrentCategory][index].title
+                --printScreen(title, x + 40, y)
+
+                -- highlight the current title
+                if index == pCurrentAppIndex then
+                    fontSize = 1
+                    fontColor = color.blue
+                else
+                    fontSize = 1
+                    fontColor = color.black
+                end
+
+                screen.print(x + 40, y, title, fontSize, fontColor) 
+
+                y = y + 20
             end
-
-            screen.print(x + 40, y, title, fontSize, fontColor) 
-
-            y = y + 20
         end
     end
     
