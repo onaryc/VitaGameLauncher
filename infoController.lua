@@ -1,8 +1,16 @@
+-- TODO
+-- * bug : no plateform icon for snes plateform after the first folder
+-- * merge psvita and rom gather info
+
 function InfoController()
     local self = {}
 
     self.vitaFilters = {'^PCS.*'}
-    self.snesFilters = {"sfc"}
+    self.vitaIcon = loadPlateformIcon("app0:/images/","PSVita")
+
+    self.snesFilters = {"sfc", "smc"}
+    self.snesIcon = loadPlateformIcon("app0:/images/","snes")
+    
     self.appInfos = {}
     --self.appInfos = nil
     self.plateforms = {"All"}
@@ -10,7 +18,7 @@ function InfoController()
     
     function self.refreshInfo()
         self.gatherVitaInfo("ux0:/app")
-        self.gatherRomInfo("snes", "ux0:/roms/snes")
+        self.gatherRomInfo("snes", "ux0:/roms/snes", self.snesIcon)
 
         --self.getGamesCategory("PSVita")
         
@@ -37,7 +45,8 @@ function InfoController()
             
             if test == true then
                 local gameObject = GameVitaObject(value.name, value.path)
-
+                gameObject.plateformIcon = self.vitaIcon
+                
                 insertMatrix2(self.appInfos, "All", "All", gameObject)
                 insertMatrix2(self.appInfos, "PSVita", "All", gameObject)
                 if gameObject.category then
@@ -52,7 +61,7 @@ function InfoController()
     -- gather roms information from retro systems (snes, nes, ...)
     -- the directories shall follow the following hierarchy :
     -- ux0:/roms/<system name>
-    function self.gatherRomInfo ( pPlateform, pPath, pCategory )
+    function self.gatherRomInfo ( pPlateform, pPath, pPlateformIcon, pCategory )
         local files = files.listfiles(pPath)
 
         insertTable(self.plateforms, pPlateform)
@@ -74,7 +83,8 @@ function InfoController()
             end
             
             if test == true then
-                local gameObject = GameRomObject(pPlateform, value.name, value.path, pCategory)
+                local gameObject = GameRomObject(pPlateform, value.name, value.path)
+                gameObject.plateformIcon = pPlateformIcon
 
                 insertMatrix2(self.appInfos, "All", "All", gameObject)
                 insertMatrix2(self.appInfos, pPlateform, "All", gameObject)
@@ -89,7 +99,7 @@ function InfoController()
         -- consider sub directory as category
         local directories = listDirectories(pPath)
         for key,value in pairs(directories) do
-            self.gatherRomInfo(pPlateform, value.path, value.name)
+            self.gatherRomInfo(pPlateform, value.path, pPlateformIcon, value.name)
         end 
     end
 

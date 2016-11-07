@@ -1,11 +1,8 @@
-function WSystemInfo( pScreenWidth, pScreenHeight, pX, pY, pHeight )
+function WSystemInfo( pX, pY, pWidth, pHeight )
     local self = {}
 
     -- private variables
-    local screenWidth = pScreenWidth
-    local screenHeight = pScreenHeight
-    
-    local width = screenWidth -1
+    local width = pWidth -1
     local height = pHeight
     local xULP = 1
     local yULP = 1
@@ -97,13 +94,13 @@ function WSystemInfo( pScreenWidth, pScreenHeight, pX, pY, pHeight )
             battery.anim = batteryCharge / 5
 
             --local x = screenWidth - imgWidth - 10
-            local x = screenWidth - 50
+            local x = width - 50
             local y = 10
 
             spriteBlit(battery.sprite,x,y,battery.anim)
             spriteBlit(spriteTmp,x,y,anim)
 
-            printScreen ("bat charge "..tostring(batteryCharge), 1, 380)
+            printScreen ("bat charge "..tostring(batteryCharge), 800, 380)
             --printScreen ("width "..tostring(width), 1, 420)
             --printScreen ("height "..tostring(height), 1, 440)
             --printScreen ("imgWidth "..tostring(imgWidth), 1, 460)
@@ -130,7 +127,7 @@ function WSystemInfo( pScreenWidth, pScreenHeight, pX, pY, pHeight )
             local imgWidth = imageGetWidth(imgTmp)
             local imgHeight = imageGetHeight(imgTmp)
 
-            local x = screenWidth - imgWidth - 10
+            local x = width - imgWidth - 10
             local y = 10
             local xi = 0
             local yi = 0
@@ -154,15 +151,15 @@ function WSystemInfo( pScreenWidth, pScreenHeight, pX, pY, pHeight )
             local status = wlan.status()
             local strength = wlan.strength()
 
-            printScreen ("wifi status "..tostring(status), 1, 420)
-            --printScreen ("wifi strength "..tostring(strength), 1, 420)
+            --printScreen ("wifi status "..tostring(status), 800, 400)
+            --printScreen ("wifi strength "..tostring(strength), 800, 420)
 
-            local x = screenWidth - 30
+            local x = 10
             local y = 10
-
-            spriteBlit(wifi.sprite, x, y,status)
-            --wifi.anim = $strength / 4
-            --wifi.sprite:blitsprite(x,y,wifi.anim)
+            
+            wifiAnim = 3 - status
+            
+            spriteBlit(wifi.sprite, x, y, wifiAnim)
         end
     end
 

@@ -1,22 +1,40 @@
 function Mmi(pScreenWidth, pScreenHeight)
     local self = {}
 
+    self.screenWidth = pScreenWidth
+    self.screenHeight = pScreenHeight
+
     local touch_alfa_top = {0,0,0,0,0,0}
     local touch_alfa_back = {0,0,0,0,0,0}
     local touch_col = {color.white, color.green, color.blue, color.red, color.yellow, color.orange, color.cyan}
 
-    local screenWidth = pScreenWidth
-    local screenHeight = pScreenHeight
+    -- system info coordinates 
+    local sysInfoWidth = self.screenWidth
+    local sysInfoHeight = 40
+    local sysInfoX = 1
+    local sysInfoY = 1
+
+    -- app info coordinates
+    local appInfoWidth = self.screenWidth
+    local appInfoHeight = 60
+    local appInfoX = 1
+    local appInfoY = self.screenHeight - appInfoHeight
+
+    -- app list coordinates
+    local appListX = 1
+    local appListY = sysInfoHeight
+    local appListWidth = self.screenWidth - appListX
+    local appListHeight = self.screenHeight - sysInfoHeight - appInfoHeight
 
     function self.initialization ()
         --splashScreen()
 
         loadpalette()
 
-        wSystemInfo = WSystemInfo(screenWidth, screenHeight, 1, 1, 40)
-        wAppInfo = WAppInfo(screenWidth, screenHeight, 0, screenHeight - 60, 60)
+        wSystemInfo = WSystemInfo(sysInfoX, sysInfoY, sysInfoWidth, sysInfoHeight)
+        wAppInfo = WAppInfo(appInfoX, appInfoY, appInfoWidth, appInfoHeight)
         wBackground = WBackground()
-        wAppList = WAppList(screenWidth, screenHeight, pX, pY, 11)
+        wAppList = WAppList(appListX, appListY, appListWidth, appListHeight)
     end
 
     function self.update( pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug )

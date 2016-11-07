@@ -33,3 +33,22 @@ function insertTable ( pTable, pValue )
     
     return resTable
 end
+
+function loadPlateformIcon ( pPath, pPlateform )
+    local bgImage = nil
+
+    local bgFile = nil
+    if pPlateform then
+        bgFile = pPath..pPlateform..".png"
+    end
+    
+    if not filesExists(bgFile) then
+        bgFile = pPath.."iconError.png"
+    end
+    
+    if filesExists(bgFile) then
+        bgImage = imageLoad(bgFile)
+    end
+
+    return bgImage
+end 

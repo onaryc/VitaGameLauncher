@@ -19,18 +19,18 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
     self.plateformIcon = nil
 
     function self.initialization2 ()
-        self.appBgImage = self.computeAppBgImage(self.plateform)
-        self.plateformBgImage = self.computePlateformBgImage(self.plateform)
-        self.categoryBgImage = self.computeCategoryImage(self.category)
-        self.plateformIcon = self.computePlateformIcon(self.plateform)
+        self.appBgImage = self.computeAppBgImage()
+        self.plateformBgImage = self.computePlateformBgImage()
+        self.categoryBgImage = self.computeCategoryImage()
+        self.plateformIcon = self.computePlateformIcon()
     end
     
-    function self.computePlateformBgImage( pPlateform )
+    function self.computePlateformBgImage( )
         local bgImage = nil
 
         local bgFile = nil
         if pPlateform then
-            bgFile = "app0:/images/"..pPlateform.."BG.png"
+            bgFile = "app0:/images/"..self.plateform.."BG.png"
         end
         
         if not filesExists(bgFile) then
@@ -44,16 +44,16 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
         return bgImage
     end
     
-    function self.computePlateformIcon( pPlateform )
+    function self.computePlateformIcon( )
         local bgImage = nil
 
         local bgFile = nil
         if pPlateform then
-            bgFile = "app0:/images/"..pPlateform..".png"
+            bgFile = "app0:/images/"..self.plateform..".png"
         end
         
         if not filesExists(bgFile) then
-            bgFile = "app0:/images/missing.png"
+            bgFile = "app0:/images/iconError.png"
         end
         
         if filesExists(bgFile) then
@@ -63,7 +63,7 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
         return bgImage
     end
 
-    function self.computeAppBgImage ( pPlateform )
+    function self.computeAppBgImage ( )
         local bgImage = nil
 
         local bgFile = nil
@@ -71,7 +71,7 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
             bgFile = self.path.."/sce_sys/pic0.png"
         else
             if self.title and pPlateform then
-                bgFile = "app0:/images/"..pPlateform.."/"..self.title..".png"
+                bgFile = "app0:/images/"..self.plateform.."/"..self.title..".png"
             end
         end
 
@@ -86,12 +86,12 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
         return bgImage
     end
     
-    function self.computeCategoryImage ( pCategory )
+    function self.computeCategoryImage ( )
         local bgImage = nil
 
         local bgFile = nil
         if pCategory then
-            bgFile = "app0:/images/"..pCategory..".png"
+            bgFile = "app0:/images/"..self.category..".png"
         end
         
         if not filesExists(bgFile) then

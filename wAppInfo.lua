@@ -1,10 +1,8 @@
 -- display app information on the screen : version, region, genre, ...
-function WAppInfo( pScreenWidth, pScreenHeight, pX, pY, pHeight )
+function WAppInfo( pX, pY, pWidth, pHeight )
     local self = {}
 
-    local screenWidth = pScreenWidth
-    local screenHeight = pScreenHeight
-    local width = screenWidth -1
+    local width = pWidth
     local height = pHeight
     
     local xULP = pX
@@ -17,8 +15,10 @@ function WAppInfo( pScreenWidth, pScreenHeight, pX, pY, pHeight )
     
     function self.initialization ()
         --part coordaintes
-        for i=1,nbPart do
-            xPart[i] = (i -1) * partWidth
+        xPart[1] = xULP
+        yPart[1] = yULP
+        for i=2,nbPart do
+            xPart[i] = (i - 1) * partWidth
             yPart[i] = yULP
         end
     end
