@@ -4,23 +4,28 @@
 -- step for plateform and category
 -- touch interaction for plateform/category
 
-function ButtonController()
+function InputManager()
     local self = {}
 
     self.currentAppIndex = 1
     self.currentCategory = "All"
     self.currentPlateform = "All"
-
+    self.debug = false
+    self.shiftX = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
+    self.shiftY = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
+    
     local indexByContext = {}
     local categories = {"All"}
     local plateforms = {"All"}
     
-    self.debug = false
-
     local currentCatIndex = 1
     local currentPlateformIndex = 1
     local analogDeadzone = 30
 
+    local previousFState = {[1]="released", [2]="released", [3]="released", [4]="released", [5]="released", [6]="released"}
+    local previousFX = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
+    local previousFY = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
+    
     function self.update ( pAppInfos, pDebug )
         local currentAppIndex = indexByContext[self.currentPlateform][self.currentCategory]
         local debugLevel = pDebug
@@ -88,6 +93,9 @@ function ButtonController()
             end
         end
 
+        -- compute touch shift
+        self.computeTouchShift ()
+
         self.currentCategory = categories[currentCatIndex] 
         
         -- exit app
@@ -105,6 +113,36 @@ function ButtonController()
         end
 
         self.debug = debugLevel
+    end
+
+    function self.computeTouchShift ( )
+        --self.shiftX[0] = buttons.touchf[0].x - previousX[0]
+        --previousX[0] = buttons.touchf[0].x
+        --self.shiftY[0] = buttons.touchf[0].y - previousY[0]
+        --previousY[0] = buttons.touchf[0].y
+        for i=1,6 do
+            if buttons.touchf[i].moved == true then
+                if previousFState[i] == "released" then -- first touch, shift shall be equal to 0
+                    previousFX[i] = buttons.touchf[i].x
+                    previousFY[i] = buttons.touchf[i].y
+                end
+
+                -- compute shift
+                self.shiftX[i] = buttons.touchf[i].x - previousFX[i]
+                self.shiftY[i] = buttons.touchf[i].y - previousFY[i]
+
+                -- update previous coordinates
+                previousFX[i] = buttons.touchf[i].x
+                previousFY[i] = buttons.touchf[i].y
+
+                previousFState[i] = "moved"
+            else
+                self.shiftX[i] = 0
+                self.shiftY[i] = 0
+
+                previousFState[i] = "released"
+            end
+        end
     end
     
     function self.initialize ( pCategories, pPlateforms )

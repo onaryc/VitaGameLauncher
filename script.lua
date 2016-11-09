@@ -28,8 +28,10 @@ dofile("app0:/gameObject.lua")
 dofile("app0:/gameVitaObject.lua")
 dofile("app0:/gameRomObject.lua")
 
-dofile("app0:/buttonController.lua")
+--dofile("app0:/buttonController.lua")
 dofile("app0:/infoController.lua")
+
+dofile("app0:/inputManager.lua")
 
 dofile("app0:/wSystemInfo.lua")
 dofile("app0:/wAppInfo.lua")
@@ -37,6 +39,4 @@ dofile("app0:/wBackground.lua")
 dofile("app0:/wAppList.lua")
 dofile("app0:/mmi.lua")
 
-local debugInfo = true
-
-main (debugInfo)
+main ()

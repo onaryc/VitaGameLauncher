@@ -1,14 +1,19 @@
-function Mmi(pScreenWidth, pScreenHeight)
+function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
     local self = {}
 
     self.screenWidth = pScreenWidth
     self.screenHeight = pScreenHeight
 
+    local appInfos = pAppInfos
+    local categories = pCategories
+    local plateforms = pPlateforms
+    local debugLevel = true
+    
     local touch_alfa_top = {0,0,0,0,0,0}
     local touch_alfa_back = {0,0,0,0,0,0}
     local touch_col = {color.white, color.green, color.blue, color.red, color.yellow, color.orange, color.cyan}
 
-    -- system info coordinates 
+    -- system info coordinates
     local sysInfoWidth = self.screenWidth
     local sysInfoHeight = 40
     local sysInfoX = 1
@@ -26,27 +31,40 @@ function Mmi(pScreenWidth, pScreenHeight)
     local appListWidth = self.screenWidth - appListX
     local appListHeight = self.screenHeight - sysInfoHeight - appInfoHeight
 
-    function self.initialization ()
+    function self.initialization ( )
         --splashScreen()
-
         loadpalette()
 
+        -- input manager
+        inputManager = InputManager()
+        inputManager.initialize(categories, plateforms)
+
+        -- widget creation
         wSystemInfo = WSystemInfo(sysInfoX, sysInfoY, sysInfoWidth, sysInfoHeight)
         wAppInfo = WAppInfo(appInfoX, appInfoY, appInfoWidth, appInfoHeight)
         wBackground = WBackground()
         wAppList = WAppList(appListX, appListY, appListWidth, appListHeight)
+
+        wAppList.initAppCoordinates(appInfos, categories, plateforms)
     end
 
-    function self.update( pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug )
-        --local fps = screen.fps()
-        
-        wBackground.update(pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, "appBackground", 255, pDebug)
-        wSystemInfo.update(pDebug)
-        wAppInfo.update(pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug)
-        wAppList.update(pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug)
-        
+    function self.update( )
+        -- global input management
+        inputManager.update(appInfos, debugLevel)
+
+        currentAppIndex = inputManager.currentAppIndex
+        currentCategory = inputManager.currentCategory
+        currentPlateform = inputManager.currentPlateform
+        debugLevel = inputManager.debug
+
+        wBackground.update(appInfos, currentAppIndex, currentPlateform, currentCategory, "appBackground", 255, debugLevel)
+        wAppList.update(appInfos, currentAppIndex, currentPlateform, currentCategory, debugLevel)
+        wSystemInfo.update(debugLevel)
+        wAppInfo.update(appInfos, currentAppIndex, currentPlateform, currentCategory, debugLevel)
+
         -- specific debug info
         if pDebug  == true then
+            --local fps = screen.fps()
             --printScreen (tostring(fps), 1, 1)
             --printScreen ("App index : "..tostring(pCurrentAppIndex), 100, 100)
             --printScreen ("Current Plateform : "..tostring(pCurrentPlateform), 100, 120)

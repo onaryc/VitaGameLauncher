@@ -18,7 +18,7 @@ function InfoController()
     
     function self.refreshInfo()
         self.gatherVitaInfo("ux0:/app")
-        self.gatherRomInfo("snes", "ux0:/roms/snes", self.snesIcon)
+        --self.gatherRomInfo("snes", "ux0:/roms/snes", self.snesIcon)
 
         --self.getGamesCategory("PSVita")
         

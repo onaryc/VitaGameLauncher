@@ -1,7 +1,5 @@
-function main ( pDebug )
-    local mmi = Mmi(960, 544)
-    local infoController = InfoController()
-    local buttonController = ButtonController()
+function main ( )
+    infoController = InfoController()
 
     if not filesExists("ux0:/data/VGLauncher") then
         files.mkdir("ux0:/data/VGLauncher")
@@ -14,25 +12,12 @@ function main ( pDebug )
     local categories = infoController.categories
     local plateforms = infoController.plateforms
 
-    buttonController.initialize(categories, plateforms)
+    mmi = Mmi(960, 544, appInfos, categories, plateforms)
     
     if appInfos then -- the emptiness of appInfos does not appear to be correctly tested, to check with an empty list of games/apps!!!
-        local currentAppIndex = 1
-        local currentCategory = "All"
-        local debugLevel = pDebug
-        
-        while true do 
-            -- read buttons state
-            buttonController.update(appInfos, debugLevel)
-
-            currentAppIndex = buttonController.currentAppIndex
-            currentCategory = buttonController.currentCategory
-            currentPlateform = buttonController.currentPlateform
-            --currentAppIndex = buttonController.indexByContext[currentPlateform][currentCategory]
-            debugLevel = buttonController.debug
-            
-            -- display widgets
-            mmi.update(appInfos, currentAppIndex, currentPlateform, currentCategory, debugLevel)
+        -- 
+        while true do             
+            mmi.update()
         end
     end
 end
