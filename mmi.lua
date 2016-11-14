@@ -44,8 +44,6 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
         wAppInfo = WAppInfo(appInfoX, appInfoY, appInfoWidth, appInfoHeight)
         wBackground = WBackground()
         wAppList = WAppList(appListX, appListY, appListWidth, appListHeight)
-
-        wAppList.initAppCoordinates(appInfos, categories, plateforms)
     end
 
     function self.update( )
@@ -58,7 +56,7 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
         debugLevel = inputManager.debug
 
         wBackground.update(appInfos, currentAppIndex, currentPlateform, currentCategory, "appBackground", 255, debugLevel)
-        wAppList.update(appInfos, currentAppIndex, currentPlateform, currentCategory, debugLevel)
+        wAppList.update(debugLevel)
         wSystemInfo.update(debugLevel)
         wAppInfo.update(appInfos, currentAppIndex, currentPlateform, currentCategory, debugLevel)
 

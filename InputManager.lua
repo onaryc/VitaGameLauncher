@@ -14,7 +14,8 @@ function InputManager()
     self.shiftX = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
     self.shiftY = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
     
-    local indexByContext = {}
+    self.indexByContext = {}
+    
     local categories = {"All"}
     local plateforms = {"All"}
     
@@ -27,7 +28,7 @@ function InputManager()
     local previousFY = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
     
     function self.update ( pAppInfos, pDebug )
-        local currentAppIndex = indexByContext[self.currentPlateform][self.currentCategory]
+        local currentAppIndex = self.indexByContext[self.currentPlateform][self.currentCategory]
         local debugLevel = pDebug
 
         buttons.read()
@@ -57,7 +58,7 @@ function InputManager()
 
         --printScreen ("After App index : "..tostring(currentAppIndex), 100, 80)
 
-        indexByContext[self.currentPlateform][self.currentCategory] = currentAppIndex
+        self.indexByContext[self.currentPlateform][self.currentCategory] = currentAppIndex
 
         self.currentAppIndex = currentAppIndex
         
@@ -151,11 +152,11 @@ function InputManager()
         categories = pCategories
 
         -- intialize a list which contains current app index for each category
-        indexByContext = {}
+        self.indexByContext = {}
         for key,value in pairs(plateforms) do
-            indexByContext[value] = {}
+            self.indexByContext[value] = {}
             for key1,value1 in pairs(categories) do
-                indexByContext[value][value1] = 1
+                self.indexByContext[value][value1] = 1
             end
         end
     end

@@ -12,10 +12,6 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
     self.description = pDescription
     self.category = pCategory
 
-    -- cordinate for mmi : list, ...
-    self.x = 0 
-    self.y = 0 
-
     self.appBgImage = nil
     self.plateformBgImage = nil
     self.categoryBgImage = nil

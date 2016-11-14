@@ -14,7 +14,9 @@ function WAppList( pX, pY, pWidth, pHeight )
     local xShift = 10
     local yShift = 10
 
-    local currentY = 0
+    local currentX = xList + xShift
+    local currentY = yList
+    local cumulateY = 0
     
     local selectionColor = color.orange
     local selectionSize = 1.2
@@ -22,121 +24,87 @@ function WAppList( pX, pY, pWidth, pHeight )
     local listFontSize = 1.2
     local lineSeparator = 35
 
-    local nbItem = math.floor((hList - yShift) / lineSeparator) - 1
+    --local nbItem = math.floor((hList - yShift) / lineSeparator) - 1
     
-    function self.update ( pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug )
-        local title = ""
-        local plateformIcon = nil
+    function self.update ( pDebug )
+        local appInfos = infoController.appInfos 
+        local currentAppIndex = inputManager.currentAppIndex 
+        local currentCategory = inputManager.currentCategory 
+        local currentPlateform = inputManager.currentPlateform
+         
+        if appInfos[currentPlateform][currentCategory] then
+            local appObject = appInfos[currentPlateform][currentCategory][currentAppIndex]
 
-        local sizeToAdd = 0
-        
-        local fontSize = listFontSize
-        local fontColor = listFontColor
-        
-        if pAppInfos[pCurrentPlateform][pCurrentCategory] then
-            local nbApps = #pAppInfos[pCurrentPlateform][pCurrentCategory]
-            for i=1,nbApps do
-                --update x and y position of the app
-                local xLine = pAppInfos[pCurrentPlateform][pCurrentCategory][i].x
-                local yLine = pAppInfos[pCurrentPlateform][pCurrentCategory][i].y
-                
-                xLine = xList + xShift
-                pAppInfos[pCurrentPlateform][pCurrentCategory][i].x = xLine
-                
-                yLine = yLine + inputManager.shiftY[1]
-                pAppInfos[pCurrentPlateform][pCurrentCategory][i].y = yLine
+            local nbAppInfo = #appInfos[currentPlateform][currentCategory]
 
-                -- display the list item
-                if yLine > -lineSeparator and yLine < mmi.screenHeight then -- start to draw outside the screen
-                    -- display icon
-                    plateformIcon = pAppInfos[pCurrentPlateform][pCurrentCategory][i].plateformIcon
-                    imageBlit(plateformIcon, xLine, yLine)
-
-                    -- display title
-                    title = pAppInfos[pCurrentPlateform][pCurrentCategory][i].title
-                    printScreen2(title, xLine + 40, yLine, fontSize, fontColor)
+            -- limit end and atart of the list
+            currentY = currentY + inputManager.shiftY[1]
+            cumulateY = cumulateY + inputManager.shiftY[1]
+            if currentAppIndex == 1 then
+                if inputManager.shiftY[1] > 0 then
+                    currentY = yList
+                    cumulateY = 0
+                end
+            elseif currentAppIndex == nbAppInfo then
+                if inputManager.shiftY[1] < 0 then
+                    currentY = yList
+                    cumulateY = 0
                 end
             end
-        end
-
-        if pDebug == true then
-            drawRectangle(xList, yList, wList, hList, color.orange)
-            printScreen ("shiftX "..tostring(inputManager.shiftX[1]), 800, 200)
-            printScreen ("shiftY "..tostring(inputManager.shiftY[1]), 800, 220)
-        end
-    end
-
-    function self.initAppCoordinates ( pAppInfos, pCategories, pPlateforms )
-        plateforms = pPlateforms
-        categories = pCategories
-
-        -- intialize coordinates for app according to plateform/category
-        for key,plateform in pairs(plateforms) do
-            for key1,category in pairs(categories) do
-                if pAppInfos[plateform][category] then
-                    local nbApps = #pAppInfos[plateform][category]
-                    for i=1,nbApps do
-                        --compute x and y position of the app
-                        pAppInfos[plateform][category][i].x = xList + xShift
-                        pAppInfos[plateform][category][i].y = (i - 1) * lineSeparator
+            
+            -- change app selection
+            if math.abs(cumulateY) > lineSeparator then
+                if cumulateY < 0 then
+                    currentAppIndex = currentAppIndex + 1
+                    if currentAppIndex > nbAppInfo then
+                        currentAppIndex = currentAppIndex - 1
+                    end
+                else
+                    currentAppIndex = currentAppIndex - 1
+                    if currentAppIndex < 1 then
+                        currentAppIndex = 1
                     end
                 end
+
+                currentY = yList
+                cumulateY = 0
+                inputManager.indexByContext[currentPlateform][currentCategory] = currentAppIndex
             end
-        end
-    end
-    
-    function self.update2 ( pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug )
-        local title = ""
-        local index = 0
-        local plateformIcon = nil
-        local x = xList + xShift
-        local y = yList + yShift
 
-        local sizeToAdd = 0
-        
-        --local fontSize = 1
-        local fontColor = listFontColor
-        
-        if pAppInfos[pCurrentPlateform][pCurrentCategory] then
-            local i = 0
-            while y < hList do
-                --index = pCurrentAppIndex + i - nbItem / 2 - 1  
-                index = pCurrentAppIndex + i  
-                
-                if pAppInfos[pCurrentPlateform][pCurrentCategory][index] then
-                    -- display icon
-                    plateformIcon = pAppInfos[pCurrentPlateform][pCurrentCategory][index].plateformIcon
-                    printScreen ("icon "..tostring(plateformIcon), 500, y)
-                    imageBlit(plateformIcon, x, y)
+            -- display the list
+            local i = currentAppIndex
+            local cpt = 1
+            while true do
+                local y = currentY + (cpt - 1) * lineSeparator
 
-                    -- display title
-                    title = pAppInfos[pCurrentPlateform][pCurrentCategory][index].title
-                    --printScreen(title, x + 40, y)
+                self.printLine (appObject, currentX, y)
 
-                    -- highlight the current title
-                    if index == pCurrentAppIndex then
-                        fontSize = selectionSize
-                        fontColor = selectionColor
-                    else
-                        fontSize = listFontSize
-                        fontColor = listFontColor
-                    end
-
-                    sizeToAdd = fontSize * lineSeparator
-
-                    printScreen2(title, x + 40, y, fontSize, fontColor)
-                end
-
-                y = y + sizeToAdd
                 i = i + 1
+                cpt = cpt + 1
+                if appInfos[currentPlateform][currentCategory][i] then
+                    appObject = appInfos[currentPlateform][currentCategory][i]
+                else
+                    break
+                end
             end
         end
 
         if pDebug == true then
             drawRectangle(xList, yList, wList, hList, color.orange)
-
-            --printScreen ("nbItem "..nbItem, 800, 200)
+            --printScreen ("shiftX "..tostring(inputManager.shiftX[1]), 800, 200)
+            --printScreen ("shiftY "..tostring(inputManager.shiftY[1]), 800, 220)
+            --printScreen ("cumulateY "..tostring(cumulateY), 800, 240)
         end
+    end
+
+    function self.printLine ( pAppObject, pX, pY )
+        -- display icon
+        local plateformIcon = pAppObject.plateformIcon
+        imageBlit(plateformIcon, pX, pY)
+
+        -- display title
+        local title = pAppObject.title
+        printScreen2(title, pX + 40, pY, listFontSize, listFontColor)
     end
     
     return self
