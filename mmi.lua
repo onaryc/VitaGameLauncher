@@ -42,7 +42,7 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
         -- widget creation
         wSystemInfo = WSystemInfo(sysInfoX, sysInfoY, sysInfoWidth, sysInfoHeight)
         wAppInfo = WAppInfo(appInfoX, appInfoY, appInfoWidth, appInfoHeight)
-        wBackground = WBackground()
+        wBackground = WBackground(150)
         wAppList = WAppList(appListX, appListY, appListWidth, appListHeight)
     end
 
@@ -50,51 +50,45 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
         -- global input management
         inputManager.update(appInfos, debugLevel)
 
-        currentAppIndex = inputManager.currentAppIndex
-        currentCategory = inputManager.currentCategory
-        currentPlateform = inputManager.currentPlateform
         debugLevel = inputManager.debug
 
-        wBackground.update(appInfos, currentAppIndex, currentPlateform, currentCategory, "appBackground", 255, debugLevel)
-        wAppList.update(debugLevel)
-        wSystemInfo.update(debugLevel)
-        wAppInfo.update(appInfos, currentAppIndex, currentPlateform, currentCategory, debugLevel)
+        wBackground.update("appBackground")
+        wAppList.update()
+        wSystemInfo.update()
+        wAppInfo.update()
 
         -- specific debug info
-        if pDebug  == true then
+        if debugLevel  == true then
             --local fps = screen.fps()
             --printScreen (tostring(fps), 1, 1)
             --printScreen ("App index : "..tostring(pCurrentAppIndex), 100, 100)
             --printScreen ("Current Plateform : "..tostring(pCurrentPlateform), 100, 120)
             --printScreen ("Current Category : : "..tostring(pCurrentCategory), 100, 140)
 
-            self.touchDebug()
+            --self.touchDebug()
         end
 
         screenFlip()
     end
 
-    function self.touchDebug( pDebug )
-        -- debug info with back and front touch pad
-        if pDebug == true then
-            for i=1,6 do
-                printScreen2("+", buttons.touchf[i].x,buttons.touchf[i].y,1,touch_col[i]:a(touch_alfa_top[i]))
-                --screen.print(buttons.touchf[i].x,buttons.touchf[i].y, "+",1,touch_col[i]:a(touch_alfa_top[i]))
-                if buttons.touchf[i].moved then
-                    touch_alfa_top[i] = 255
-                elseif touch_alfa_top[i] > 0 then
-                    touch_alfa_top[i] -= 2
-                end
+    function self.touchDebug( )
+        for i=1,6 do
+            printScreen2("+", buttons.touchf[i].x,buttons.touchf[i].y,1,touch_col[i]:a(touch_alfa_top[i]))
+            --screen.print(buttons.touchf[i].x,buttons.touchf[i].y, "+",1,touch_col[i]:a(touch_alfa_top[i]))
+            if buttons.touchf[i].moved then
+                touch_alfa_top[i] = 255
+            elseif touch_alfa_top[i] > 0 then
+                touch_alfa_top[i] -= 2
             end
+        end
 
-            for i=1,4 do
-                printScreen2("X", buttons.touchb[i].x,buttons.touchb[i].y,1,touch_col[i]:a(touch_alfa_back[i]))
-                --screen.print(buttons.touchb[i].x,buttons.touchb[i].y, "X",1,touch_col[i]:a(touch_alfa_back[i]))
-                if buttons.touchb[i].moved then
-                    touch_alfa_back[i] = 255
-                elseif touch_alfa_back[i] > 0 then
-                    touch_alfa_back[i] -= 2
-                end
+        for i=1,4 do
+            printScreen2("X", buttons.touchb[i].x,buttons.touchb[i].y,1,touch_col[i]:a(touch_alfa_back[i]))
+            --screen.print(buttons.touchb[i].x,buttons.touchb[i].y, "X",1,touch_col[i]:a(touch_alfa_back[i]))
+            if buttons.touchb[i].moved then
+                touch_alfa_back[i] = 255
+            elseif touch_alfa_back[i] > 0 then
+                touch_alfa_back[i] -= 2
             end
         end
     end

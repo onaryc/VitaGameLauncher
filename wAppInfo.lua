@@ -23,9 +23,17 @@ function WAppInfo( pX, pY, pWidth, pHeight )
         end
     end
     
-    function self.update( pAppInfos, pCurrentAppIndex, pCurrentPlateform, pCurrentCategory, pDebug )
-        if pAppInfos[pCurrentPlateform][pCurrentCategory] then
-            if pDebug == true then
+    function self.update( )
+        local appInfos = infoController.appInfos 
+
+        local currentAppIndex = inputManager.currentAppIndex 
+        local currentCategory = inputManager.currentCategory 
+        local currentPlateform = inputManager.currentPlateform
+        
+        local debugLevel = inputManager.debug
+
+        if appInfos[currentPlateform][currentCategory] then
+            if debugLevel == true then
                 --printScreen("Game Selected : "..pAppInfos[pCurrentAppIndex].id, xULP, yULP)
                 --printScreen("Game Path : "..pAppInfos[pCurrentAppIndex].path, xULP, yULP + 20)
 
@@ -34,16 +42,18 @@ function WAppInfo( pX, pY, pWidth, pHeight )
                     drawRectangle(xPart[i], yPart[i], partWidth, height, color.blue)
                 end
 
-                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].plateform, xPart[1], yPart[1])
-                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].id, xPart[1], yPart[1] + 20)
+                local appObject = appInfos[currentPlateform][currentCategory][currentAppIndex]
 
-                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].region, xPart[2], yPart[2])
-                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].title, xPart[2], yPart[2] + 20)
+                printScreen(appObject.plateform, xPart[1], yPart[1])
+                printScreen(appObject.id, xPart[1], yPart[1] + 20)
 
-                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].category, xPart[3], yPart[3])
-                printScreen(pCurrentPlateform, xPart[3], yPart[3]+20)
-                printScreen(pAppInfos[pCurrentPlateform][pCurrentCategory][pCurrentAppIndex].version, xPart[4], yPart[4])
-                printScreen(pCurrentCategory, xPart[4], yPart[4]+20)
+                printScreen(appObject.region, xPart[2], yPart[2])
+                printScreen(appObject.title, xPart[2], yPart[2] + 20)
+
+                printScreen(appObject.category, xPart[3], yPart[3])
+                printScreen(currentPlateform, xPart[3], yPart[3]+20)
+                printScreen(appObject.version, xPart[4], yPart[4])
+                printScreen(currentCategory, xPart[4], yPart[4]+20)
             end
         end
     end

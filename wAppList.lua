@@ -1,36 +1,48 @@
 -- display a list of app name
--- TODO : 
+-- TODO :
+-- * center the selection!!!
 -- * scrollbar ?
 -- * highlight selection
 -- * sort by name, release date, ... => ask the infoController
 function WAppList( pX, pY, pWidth, pHeight )
     local self = {}
 
-    local xList = pX
-    local yList = pY
-    local wList = pWidth
-    local hList = pHeight
+    -- list widget coordinates
+    local xWAppList = pX
+    local yWAppList = pY
+    local wWAppList = pWidth
+    local hWAppList = pHeight
 
     local xShift = 10
     local yShift = 10
 
-    local currentX = xList + xShift
+    -- list coordinates/move/font/color
+    local xList = xWAppList + xShift
+    local yList = yWAppList + yShift
+    local currentX = xList
     local currentY = yList
     local cumulateY = 0
-    
+
     local selectionColor = color.orange
     local selectionSize = 1.2
     local listFontColor = color.blue
     local listFontSize = 1.2
     local lineSeparator = 35
 
-    --local nbItem = math.floor((hList - yShift) / lineSeparator) - 1
-    
-    function self.update ( pDebug )
-        local appInfos = infoController.appInfos 
+    -- launch button coordinates
+    local lbWidth = wWAppList / 3
+    local lbHeight = hWAppList / 2
+    local lbX = wWAppList - lbWidth - xShift
+    local lbY = yWAppList + (lbHeight / 2)
+
+    function self.update ( )
+        local appInfos = infoController.appInfos
+        
         local currentAppIndex = inputManager.currentAppIndex 
         local currentCategory = inputManager.currentCategory 
         local currentPlateform = inputManager.currentPlateform
+
+        local debugLevel = inputManager.debug
          
         if appInfos[currentPlateform][currentCategory] then
             local appObject = appInfos[currentPlateform][currentCategory][currentAppIndex]
@@ -71,13 +83,26 @@ function WAppList( pX, pY, pWidth, pHeight )
                 inputManager.indexByContext[currentPlateform][currentCategory] = currentAppIndex
             end
 
+            -- display the launch button
+            local startupImage = appObject.startupImage
+            imageResize(startupImage, lbWidth, lbHeight) -- shall be scale in order to respect aspect ratio!!!
+            --imageScale(startupImage, 2.0)
+            imageBlit(startupImage, lbX, lbY)
+            
             -- display the list
             local i = currentAppIndex
             local cpt = 1
             while true do
                 local y = currentY + (cpt - 1) * lineSeparator
 
-                self.printLine (appObject, currentX, y)
+                local fontSize = listFontSize
+                local fontColor = listFontColor
+                if i == currentAppIndex then
+                    fontSize = selectionSize
+                    fontColor = selectionColor
+                end
+                
+                self.printLine (appObject, currentX, y, fontSize, fontColor)
 
                 i = i + 1
                 cpt = cpt + 1
@@ -89,22 +114,23 @@ function WAppList( pX, pY, pWidth, pHeight )
             end
         end
 
-        if pDebug == true then
-            drawRectangle(xList, yList, wList, hList, color.orange)
+        if debugLevel == true then
+            drawRectangle(xWAppList, yWAppList+1, wWAppList, hWAppList-2, color.orange)
+            drawRectangle(lbX, lbY, lbWidth, lbHeight, color.orange)
             --printScreen ("shiftX "..tostring(inputManager.shiftX[1]), 800, 200)
             --printScreen ("shiftY "..tostring(inputManager.shiftY[1]), 800, 220)
             --printScreen ("cumulateY "..tostring(cumulateY), 800, 240)
         end
     end
 
-    function self.printLine ( pAppObject, pX, pY )
+    function self.printLine ( pAppObject, pX, pY, pFontSize, pFontColor )
         -- display icon
         local plateformIcon = pAppObject.plateformIcon
         imageBlit(plateformIcon, pX, pY)
 
         -- display title
         local title = pAppObject.title
-        printScreen2(title, pX + 40, pY, listFontSize, listFontColor)
+        printScreen2(title, pX + 40, pY, pFontSize, pFontColor)
     end
     
     return self

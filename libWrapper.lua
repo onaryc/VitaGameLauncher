@@ -126,6 +126,26 @@ function imageBlitPart ( pImage, pX, pY, pXi, pXi, pWidth, pHeight )
     end
 end
 
+function imageResize ( pImage, pWidth, pHeight )
+    --local resizedImage = nil
+    
+    if pImage != nil then
+        resizedImage = image.resize(pImage, pWidth, pHeight) 
+    end
+
+    --return resizedImage
+end
+
+function imageScale ( pImage, pPercent )
+    --local scaledImage = nil
+    
+    if pImage != nil then
+        scaledImage = image.scale(pImage, pPercent) 
+    end
+
+    --return scaledImage
+end
+
 function spriteBlit ( pSprite, pX, pY, pAnim )
     if pSprite != nil then 
         pSprite:blitsprite(pX,pY,pAnim)
@@ -150,4 +170,8 @@ function imageGetHeight ( pImage )
     end
 
     return res
+end
+
+function launchGame ( pId )
+    game.launch(pId)
 end

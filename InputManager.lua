@@ -36,7 +36,7 @@ function InputManager()
         -- launching game
         if buttons.cross then
             --printScreen("Launching game : "..pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id, 400, 10)
-            game.launch(pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id)
+            launchGame(pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id)
         end
 
         --printScreen ("before App index : "..tostring(currentAppIndex), 100, 60)

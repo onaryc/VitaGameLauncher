@@ -36,7 +36,9 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
     }
     
     function self.update( pDebug )
-        if pDebug == true then
+        local debugLevel = inputManager.debug
+        
+        if debugLevel == true then
             draw.fillrect(xULP, yULP, width, height, color.black)  
             drawRectangle(xULP, yULP, width, height, color.yellow)
         end

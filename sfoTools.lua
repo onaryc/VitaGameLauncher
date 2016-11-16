@@ -8,12 +8,11 @@ function SfoInformation ( )
     function self.analyze ( pFilename )
         sfoInfos = {}
 
-        printScreen ("file "..pFilename, 1, 20)
+        --printScreen ("file "..pFilename, 1, 20)
         
         local test = filesExists(pFilename)
         if test == true then
             local fd = assert(io.open(pFilename, "rb")) -- open param.sfo in binary format
-            --local fd = assert(io.open(pFilename, "r"))
             local all = fd:read("*a")
             sfoContent = {all:byte(1, #all)} -- conversion automatique des valeurs en decimal 
             fd:close()
@@ -61,7 +60,6 @@ function SfoInformation ( )
         end
 
         return sfoInfos
-        
     end
 
     function self.getParamName ( pTable, pOffset )
