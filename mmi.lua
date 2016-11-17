@@ -42,7 +42,7 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
         -- widget creation
         wSystemInfo = WSystemInfo(sysInfoX, sysInfoY, sysInfoWidth, sysInfoHeight)
         wAppInfo = WAppInfo(appInfoX, appInfoY, appInfoWidth, appInfoHeight)
-        wBackground = WBackground(150)
+        wBackground = WBackground(50)
         wAppList = WAppList(appListX, appListY, appListWidth, appListHeight)
     end
 

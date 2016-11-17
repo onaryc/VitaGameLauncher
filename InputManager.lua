@@ -11,8 +11,11 @@ function InputManager()
     self.currentCategory = "All"
     self.currentPlateform = "All"
     self.debug = false
-    self.shiftX = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
-    self.shiftY = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
+
+    self.shiftTFX = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
+    self.shiftTFY = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
+    self.tfX = {[1]=-1, [2]=-1, [3]=-1, [4]=-1, [5]=-1, [6]=-1}
+    self.tfY = {[1]=-1, [2]=-1, [3]=-1, [4]=-1, [5]=-1, [6]=-1}
     
     self.indexByContext = {}
     
@@ -94,8 +97,8 @@ function InputManager()
             end
         end
 
-        -- compute touch shift
-        self.computeTouchShift ()
+        -- compute touch shift, ...
+        self.computeFTouch ()
 
         self.currentCategory = categories[currentCatIndex] 
         
@@ -116,11 +119,7 @@ function InputManager()
         self.debug = debugLevel
     end
 
-    function self.computeTouchShift ( )
-        --self.shiftX[0] = buttons.touchf[0].x - previousX[0]
-        --previousX[0] = buttons.touchf[0].x
-        --self.shiftY[0] = buttons.touchf[0].y - previousY[0]
-        --previousY[0] = buttons.touchf[0].y
+    function self.computeFTouch ( )
         for i=1,6 do
             if buttons.touchf[i].moved == true then
                 if previousFState[i] == "released" then -- first touch, shift shall be equal to 0
@@ -128,9 +127,13 @@ function InputManager()
                     previousFY[i] = buttons.touchf[i].y
                 end
 
+                -- set touch x and Y
+                self.tfX[i] = buttons.touchf[i].x
+                self.tfY[i] = buttons.touchf[i].y
+
                 -- compute shift
-                self.shiftX[i] = buttons.touchf[i].x - previousFX[i]
-                self.shiftY[i] = buttons.touchf[i].y - previousFY[i]
+                self.shiftTFX[i] = buttons.touchf[i].x - previousFX[i]
+                self.shiftTFY[i] = buttons.touchf[i].y - previousFY[i]
 
                 -- update previous coordinates
                 previousFX[i] = buttons.touchf[i].x
@@ -138,8 +141,11 @@ function InputManager()
 
                 previousFState[i] = "moved"
             else
-                self.shiftX[i] = 0
-                self.shiftY[i] = 0
+                self.tfX[i] = -1
+                self.tfY[i] = -1
+                
+                self.shiftTFX[i] = 0
+                self.shiftTFY[i] = 0
 
                 previousFState[i] = "released"
             end
