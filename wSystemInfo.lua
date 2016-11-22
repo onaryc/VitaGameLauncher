@@ -7,14 +7,16 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
     local xULP = 1
     local yULP = 1
 
+    local batteryWidth = 50
+
     local battery = {
-        sprite = spriteLoad("app0:/images/battery.png", 40, 20),
+        sprite = spriteLoad(app0.."images/battery.png", 40, 20),
         anim = 0,
     }
 
     local batteryLow = {
         timer = timer.new(),
-        sprite = spriteLoad("app0:/images/batteryLow.png", 40, 20),
+        sprite = spriteLoad(app0.."images/batteryLow.png", 40, 20),
         anim = 0,
         nbAnim = 5,
         speed = 200,
@@ -23,7 +25,7 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
     
     local batteryCharging = {
         timer = timer.new(),
-        sprite = spriteLoad("app0:/images/batteryCharging.png", 40, 20),
+        sprite = spriteLoad(app0.."images/batteryCharging.png", 40, 20),
         anim = 0,
         nbAnim = 5,
         speed = 200,
@@ -31,7 +33,7 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
     }
 
     local wifi = {
-        sprite = spriteLoad("app0:/images/wifi.png", 20, 20),
+        sprite = spriteLoad(app0.."images/wifi.png", 20, 20),
         anim = 0,
     }
     
@@ -48,6 +50,15 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
 
         -- wifi info
         self.wifiDisplay()
+    end
+
+    function self.timeDisplay ()
+        local currentTime = os.time()
+
+        local x = width - batteryWidth - screen.textwidth(currentTime)
+        local y = 10
+
+        printScreen (tostring(currentTime), 800, 380)
     end
 
     function self.batteryDisplay ()
@@ -96,7 +107,7 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
             battery.anim = batteryCharge / 5
 
             --local x = screenWidth - imgWidth - 10
-            local x = width - 50
+            local x = width - batteryWidth
             local y = 10
 
             spriteBlit(battery.sprite,x,y,battery.anim)

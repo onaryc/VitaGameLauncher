@@ -4,7 +4,7 @@ function WBackground( pAlpha )
 
     local alpha = pAlpha
 
-    local defaultBgFile = "app0:/images/missing.png"
+    local defaultBgFile = app0.."images/missing.png"
     local defaultBgImage = nil
 
     function self.initialization ()
@@ -15,7 +15,7 @@ function WBackground( pAlpha )
     
     function self.update( pType )
         local appInfos = infoController.appInfos
-        
+
         local currentAppIndex = inputManager.currentAppIndex 
         local currentCategory = inputManager.currentCategory 
         local currentPlateform = inputManager.currentPlateform
@@ -24,7 +24,7 @@ function WBackground( pAlpha )
         
         local bgImage = nil
         
-        if appInfos[currentPlateform][currentCategory] then
+        if testTable2(appInfos, currentPlateform, currentCategory) then
             local appObject = appInfos[currentPlateform][currentCategory][currentAppIndex]
             
             if pType == "appBackground" then

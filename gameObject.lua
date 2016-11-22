@@ -38,8 +38,12 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
 
         local bgFile = nil
         if self.plateform then
-            bgFile = "app0:/images/"..self.plateform.."BG.png"
+            bgFile = app0.."images/"..self.plateform.."BG.png"
         end
+        
+        --if not filesExists(bgFile) then
+            --bgFile = app0.."images/missing.png"
+        --end
         
         if filesExists(bgFile) then
             bgImage = imageLoad(bgFile)
@@ -53,8 +57,12 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
 
         local bgFile = nil
         if self.plateform then
-            bgFile = "app0:/images/"..self.plateform..".png"
+            bgFile = app0.."images/"..self.plateform..".png"
         end
+        
+        --if not filesExists(bgFile) then
+            --bgFile = app0.."images/iconError.png"
+        --end
         
         if filesExists(bgFile) then
             bgImage = imageLoad(bgFile)
@@ -71,9 +79,13 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
             bgFile = self.path.."/sce_sys/pic0.png"
         else
             if self.title and self.plateform then
-                bgFile = "app0:/images/"..self.plateform.."/"..self.title..".png"
+                bgFile = app0.."images/"..self.plateform.."/"..self.title..".png"
             end
         end
+        
+        --if not filesExists(bgFile) then
+            --bgFile = app0.."images/missing.png"
+        --end
         
         if filesExists(bgFile) then
             bgImage = imageLoad(bgFile)
@@ -90,10 +102,14 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
             bgFile = self.path.."/sce_sys/icon0.png"
         else
             if self.title and self.plateform then
-                bgFile = "app0:/images/"..self.plateform.."/"..self.title..".png"
+                bgFile = app0.."images/"..self.plateform.."/"..self.title..".png"
             end
         end
 
+        --if not filesExists(bgFile) then
+            --bgFile = app0.."images/missing.png"
+        --end
+        
         if filesExists(bgFile) then
             bgImage = imageLoad(bgFile)
         end
@@ -106,8 +122,12 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
 
         local bgFile = nil
         if self.category then
-            bgFile = "app0:/images/"..self.category..".png"
+            bgFile = app0.."images/"..self.category..".png"
         end
+        
+        --if not filesExists(bgFile) then
+            --bgFile = app0.."images/missing.png"
+        --end
         
         if filesExists(bgFile) then
             bgImage = imageLoad(bgFile)

@@ -16,27 +16,29 @@
 
 -- PB :
 -- * comment revenir au game launcher après la sortie d'un jeu?
-dofile("app0:/slaxml.lua")
+app0 = "app0:/"
+--app0 = ""
+dofile(app0.."slaxml.lua")
 
-dofile("app0:/tools.lua")
-dofile("app0:/libWrapper.lua")
+dofile(app0.."tools.lua")
+dofile(app0.."libWrapper.lua")
 
-dofile("app0:/main.lua")
+dofile(app0.."main.lua")
 
-dofile("app0:/sfoTools.lua")
-dofile("app0:/gameObject.lua")
-dofile("app0:/gameVitaObject.lua")
-dofile("app0:/gameRomObject.lua")
+dofile(app0.."sfoTools.lua")
+dofile(app0.."gameObject.lua")
+dofile(app0.."gameVitaObject.lua")
+dofile(app0.."gameRomObject.lua")
 
---dofile("app0:/buttonController.lua")
-dofile("app0:/infoController.lua")
+--dofile(app0.."buttonController.lua")
+dofile(app0.."infoController.lua")
 
-dofile("app0:/inputManager.lua")
+dofile(app0.."inputManager.lua")
 
-dofile("app0:/wSystemInfo.lua")
-dofile("app0:/wAppInfo.lua")
-dofile("app0:/wBackground.lua")
-dofile("app0:/wAppList.lua")
-dofile("app0:/mmi.lua")
+dofile(app0.."wSystemInfo.lua")
+dofile(app0.."wAppInfo.lua")
+dofile(app0.."wBackground.lua")
+dofile(app0.."wAppList.lua")
+dofile(app0.."mmi.lua")
 
 main ()

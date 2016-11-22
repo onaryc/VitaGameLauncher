@@ -51,4 +51,24 @@ function loadPlateformIcon ( pPath, pPlateform )
     end
 
     return bgImage
-end 
+end
+
+function testTable2 ( pTable, pIndex1, pIndex2 )
+    res = true
+    
+    if pTable then
+        if pTable[pIndex1] then
+            if pTable[pIndex1][pIndex2] then
+                res = true
+            else
+                res = false
+            end
+        else
+            res = false
+        end
+    else
+        res = false
+    end
+
+    return res
+end

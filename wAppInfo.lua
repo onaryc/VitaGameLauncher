@@ -32,7 +32,7 @@ function WAppInfo( pX, pY, pWidth, pHeight )
         
         local debugLevel = inputManager.debug
 
-        if appInfos[currentPlateform][currentCategory] then
+        if testTable2(appInfos, currentPlateform, currentCategory) then
             if debugLevel == true then
                 --printScreen("Game Selected : "..pAppInfos[pCurrentAppIndex].id, xULP, yULP)
                 --printScreen("Game Path : "..pAppInfos[pCurrentAppIndex].path, xULP, yULP + 20)

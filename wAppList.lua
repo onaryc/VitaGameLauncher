@@ -1,9 +1,13 @@
 -- display a list of app name
 -- TODO :
--- * center the selection!!!
+
 -- * scrollbar ?
--- * highlight selection
 -- * sort by name, release date, ... => ask the infoController
+
+-- DONE :
+-- * center the selection!!!
+-- * highlight selection
+
 function WAppList( pX, pY, pWidth, pHeight )
     local self = {}
 
@@ -48,7 +52,7 @@ function WAppList( pX, pY, pWidth, pHeight )
 
     function self.update ( )
         local appInfos = infoController.appInfos
-        
+
         local currentAppIndex = inputManager.currentAppIndex 
         local currentCategory = inputManager.currentCategory 
         local currentPlateform = inputManager.currentPlateform
@@ -56,7 +60,11 @@ function WAppList( pX, pY, pWidth, pHeight )
         local debugLevel = inputManager.debug
 
          
-        if appInfos[currentPlateform][currentCategory] then
+        if testTable2(appInfos, currentPlateform, currentCategory) then
+            -- sort the list if needed
+                    info.sortBy ( pMode, pPlateform, pCategory
+
+
             local currentApp = appInfos[currentPlateform][currentCategory][currentAppIndex]
             local nbAppInfo = #appInfos[currentPlateform][currentCategory]
 
@@ -166,7 +174,7 @@ function WAppList( pX, pY, pWidth, pHeight )
             --imageScale(startupImage, 2.0)
             imageBlit(startupImage, lbX, lbY)
         end
-
+        
         if debugLevel == true then
             drawRectangle(xWAppList, yWAppList+1, wWAppList, hWAppList-2, color.orange)
             drawRectangle(lbX, lbY, lbWidth, lbHeight, color.orange)

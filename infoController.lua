@@ -6,10 +6,10 @@ function InfoController()
     local self = {}
 
     self.vitaFilters = {'^PCS.*'}
-    self.vitaIcon = loadPlateformIcon("app0:/images/","PSVita")
+    self.vitaIcon = loadPlateformIcon(app0.."images/","PSVita")
 
     self.snesFilters = {"sfc", "smc"}
-    self.snesIcon = loadPlateformIcon("app0:/images/","snes")
+    self.snesIcon = loadPlateformIcon(app0.."images/","snes")
     
     self.appInfos = {}
     --self.appInfos = nil
@@ -153,6 +153,20 @@ function InfoController()
         end
 
         io.close(fd)
+    end
+
+    function self.sortBy ( pMode, pCurrentIndex, pPlateform, pCategory )
+        local sortedApps = self.appInfos
+
+        if testTable2(self.appInfos, currentPlateform, currentCategory) then
+            local 
+            --table.sort (sortedApps, function(a,b) return a<b end)
+            table.sort(sortedApps, function (a, b)
+                return string.lower(a.title) < string.lower(b.title)
+            end)    
+        end
+
+        return sortedApps
     end
     
     function self.writeToXml ()
