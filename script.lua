@@ -16,7 +16,7 @@
 
 -- PB :
 -- * comment revenir au game launcher après la sortie d'un jeu?
-app0 = "app0:/"
+app0 = ""
 --app0 = ""
 dofile(app0.."slaxml.lua")
 

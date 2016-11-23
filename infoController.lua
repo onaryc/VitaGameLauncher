@@ -18,7 +18,7 @@ function InfoController()
     
     function self.refreshInfo()
         self.gatherVitaInfo("ux0:/app")
-        --self.gatherRomInfo("snes", "ux0:/roms/snes", self.snesIcon)
+        self.gatherRomInfo("snes", "ux0:/roms/snes", self.snesIcon)
 
         --self.getGamesCategory("PSVita")
         
@@ -155,18 +155,19 @@ function InfoController()
         io.close(fd)
     end
 
-    function self.sortBy ( pMode, pCurrentIndex, pPlateform, pCategory )
+    function self.sortBy ( pMode, pPlateform, pCategory )
         local sortedApps = self.appInfos
 
-        if testTable2(self.appInfos, currentPlateform, currentCategory) then
-            local 
-            --table.sort (sortedApps, function(a,b) return a<b end)
-            table.sort(sortedApps, function (a, b)
-                return string.lower(a.title) < string.lower(b.title)
-            end)    
+        if pMode != "original" then
+            if testTable2(self.appInfos, currentPlateform, currentCategory) then
+                --table.sort (sortedApps, function(a,b) return a<b end)
+                table.sort(sortedApps[pPlateform][pCategory], function (a, b)
+                    return string.lower(a.title) < string.lower(b.title)
+                end)    
+            end
         end
 
-        return sortedApps
+        return sortedApps[pPlateform][pCategory]
     end
     
     function self.writeToXml ()

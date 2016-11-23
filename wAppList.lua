@@ -40,7 +40,8 @@ function WAppList( pX, pY, pWidth, pHeight )
 
     local selectionColor = color.orange
     local selectionSize = 1.2
-    local listFontColor = color.blue
+    --local listFontColor = color.blue
+    local listFontColor = color.white
     local listFontSize = 1.2
     local lineSeparator = 35
 
@@ -53,20 +54,20 @@ function WAppList( pX, pY, pWidth, pHeight )
     function self.update ( )
         local appInfos = infoController.appInfos
 
-        local currentAppIndex = inputManager.currentAppIndex 
         local currentCategory = inputManager.currentCategory 
         local currentPlateform = inputManager.currentPlateform
+
+        local currentAppIndex = inputManager.indexByContext[currentPlateform][currentCategory]
 
         local debugLevel = inputManager.debug
 
          
         if testTable2(appInfos, currentPlateform, currentCategory) then
             -- sort the list if needed
-                    info.sortBy ( pMode, pPlateform, pCategory
+            local sortedAppInfos = infoController.sortBy("", currentPlateform, currentCategory)
 
-
-            local currentApp = appInfos[currentPlateform][currentCategory][currentAppIndex]
-            local nbAppInfo = #appInfos[currentPlateform][currentCategory]
+            local currentApp = sortedAppInfos[currentAppIndex]
+            local nbAppInfo = #sortedAppInfos
 
             -- limit end and start of the list
             if mode != "center" then
@@ -117,8 +118,8 @@ function WAppList( pX, pY, pWidth, pHeight )
             local cpt = 1
             while true do
                 -- if there is no app left to display, exit 
-                if appInfos[currentPlateform][currentCategory][i] then
-                    appObject = appInfos[currentPlateform][currentCategory][i]
+                if sortedAppInfos[i] then
+                    appObject = sortedAppInfos[i]
                 else
                     break
                 end
@@ -147,8 +148,8 @@ function WAppList( pX, pY, pWidth, pHeight )
             cpt = 1
             while true do
                 -- if there is no app left to display, exit 
-                if appInfos[currentPlateform][currentCategory][i] then
-                    appObject = appInfos[currentPlateform][currentCategory][i]
+                if sortedAppInfos[i] then
+                    appObject = sortedAppInfos[i]
                 else
                     break
                 end

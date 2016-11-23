@@ -16,9 +16,11 @@ function WBackground( pAlpha )
     function self.update( pType )
         local appInfos = infoController.appInfos
 
-        local currentAppIndex = inputManager.currentAppIndex 
+        --local currentAppIndex = inputManager.currentAppIndex 
         local currentCategory = inputManager.currentCategory 
         local currentPlateform = inputManager.currentPlateform
+
+        local currentAppIndex = inputManager.indexByContext[currentPlateform][currentCategory]
 
         --local debugLevel = inputManager.debug
         

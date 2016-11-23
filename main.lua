@@ -1,4 +1,6 @@
 function main ( )
+    ftp.init()
+    
     infoController = InfoController()
 
     if not filesExists("ux0:/data/VGLauncher") then

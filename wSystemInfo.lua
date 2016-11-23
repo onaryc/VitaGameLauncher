@@ -36,6 +36,8 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
         sprite = spriteLoad(app0.."images/wifi.png", 20, 20),
         anim = 0,
     }
+
+    local ftpImage = imageLoad(app0.."images/ftp.png")
     
     function self.update( pDebug )
         local debugLevel = inputManager.debug
@@ -50,15 +52,36 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
 
         -- wifi info
         self.wifiDisplay()
+
+        -- time info
+        self.timeDisplay()
+
+        -- ftp state display
+        self.ftpDisplay()
     end
 
     function self.timeDisplay ()
-        local currentTime = os.time()
+        --local currentTime = os.time()
+        local currentTime = os.date("%H:%M - %d %b %Y")
 
-        local x = width - batteryWidth - screen.textwidth(currentTime)
+        local textWidth = screen.textwidth(currentTime)
+
+        -- center the time in the upper part of the screen
+        local x = width / 2 - textWidth / 2
         local y = 10
 
-        printScreen (tostring(currentTime), 800, 380)
+        printScreen (tostring(currentTime), x, y)
+    end
+
+    function self.ftpDisplay()
+        local ftpState = ftp.state()
+
+        if ftpState then
+            local x = width - batteryWidth - 30
+            local y = 10
+
+            imageBlit(ftpImage, x, y)
+        end
     end
 
     function self.batteryDisplay ()
@@ -104,7 +127,7 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
                 anim = batteryLow.anim
             end
 
-            battery.anim = batteryCharge / 5
+            battery.anim = math.floor(-5 * batteryCharge + 5)
 
             --local x = screenWidth - imgWidth - 10
             local x = width - batteryWidth
@@ -113,11 +136,15 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
             spriteBlit(battery.sprite,x,y,battery.anim)
             spriteBlit(spriteTmp,x,y,anim)
 
-            printScreen ("bat charge "..tostring(batteryCharge), 800, 380)
-            --printScreen ("width "..tostring(width), 1, 420)
-            --printScreen ("height "..tostring(height), 1, 440)
-            --printScreen ("imgWidth "..tostring(imgWidth), 1, 460)
-
+            local debugLevel = inputManager.debug
+        
+            if debugLevel == true then
+                printScreen ("bat charge "..tostring(batteryCharge), 800, 380)
+                printScreen ("bat anim "..tostring(battery.anim), 800, 400)
+                --printScreen ("width "..tostring(width), 1, 420)
+                --printScreen ("height "..tostring(height), 1, 440)
+                --printScreen ("imgWidth "..tostring(imgWidth), 1, 460)
+            end
         end
     end
     

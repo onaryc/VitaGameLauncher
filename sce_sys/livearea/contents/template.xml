@@ -24,11 +24,10 @@
 		<liveitem>
 			<text origin="background" line-align="center" margin-bottom="1">
 				<str size="25" bold="on" shadow="on">　</str>
-				<str size="40" bold="on" shadow="on">ONEluaVITA - v1r0</str>
+				<str size="40" bold="on" shadow="on">Sample VPK for ONElua Vita</str>
 				<str size="25" bold="on" shadow="on">　
 				</str>
 				<str size="21" bold="on" shadow="on">
-					ONElua - Interpreter LUA for PlayStation®Vita/PlayStation®Portable.　
 					®2016 Team ONElua - ONElua.x10.mx
 				</str>
 			</text>
@@ -37,11 +36,10 @@
 		<liveitem>
 			<text origin="background" line-align="center" margin-bottom="1">
 				<str size="30" bold="on" shadow="on">　</str>
-				<str size="40" bold="on" shadow="on">ONEluaVITA - v1r0</str>
+				<str size="40" bold="on" shadow="on">Sample VPK for ONElua Vita</str>
 				<str size="30" bold="on" shadow="on">　
 				</str>
 				<str size="21" bold="on" shadow="on">
-					ONElua - Interprete LUA para PlayStation®Vita/PlayStation®Portable.　
 					®2016 Team ONElua - ONElua.x10.mx
 				</str>
 			</text>

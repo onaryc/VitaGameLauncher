@@ -7,7 +7,7 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
     local appInfos = pAppInfos
     local categories = pCategories
     local plateforms = pPlateforms
-    local debugLevel = true
+    local debugLevel = false
     
     local touch_alfa_top = {0,0,0,0,0,0}
     local touch_alfa_back = {0,0,0,0,0,0}
@@ -42,7 +42,7 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
         -- widget creation
         wSystemInfo = WSystemInfo(sysInfoX, sysInfoY, sysInfoWidth, sysInfoHeight)
         wAppInfo = WAppInfo(appInfoX, appInfoY, appInfoWidth, appInfoHeight)
-        wBackground = WBackground(50)
+        wBackground = WBackground(100)
         wAppList = WAppList(appListX, appListY, appListWidth, appListHeight)
     end
 
@@ -66,11 +66,11 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
             --printScreen ("Current Category : : "..tostring(pCurrentCategory), 100, 140)
 
             --self.touchDebug()
-            ramVal1, ramVal2, ramVal3, ramVal4 = os.ram()
-            printScreen ("ramVal1 : "..tostring(ramVal1), 600, 100)
-            printScreen ("ramVal2 : "..tostring(ramVal2), 600, 120)
-            printScreen ("ramVal3 : "..tostring(ramVal3), 600, 140)
-            printScreen ("ramVal4 : "..tostring(ramVal4), 600, 160)
+            --ramVal1, ramVal2, ramVal3, ramVal4 = os.ram()
+            --printScreen ("ramVal1 : "..tostring(ramVal1), 600, 100)
+            --printScreen ("ramVal2 : "..tostring(ramVal2), 600, 120)
+            --printScreen ("ramVal3 : "..tostring(ramVal3), 600, 140)
+            --printScreen ("ramVal4 : "..tostring(ramVal4), 600, 160)
         end
 
         screenFlip()
