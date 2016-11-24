@@ -4,6 +4,14 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
     self.screenWidth = pScreenWidth
     self.screenHeight = pScreenHeight
 
+    self.vitaIcon = loadPlateformIcon(app0.."images/","PSVita")
+    self.snesIcon = loadPlateformIcon(app0.."images/","snes")
+    
+    self.usaIcon = loadPlateformIcon(app0.."images/","usa")
+    self.japanIcon = loadPlateformIcon(app0.."images/","japan")
+    self.europeIcon = loadPlateformIcon(app0.."images/","europe")
+    self.worldIcon = loadPlateformIcon(app0.."images/","world")
+    
     local appInfos = pAppInfos
     local categories = pCategories
     local plateforms = pPlateforms
@@ -74,6 +82,34 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
         end
 
         screenFlip()
+    end
+
+    function self.getRegionIcon( pRegion )
+        local regionIcon = nil    
+    
+        if pRegion == "USA" then
+            regionIcon = self.usaIcon
+        elseif pRegion == "Japan" then
+            regionIcon = self.japanIcon
+        elseif pRegion == "Europe" then
+            regionIcon = self.europeIcon
+        elseif pRegion == "World" then
+            regionIcon = self.worldIcon
+        end
+        
+        return regionIcon
+    end
+
+    function self.getPlateformeIcon( pPlateform )
+        local plateformIcon = nil    
+    
+        if pPlateform == "PSVita" then
+            plateformIcon = self.vitaIcon
+        elseif pPlateform == "snes" then
+            plateformIcon = self.snesIcon
+        end
+        
+        return plateformIcon
     end
 
     function self.touchDebug( )

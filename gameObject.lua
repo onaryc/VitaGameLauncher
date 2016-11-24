@@ -11,6 +11,7 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
     self.date = pDate
     self.description = pDescription
     self.category = pCategory
+    self.nbPlayer = 1
 
     -- background image (use by wBackground)
     self.appBgImage = nil
@@ -19,6 +20,7 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
 
     -- plateform icon (use by wApplist)
     self.plateformIcon = nil
+    --self.regionIcon = nil
 
     -- startup image (use by wApplist)
     self.startupImage = nil

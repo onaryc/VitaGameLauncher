@@ -6,19 +6,15 @@ function InfoController()
     local self = {}
 
     self.vitaFilters = {'^PCS.*'}
-    self.vitaIcon = loadPlateformIcon(app0.."images/","PSVita")
-
     self.snesFilters = {"sfc", "smc"}
-    self.snesIcon = loadPlateformIcon(app0.."images/","snes")
     
     self.appInfos = {}
-    --self.appInfos = nil
     self.plateforms = {"All"}
     self.categories = {"All"}
     
     function self.refreshInfo()
         self.gatherVitaInfo("ux0:/app")
-        self.gatherRomInfo("snes", "ux0:/roms/snes", self.snesIcon)
+        self.gatherRomInfo("snes", "ux0:/roms/snes")
 
         --self.getGamesCategory("PSVita")
         
@@ -45,7 +41,8 @@ function InfoController()
             
             if test == true then
                 local gameObject = GameVitaObject(value.name, value.path)
-                gameObject.plateformIcon = self.vitaIcon
+                --gameObject.plateformIcon = self.vitaIcon
+                --gameObject.regionIcon = self.getAppRegionIcon(gameObject.region)
                 
                 insertMatrix2(self.appInfos, "All", "All", gameObject)
                 insertMatrix2(self.appInfos, "PSVita", "All", gameObject)
@@ -61,7 +58,7 @@ function InfoController()
     -- gather roms information from retro systems (snes, nes, ...)
     -- the directories shall follow the following hierarchy :
     -- ux0:/roms/<system name>
-    function self.gatherRomInfo ( pPlateform, pPath, pPlateformIcon, pCategory )
+    function self.gatherRomInfo ( pPlateform, pPath, pCategory )
         local files = files.listfiles(pPath)
 
         insertTable(self.plateforms, pPlateform)
@@ -84,7 +81,8 @@ function InfoController()
             
             if test == true then
                 local gameObject = GameRomObject(pPlateform, value.name, value.path)
-                gameObject.plateformIcon = pPlateformIcon
+                --gameObject.plateformIcon = pPlateformIcon
+                --gameObject.regionIcon = self.getAppRegionIcon(gameObject.region)
 
                 insertMatrix2(self.appInfos, "All", "All", gameObject)
                 insertMatrix2(self.appInfos, pPlateform, "All", gameObject)
@@ -99,7 +97,7 @@ function InfoController()
         -- consider sub directory as category
         local directories = listDirectories(pPath)
         for key,value in pairs(directories) do
-            self.gatherRomInfo(pPlateform, value.path, pPlateformIcon, value.name)
+            self.gatherRomInfo(pPlateform, value.path, value.name)
         end 
     end
 
@@ -156,18 +154,21 @@ function InfoController()
     end
 
     function self.sortBy ( pMode, pPlateform, pCategory )
-        local sortedApps = self.appInfos
+        local sortedApps = nil
 
-        if pMode != "original" then
-            if testTable2(self.appInfos, currentPlateform, currentCategory) then
-                --table.sort (sortedApps, function(a,b) return a<b end)
-                table.sort(sortedApps[pPlateform][pCategory], function (a, b)
-                    return string.lower(a.title) < string.lower(b.title)
-                end)    
+        if testTable2(self.appInfos, pPlateform, pCategory) then
+            sortedApps = self.appInfos[pPlateform][pCategory]
+
+            if pMode == "title" then
+                table.sort(sortedApps, self.sortByTitle)
             end
         end
 
-        return sortedApps[pPlateform][pCategory]
+        return sortedApps
+    end
+
+    function self.sortByTitle (pA, pB)
+        return string.lower(pA.title) < string.lower(pB.title)
     end
     
     function self.writeToXml ()

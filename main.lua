@@ -16,7 +16,7 @@ function main ( )
 
     mmi = Mmi(960, 544, appInfos, categories, plateforms)
     
-    if appInfos then -- the emptiness of appInfos does not appear to be correctly tested, to check with an empty list of games/apps!!!
+    if appInfos then
         -- 
         while true do             
             mmi.update()
