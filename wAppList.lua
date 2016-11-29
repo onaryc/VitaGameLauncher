@@ -51,11 +51,14 @@ function WAppList( pX, pY, pWidth, pHeight )
     local lbX = wWAppList - lbWidth - xShift
     local lbY = yWAppList + (lbHeight / 2)
 
-    local currentApp = nil
+    local nbAppDisplay = 0
+
+    local currentCatIndex = 1
+    local currentPlateformIndex = 1
 
     function self.update ( )
-        local currentCategory = inputManager.currentCategory 
-        local currentPlateform = inputManager.currentPlateform
+        local currentCategory = infoController.currentCategory 
+        local currentPlateform = infoController.currentPlateform
          
         -- sort the list if needed
         local sortedAppInfos = infoController.sortBy("title", currentPlateform, currentCategory)
@@ -70,28 +73,27 @@ function WAppList( pX, pY, pWidth, pHeight )
             self.displayLaunchButton()
         end
 
-        if inputManager.debug == true then
+        if mmi.debug then
             drawRectangle(xWAppList, yWAppList+1, wWAppList, hWAppList-2, color.orange)
             drawRectangle(lbX, lbY, lbWidth, lbHeight, color.orange)
-            --printScreen ("shiftX "..tostring(inputManager.shiftTFX[1]), 800, 200)
-            --printScreen ("shiftY "..tostring(inputManager.shiftTFY[1]), 800, 220)
-            --printScreen ("cumulateY "..tostring(cumulateY), 800, 240)
         end
     end
 
     function self.updateCurrentSelection ( pAppList )
-        local currentCategory = inputManager.currentCategory 
-        local currentPlateform = inputManager.currentPlateform
+        local currentCategory = infoController.currentCategory 
+        local currentPlateform = infoController.currentPlateform
         local nbAppInfo = #pAppList
 
         -- get the current app index
-        local currentAppIndex = inputManager.indexByContext[currentPlateform][currentCategory]
+        --local currentAppIndex = infoController.indexByContext[currentPlateform][currentCategory]
+        local currentAppIndex = infoController.getCurrentIndex()
         
         -- limit end and start of the list
         if mode != "center" then
             currentY = currentY + inputManager.shiftTFY[1]
         end
-        
+
+        -- compute the current app index
         cumulateY = cumulateY + inputManager.shiftTFY[1]
         if currentAppIndex == 1 then
             if inputManager.shiftTFY[1] > 0 then
@@ -121,14 +123,77 @@ function WAppList( pX, pY, pWidth, pHeight )
 
             currentY = initListY
             cumulateY = 0
-            inputManager.indexByContext[currentPlateform][currentCategory] = currentAppIndex
         end
 
-        currentApp = pAppList[currentAppIndex]
+        if inputManager.up then
+            currentAppIndex = currentAppIndex - 1
+            if currentAppIndex < 1 then
+                currentAppIndex = 1
+            end
+        end
+
+        if buttons.down then
+            currentAppIndex = currentAppIndex + 1
+            if currentAppIndex > nbAppInfo then
+                currentAppIndex = currentAppIndex - 1
+            end
+        end
+
+        if inputManager.left then
+            currentAppIndex = currentAppIndex - nbAppDisplay + 1
+            if currentAppIndex < 1 then
+                currentAppIndex = 1
+            end
+        end
+
+        if inputManager.right then
+            currentAppIndex = currentAppIndex + nbAppDisplay - 1
+            if currentAppIndex > nbAppInfo then
+                currentAppIndex = nbAppInfo
+            end
+        end
+
+        infoController.indexByContext[currentPlateform][currentCategory] = currentAppIndex
+
+        infoController.currentApp = pAppList[currentAppIndex]
+
+        -- plateform selection
+        if inputManager.analogLUpPressed then
+            currentPlateformIndex = currentPlateformIndex - 1
+            if currentPlateformIndex < 1 then
+                currentPlateformIndex = 1
+            end
+        end
+        
+        if inputManager.analogLDownPressed then
+            currentPlateformIndex = currentPlateformIndex + 1
+            if currentPlateformIndex > #infoController.plateforms then
+                currentPlateformIndex = currentPlateformIndex - 1
+            end
+        end
+
+        infoController.setCurrentPlateform(currentPlateformIndex)
+
+        -- category selection
+        if inputManager.analogRUpPressed then -- right analog up
+            currentCatIndex = currentCatIndex - 1
+            if currentCatIndex < 1 then
+                currentCatIndex = 1
+            end
+        end
+
+        if inputManager.analogRDownPressed then -- right analog down
+            currentCatIndex = currentCatIndex + 1
+            if currentCatIndex > #infoController.categories then
+                currentCatIndex = currentCatIndex - 1
+            end
+        end
+
+        infoController.setCurrentCategory(currentCatIndex)
     end
 
     function self.displayLaunchButton ( )
-        local startupImage = currentApp.startupImage
+        local startupImage = infoController.currentApp.startupImage
         if startupImage then
             imageResize(startupImage, lbWidth, lbHeight) -- shall be scale in order to respect aspect ratio!!!
             --imageScale(startupImage, 2.0)
@@ -136,18 +201,21 @@ function WAppList( pX, pY, pWidth, pHeight )
 
              -- launch app if needed : shall be somewhere else, callback system??
             if inputManager.tfX[1] > lbX and inputManager.tfX[1] < lbX + lbWidth and inputManager.tfY[1] > lbY and inputManager.tfY[1] < lbY + lbHeight then
-                launchGame(currentApp.id)
+                launchGame(infoController.currentApp.id)
             end
         end
     end
 
     function self.displayList ( pAppList )
-        local currentCategory = inputManager.currentCategory 
-        local currentPlateform = inputManager.currentPlateform
+        --local currentCategory = infoController.currentCategory 
+        --local currentPlateform = infoController.currentPlateform
         
-        local currentAppIndex = inputManager.indexByContext[currentPlateform][currentCategory]
+        --local currentAppIndex = infoController.indexByContext[currentPlateform][currentCategory]
+        local currentAppIndex = infoController.getCurrentIndex()
         local appObject = ""
         local y = 0
+
+        nbAppDisplay = 0
         
         -- display the list under the selection
         local i = currentAppIndex - 1
@@ -174,10 +242,13 @@ function WAppList( pX, pY, pWidth, pHeight )
             i = i - 1
             cpt = cpt + 1
         end
+
+        nbAppDisplay = nbAppDisplay + cpt - 1
         
         -- display the selection
         y = currentY
-        self.printLine (currentApp, currentX, y, selectionSize, selectionColor)
+        self.printLine (infoController.currentApp, currentX, y, selectionSize, selectionColor)
+        nbAppDisplay = nbAppDisplay + 1
         
         -- display the list above the selection
         i = currentAppIndex + 1
@@ -204,17 +275,18 @@ function WAppList( pX, pY, pWidth, pHeight )
             i = i + 1
             cpt = cpt + 1
         end
+
+        nbAppDisplay = nbAppDisplay + cpt - 1
     end
 
     function self.printLine ( pAppObject, pX, pY, pFontSize, pFontColor )
-        local currentCategory = inputManager.currentCategory 
-        local currentPlateform = inputManager.currentPlateform
+        local currentCategory = infoController.currentCategory 
+        local currentPlateform = infoController.currentPlateform
 
         local xShift = 0
 
         if currentPlateform == "All" then
             -- display plateform icon
-            --local plateformIcon = pAppObject.plateformIcon
             local plateformIcon = mmi.getPlateformeIcon(pAppObject.plateform)
             imageBlit(plateformIcon, pX + xShift, pY)
             xShift = xShift + 40
@@ -227,13 +299,16 @@ function WAppList( pX, pY, pWidth, pHeight )
 
         -- display title
         local title = pAppObject.title
-        local titleWidth = screen.textwidth(title, pFontSize)
 
+        -- reduce title if needed
+        local titleWidth = screen.textwidth(title, pFontSize)
         if titleWidth + xShift > lbX then
 
         end
         
         printScreen2(title, pX + xShift, pY, pFontSize, pFontColor)
+        xShift = xShift + titleWidth
+        
     end
     
     return self

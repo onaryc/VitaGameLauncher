@@ -11,11 +11,29 @@ function InfoController()
     self.appInfos = {}
     self.plateforms = {"All"}
     self.categories = {"All"}
+    self.regions = {"All"}
+
+    self.currentApp = nil
+    self.currentCategory = "All"
+    self.currentPlateform = "All"
+    self.indexByContext = {}
+
+    function self.initIndex()
+        -- intialize a list which contains current app index for each category
+        self.indexByContext = {}
+        for key,value in pairs(self.plateforms) do
+            self.indexByContext[value] = {}
+            for key1,value1 in pairs(self.categories) do
+                self.indexByContext[value][value1] = 1
+            end
+        end
+    end
     
     function self.refreshInfo()
         self.gatherVitaInfo("ux0:/app")
         self.gatherRomInfo("snes", "ux0:/roms/snes")
 
+        self.initIndex()
         --self.getGamesCategory("PSVita")
         
         --self.writeToXml()
@@ -50,6 +68,10 @@ function InfoController()
                     insertMatrix2(self.appInfos, "All", gameObject.category, gameObject)
                     insertMatrix2(self.appInfos, "PSVita", gameObject.category, gameObject)
                     insertTable(self.categories, gameObject.category)
+                end
+
+                if gameObject.region then
+                    insertTable(self.regions, gameObject.region)
                 end
             end
         end
@@ -90,6 +112,10 @@ function InfoController()
                     insertMatrix2(self.appInfos, "All", gameObject.category, gameObject)
                     insertMatrix2(self.appInfos, pPlateform, gameObject.category, gameObject)
                     insertTable(self.categories, gameObject.category)
+                end
+
+                if gameObject.region then
+                    insertTable(self.regions, gameObject.region)
                 end
             end
         end
@@ -155,7 +181,7 @@ function InfoController()
 
     function self.sortBy ( pMode, pPlateform, pCategory )
         local sortedApps = nil
-
+            
         if testTable2(self.appInfos, pPlateform, pCategory) then
             sortedApps = self.appInfos[pPlateform][pCategory]
 
@@ -169,6 +195,18 @@ function InfoController()
 
     function self.sortByTitle (pA, pB)
         return string.lower(pA.title) < string.lower(pB.title)
+    end
+
+    function self.getCurrentIndex ()
+        return self.indexByContext[self.currentPlateform][self.currentCategory]
+    end
+    
+    function self.setCurrentPlateform ( pIndex )
+        self.currentPlateform = self.plateforms[pIndex]
+    end
+
+    function self.setCurrentCategory ( pIndex )
+        self.currentCategory = self.categories[pIndex]
     end
     
     function self.writeToXml ()

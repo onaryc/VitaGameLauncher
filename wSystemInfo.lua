@@ -28,7 +28,7 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
         sprite = spriteLoad(app0.."images/batteryCharging.png", 40, 20),
         anim = 0,
         nbAnim = 5,
-        speed = 200,
+        speed = 150,
         direction = "left",
     }
 
@@ -40,9 +40,7 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
     local ftpImage = imageLoad(app0.."images/ftp.png")
     
     function self.update( pDebug )
-        local debugLevel = inputManager.debug
-        
-        if debugLevel == true then
+        if mmi.debug == true then
             draw.fillrect(xULP, yULP, width, height, color.black)  
             drawRectangle(xULP, yULP, width, height, color.yellow)
         end
@@ -93,19 +91,20 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
             if isBatteryCharging() == true then
                 -- battery is charging
                 if batteryCharging.timer:time() > batteryCharging.speed then
-                    batteryCharging.timer:reset(); batteryCharging.timer:start();
-
+                    batteryCharging.timer:reset()
+                    batteryCharging.timer:start()
+                    
                     if batteryCharging.direction == "left" then
                         batteryCharging.anim += 1
-                        if batteryCharging.anim > batteryCharging.nbAnim then
+                        if batteryCharging.anim == (batteryCharging.nbAnim - 1) then
                             batteryCharging.direction = "right"
-                            batteryCharging.anim -= 2
+                            --batteryCharging.anim = batteryCharging.nbAnim - 1
                         end
                     else
                         batteryCharging.anim -= 1
-                        if batteryCharging.anim < 0 then
+                        if batteryCharging.anim == 0 then
                             batteryCharging.direction = "left"
-                            batteryCharging.anim += 2
+                            --batteryCharging.anim += 2
                         end
                     end                    
                 end
@@ -136,14 +135,8 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
             spriteBlit(battery.sprite,x,y,battery.anim)
             spriteBlit(spriteTmp,x,y,anim)
 
-            local debugLevel = inputManager.debug
-        
-            if debugLevel == true then
-                printScreen ("bat charge "..tostring(batteryCharge), 800, 380)
-                printScreen ("bat anim "..tostring(battery.anim), 800, 400)
-                --printScreen ("width "..tostring(width), 1, 420)
-                --printScreen ("height "..tostring(height), 1, 440)
-                --printScreen ("imgWidth "..tostring(imgWidth), 1, 460)
+            if mmi.debug then
+
             end
         end
     end

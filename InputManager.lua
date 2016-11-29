@@ -7,101 +7,142 @@
 function InputManager()
     local self = {}
 
-    self.currentAppIndex = 1
-    self.currentCategory = "All"
-    self.currentPlateform = "All"
-    self.debug = false
-
     self.shiftTFX = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
     self.shiftTFY = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
     self.tfX = {[1]=-1, [2]=-1, [3]=-1, [4]=-1, [5]=-1, [6]=-1}
     self.tfY = {[1]=-1, [2]=-1, [3]=-1, [4]=-1, [5]=-1, [6]=-1}
+
+    self.up = false
+    self.down = false
+    self.left = false
+    self.right = false
+
+    self.analogLUpPressed = false
+    self.analogLUpReleased = true
+
+    self.analogLDownPressed = false
+    self.analogLDownReleased = true
+
+    self.analogRUpPressed = false
+    self.analogRUpReleased = true
+
+    self.analogRDownPressed = false
+    self.analogRDownReleased = true
     
-    self.indexByContext = {}
+    --local categories = {"All"}
+    --local plateforms = {"All"}
     
-    local categories = {"All"}
-    local plateforms = {"All"}
-    
-    local currentCatIndex = 1
-    local currentPlateformIndex = 1
     local analogDeadzone = 30
 
     local previousFState = {[1]="released", [2]="released", [3]="released", [4]="released", [5]="released", [6]="released"}
     local previousFX = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
     local previousFY = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
-    
-    function self.update ( pAppInfos, pDebug )
-        local currentAppIndex = self.indexByContext[self.currentPlateform][self.currentCategory]
-        local debugLevel = pDebug
 
+    --buttons.interval(10, 7)
+    
+    --local timerDir = timer.new()
+    --local timerAnalogLeftDir = timer.new()
+    --local timerAnalogRightDir = timer.new()
+
+    function self.update ( pAppInfos )
         buttons.read()
 
         -- launching game
         if buttons.cross then
             --printScreen("Launching game : "..pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id, 400, 10)
-            launchGame(pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id)
+            --launchGame(pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id)
+            launchGame(infoController.currentApp.id)
         end
-
-        --printScreen ("before App index : "..tostring(currentAppIndex), 100, 60)
         
-        -- game selection
         if buttons.up then
-            currentAppIndex = currentAppIndex - 1
-            if currentAppIndex < 1 then
-                currentAppIndex = 1
-            end
+            --buttons.interval(10, 7)
+            self.up = true
         end
-
-        if buttons.down then
-            currentAppIndex = currentAppIndex + 1
-            if currentAppIndex > #pAppInfos[self.currentPlateform][self.currentCategory] then
-                currentAppIndex = currentAppIndex - 1
-            end
-        end
-
-        --printScreen ("After App index : "..tostring(currentAppIndex), 100, 80)
-
-        self.indexByContext[self.currentPlateform][self.currentCategory] = currentAppIndex
-
-        self.currentAppIndex = currentAppIndex
         
-        -- plateform selection
+        if buttons.released.up then
+            --buttons.interval()
+            self.up = false
+        end
+        
+        if buttons.down then
+            --buttons.interval(10, 7)
+            self.down = true            
+        end
+
+        if buttons.released.down then
+            --buttons.interval()
+            self.down = false
+        end
+
+        if buttons.left then
+            self.left = true
+        end
+
+        if buttons.released.left then
+            --buttons.interval()
+            self.left = false
+        end
+        
+        if buttons.right then
+            self.right = true
+        end
+
+        if buttons.released.right then
+            --buttons.interval()
+            self.right = false
+        end
+
         if buttons.analogly > analogDeadzone then -- left analog up
-            currentPlateformIndex = currentPlateformIndex - 1
-            if currentPlateformIndex < 1 then
-                currentPlateformIndex = 1
+            if self.analogLUpReleased == true then
+                self.analogLUpPressed = true
+                self.analogLUpReleased = false
+            else
+                self.analogLUpPressed = false
             end
+        else
+            self.analogLUpPressed = false
+            self.analogLUpReleased = true
         end
 
         if buttons.analogly < -analogDeadzone then -- left analog down
-            currentPlateformIndex = currentPlateformIndex + 1
-            if currentPlateformIndex > #plateforms then
-                currentPlateformIndex = currentPlateformIndex - 1
+            if self.analogLDownReleased == true then
+                self.analogLDownPressed = true
+                self.analogLDownReleased = false
+            else
+                self.analogLDownPressed = false
             end
+        else
+            self.analogLDownPressed = false
+            self.analogLDownReleased = true
         end
 
-        self.currentPlateform = plateforms[currentPlateformIndex] 
-        
-        -- category selection
         if buttons.analogry > analogDeadzone then -- right analog up
-            currentCatIndex = currentCatIndex - 1
-            if currentCatIndex < 1 then
-                currentCatIndex = 1
+            if self.analogRUpReleased == true then
+                self.analogRUpPressed = true
+                self.analogRUpReleased = false
+            else
+                self.analogRUpPressed = false
             end
+        else
+            self.analogRUpPressed = false
+            self.analogRUpReleased = true
         end
 
         if buttons.analogry < -analogDeadzone then -- right analog down
-            currentCatIndex = currentCatIndex + 1
-            if currentCatIndex > #categories then
-                currentCatIndex = currentCatIndex - 1
+            if self.analogRDownReleased == true then
+                self.analogRDownPressed = true
+                self.analogRDownReleased = false
+            else
+                self.analogRDownPressed = false
             end
+        else
+            self.analogRDownPressed = false
+            self.analogRDownReleased = true
         end
 
         -- compute touch shift, ...
         self.computeFTouch ()
 
-        self.currentCategory = categories[currentCatIndex] 
-        
         -- exit app
         if buttons.released.start then
             os.exit()
@@ -109,14 +150,12 @@ function InputManager()
 
         -- manage debug level
         if buttons.held.select then
-            debugLevel = true
+            mmi.debug = true
         end
 
         if buttons.released.select then
-            debugLevel = false
+            mmi.debug = false
         end
-
-        self.debug = debugLevel
     end
 
     function self.computeFTouch ( )
@@ -151,22 +190,7 @@ function InputManager()
             end
         end
     end
-    
-    function self.initialize ( pCategories, pPlateforms )
-        -- set instance variable
-        plateforms = pPlateforms
-        categories = pCategories
-
-        -- intialize a list which contains current app index for each category
-        self.indexByContext = {}
-        for key,value in pairs(plateforms) do
-            self.indexByContext[value] = {}
-            for key1,value1 in pairs(categories) do
-                self.indexByContext[value][value1] = 1
-            end
-        end
-    end
-    
+        
     -- return the instance
     return self
 end

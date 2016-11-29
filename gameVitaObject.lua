@@ -33,22 +33,22 @@ function GameVitaObject( pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate
         local testFilter = string.match(pId, '.*PCSE.*')
         local testFilter2 = string.match(pId, '.*PCSA.*')
         if testFilter != nil or testFilter2 != nil then
-            region = "USA"
+            region = "usa"
         else
             local testFilter = string.match(pId, '.*PCSB.*')
             local testFilter2 = string.match(pId, '.*PCSF.*')
             if testFilter != nil or testFilter2 != nil then
-                region = "Europe"
+                region = "europe"
             else
                 testFilter = string.match(pId, '.*PCSG.*')
                 if testFilter != nil then
-                    region = "Japan"
+                    region = "japan"
                 else
                     testFilter = string.match(pId, '.*PCSH.*')
                     if testFilter != nil then
-                        region = "Asia"
+                        region = "asia"
                     else
-                        region = "Unk"
+                        region = "unk"
                     end
                 end
             end

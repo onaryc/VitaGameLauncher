@@ -33,21 +33,21 @@ function GameRomObject( pPlateform, pFilename, pPath, pTitle, pRegion, pVersion,
         
         local testFilter = string.match(self.filename, '.*USA.*')
         if testFilter != nil then
-            region = "USA"
+            region = "usa"
         else
             testFilter = string.match(self.filename, '.*Europe.*')
             if testFilter != nil then
-                region = "Europe"
+                region = "europe"
             else
                 testFilter = string.match(self.filename, '.*Japan.*')
                 if testFilter != nil then
-                    region = "Japan"
+                    region = "japan"
                 else
                     testFilter = string.match(self.filename, '.*World.*')
                     if testFilter != nil then
-                        region = "World"
+                        region = "world"
                     else
-                        region = "Unk"
+                        region = "unk"
                     end
                 end
             end

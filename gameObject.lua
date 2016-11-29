@@ -15,11 +15,11 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
 
     -- background image (use by wBackground)
     self.appBgImage = nil
-    self.plateformBgImage = nil
-    self.categoryBgImage = nil
+    --self.plateformBgImage = nil
+    --self.categoryBgImage = nil
 
     -- plateform icon (use by wApplist)
-    self.plateformIcon = nil
+    --self.plateformIcon = nil
     --self.regionIcon = nil
 
     -- startup image (use by wApplist)
@@ -27,51 +27,51 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
 
     function self.initialization2 ()
         self.appBgImage = self.computeAppBgImage()
-        self.plateformBgImage = self.computePlateformBgImage()
-        self.categoryBgImage = self.computeCategoryImage()
-        
+        --self.plateformBgImage = self.computePlateformBgImage()
+        --self.categoryBgImage = self.computeCategoryImage()
+        --
         --self.plateformIcon = self.computePlateformIcon()
 
         self.startupImage = self.computeStartupImage()
     end
     
-    function self.computePlateformBgImage( )
-        local bgImage = nil
+    --function self.computePlateformBgImage( )
+        --local bgImage = nil
 
-        local bgFile = nil
-        if self.plateform then
-            bgFile = app0.."images/"..self.plateform.."BG.png"
-        end
-        
-        --if not filesExists(bgFile) then
-            --bgFile = app0.."images/missing.png"
+        --local bgFile = nil
+        --if self.plateform then
+            --bgFile = app0.."images/"..self.plateform.."BG.png"
         --end
         
-        if filesExists(bgFile) then
-            bgImage = imageLoad(bgFile)
-        end
+        ----if not filesExists(bgFile) then
+            ----bgFile = app0.."images/missing.png"
+        ----end
+        
+        --if filesExists(bgFile) then
+            --bgImage = imageLoad(bgFile)
+        --end
 
-        return bgImage
-    end
+        --return bgImage
+    --end
     
-    function self.computePlateformIcon( )
-        local bgImage = nil
+    --function self.computePlateformIcon( )
+        --local bgImage = nil
 
-        local bgFile = nil
-        if self.plateform then
-            bgFile = app0.."images/"..self.plateform..".png"
-        end
-        
-        --if not filesExists(bgFile) then
-            --bgFile = app0.."images/iconError.png"
+        --local bgFile = nil
+        --if self.plateform then
+            --bgFile = app0.."images/"..self.plateform..".png"
         --end
         
-        if filesExists(bgFile) then
-            bgImage = imageLoad(bgFile)
-        end
+        ----if not filesExists(bgFile) then
+            ----bgFile = app0.."images/iconError.png"
+        ----end
+        
+        --if filesExists(bgFile) then
+            --bgImage = imageLoad(bgFile)
+        --end
 
-        return bgImage
-    end
+        --return bgImage
+    --end
 
     function self.computeAppBgImage ( )
         local bgImage = nil
@@ -119,24 +119,24 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
         return bgImage
     end
     
-    function self.computeCategoryImage ( )
-        local bgImage = nil
+    --function self.computeCategoryImage ( )
+        --local bgImage = nil
 
-        local bgFile = nil
-        if self.category then
-            bgFile = app0.."images/"..self.category..".png"
-        end
-        
-        --if not filesExists(bgFile) then
-            --bgFile = app0.."images/missing.png"
+        --local bgFile = nil
+        --if self.category then
+            --bgFile = app0.."images/"..self.category..".png"
         --end
         
-        if filesExists(bgFile) then
-            bgImage = imageLoad(bgFile)
-        end
+        ----if not filesExists(bgFile) then
+            ----bgFile = app0.."images/missing.png"
+        ----end
+        
+        --if filesExists(bgFile) then
+            --bgImage = imageLoad(bgFile)
+        --end
 
-        return bgImage
-    end
+        --return bgImage
+    --end
 
     function self.serialize2 ( pType )
         local xml = ""

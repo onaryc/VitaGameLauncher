@@ -26,14 +26,12 @@ function WAppInfo( pX, pY, pWidth, pHeight )
     function self.update( )
         local appInfos = infoController.appInfos 
 
-        local currentAppIndex = inputManager.currentAppIndex 
-        local currentCategory = inputManager.currentCategory 
-        local currentPlateform = inputManager.currentPlateform
-        
-        local debugLevel = inputManager.debug
+        local currentCategory = infoController.currentCategory 
+        --local currentPlateform = infoController.currentPlateform
 
-        if testTable2(appInfos, currentPlateform, currentCategory) then
-            if debugLevel == true then
+        local appObject = infoController.currentApp
+        if appObject then
+            if mmi.debug == true then
                 --printScreen("Game Selected : "..pAppInfos[pCurrentAppIndex].id, xULP, yULP)
                 --printScreen("Game Path : "..pAppInfos[pCurrentAppIndex].path, xULP, yULP + 20)
 
@@ -41,8 +39,6 @@ function WAppInfo( pX, pY, pWidth, pHeight )
                 for i=1,nbPart do
                     drawRectangle(xPart[i], yPart[i], partWidth, height, color.blue)
                 end
-
-                local appObject = appInfos[currentPlateform][currentCategory][currentAppIndex]
 
                 printScreen(appObject.plateform, xPart[1], yPart[1])
                 printScreen(appObject.id, xPart[1], yPart[1] + 20)
@@ -55,6 +51,28 @@ function WAppInfo( pX, pY, pWidth, pHeight )
                 printScreen(appObject.version, xPart[4], yPart[4])
                 printScreen(currentCategory, xPart[4], yPart[4]+20)
             end
+            
+            local xShift = 0
+            local yShift = height / 2
+            
+            -- display plateform icon
+            local plateformIcon = mmi.getPlateformeIcon(appObject.plateform)
+            imageBlit(plateformIcon, xPart[1] + xShift, yPart[1] + yShift)
+            xShift = xShift + 40
+
+            -- display region icon
+            local regionIcon = mmi.getRegionIcon(appObject.region)
+            imageBlit(regionIcon, xPart[1] + xShift, yPart[1] + yShift)
+            xShift = xShift + 40
+            
+            -- display category icon
+            local categoryIcon = mmi.getCategoryIcon(appObject.category)
+            imageBlit(categoryIcon, xPart[1] + xShift, yPart[1] + yShift)
+            xShift = xShift + 40
+            
+            -- display the number player if available
+
+            -- display the version
         end
     end
 

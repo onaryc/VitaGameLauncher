@@ -18,27 +18,35 @@
 -- * comment revenir au game launcher après la sortie d'un jeu?
 app0 = ""
 --app0 = ""
-dofile(app0.."slaxml.lua")
 
-dofile(app0.."tools.lua")
 dofile(app0.."libWrapper.lua")
 
+-- tool files
+dofile(app0.."slaxml.lua")
+dofile(app0.."tools.lua")
+dofile(app0.."sfoTools.lua")
+
+
+-- main file
 dofile(app0.."main.lua")
 
-dofile(app0.."sfoTools.lua")
+-- model files
 dofile(app0.."gameObject.lua")
 dofile(app0.."gameVitaObject.lua")
 dofile(app0.."gameRomObject.lua")
 
+-- controllers file
 --dofile(app0.."buttonController.lua")
 dofile(app0.."infoController.lua")
+dofile(app0.."ftpController.lua")
 
 dofile(app0.."inputManager.lua")
 
+-- view/widget files
 dofile(app0.."wSystemInfo.lua")
 dofile(app0.."wAppInfo.lua")
 dofile(app0.."wBackground.lua")
 dofile(app0.."wAppList.lua")
 dofile(app0.."mmi.lua")
 
-main ()
+main()

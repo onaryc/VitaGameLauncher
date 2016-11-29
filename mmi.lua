@@ -4,19 +4,16 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
     self.screenWidth = pScreenWidth
     self.screenHeight = pScreenHeight
 
-    self.vitaIcon = loadPlateformIcon(app0.."images/","PSVita")
-    self.snesIcon = loadPlateformIcon(app0.."images/","snes")
-    
-    self.usaIcon = loadPlateformIcon(app0.."images/","usa")
-    self.japanIcon = loadPlateformIcon(app0.."images/","japan")
-    self.europeIcon = loadPlateformIcon(app0.."images/","europe")
-    self.worldIcon = loadPlateformIcon(app0.."images/","world")
-    
+    self.debug = false
+
+    self.regionIcons = {}
+    self.plateformIcons = {}
+    self.categoryIcons = {}
+
     local appInfos = pAppInfos
     local categories = pCategories
     local plateforms = pPlateforms
-    local debugLevel = false
-    
+
     local touch_alfa_top = {0,0,0,0,0,0}
     local touch_alfa_back = {0,0,0,0,0,0}
     local touch_col = {color.white, color.green, color.blue, color.red, color.yellow, color.orange, color.cyan}
@@ -45,20 +42,41 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
 
         -- input manager
         inputManager = InputManager()
-        inputManager.initialize(categories, plateforms)
 
         -- widget creation
         wSystemInfo = WSystemInfo(sysInfoX, sysInfoY, sysInfoWidth, sysInfoHeight)
         wAppInfo = WAppInfo(appInfoX, appInfoY, appInfoWidth, appInfoHeight)
         wBackground = WBackground(100)
         wAppList = WAppList(appListX, appListY, appListWidth, appListHeight)
+
+        -- mmi icons
+        self.initCategoryIcons()
+        self.initPlateformIcons()
+        self.initRegionIcons()
     end
+
+    function self.initCategoryIcons ()
+        for key,value in pairs(categories) do
+            self.categoryIcons[value] = loadPlateformIcon(app0.."images/",value)
+        end
+    end
+    
+    function self.initPlateformIcons ()
+        for key,value in pairs(plateforms) do
+            self.plateformIcons[value] = loadPlateformIcon(app0.."images/",value)
+        end
+    end
+
+    function self.initRegionIcons ()
+        for key,value in pairs(infoController.regions) do
+            self.regionIcons[value] = loadPlateformIcon(app0.."images/",value)
+        end
+    end
+
 
     function self.update( )
         -- global input management
-        inputManager.update(appInfos, debugLevel)
-
-        debugLevel = inputManager.debug
+        inputManager.update(appInfos)
 
         wBackground.update("appBackground")
         wAppList.update()
@@ -66,7 +84,7 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
         wAppInfo.update()
 
         -- specific debug info
-        if debugLevel  == true then
+        if self.debug  == true then
             --local fps = screen.fps()
             --printScreen (tostring(fps), 1, 1)
             --printScreen ("App index : "..tostring(pCurrentAppIndex), 100, 100)
@@ -86,36 +104,52 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
 
     function self.getRegionIcon( pRegion )
         local regionIcon = nil    
-    
-        if pRegion == "USA" then
-            regionIcon = self.usaIcon
-        elseif pRegion == "Japan" then
-            regionIcon = self.japanIcon
-        elseif pRegion == "Europe" then
-            regionIcon = self.europeIcon
-        elseif pRegion == "World" then
-            regionIcon = self.worldIcon
-        end
+
+        regionIcon = self.regionIcons[pRegion]
+        --if pRegion == "USA" then
+            --regionIcon = self.usaIcon
+        --elseif pRegion == "Japan" then
+            --regionIcon = self.japanIcon
+        --elseif pRegion == "Europe" then
+            --regionIcon = self.europeIcon
+        --elseif pRegion == "World" then
+            --regionIcon = self.worldIcon
+        --end
         
         return regionIcon
     end
 
     function self.getPlateformeIcon( pPlateform )
         local plateformIcon = nil    
-    
-        if pPlateform == "PSVita" then
-            plateformIcon = self.vitaIcon
-        elseif pPlateform == "snes" then
-            plateformIcon = self.snesIcon
-        end
+
+        plateformIcon = self.plateformIcons[pPlateform]
+
+        --if pPlateform == "PSVita" then
+            --plateformIcon = self.vitaIcon
+        --elseif pPlateform == "snes" then
+            --plateformIcon = self.snesIcon
+        --end
         
         return plateformIcon
+    end
+    
+    function self.getCategoryIcon( pCategory )
+        local categoryIcon = nil    
+
+        categoryIcon = self.categoryIcons[pCategory]
+        --if pCategory == "action" then
+            --categoryIcon = self.actionIcon
+        --elseif pCategory == "actionPlateformer" then
+            --categoryIcon = self.actionPlateformerIcon
+        --end
+        
+        return categoryIcon
     end
 
     function self.touchDebug( )
         for i=1,6 do
             printScreen2("+", buttons.touchf[i].x,buttons.touchf[i].y,1,touch_col[i]:a(touch_alfa_top[i]))
-            --screen.print(buttons.touchf[i].x,buttons.touchf[i].y, "+",1,touch_col[i]:a(touch_alfa_top[i]))
+
             if buttons.touchf[i].moved then
                 touch_alfa_top[i] = 255
             elseif touch_alfa_top[i] > 0 then
@@ -125,7 +159,7 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
 
         for i=1,4 do
             printScreen2("X", buttons.touchb[i].x,buttons.touchb[i].y,1,touch_col[i]:a(touch_alfa_back[i]))
-            --screen.print(buttons.touchb[i].x,buttons.touchb[i].y, "X",1,touch_col[i]:a(touch_alfa_back[i]))
+
             if buttons.touchb[i].moved then
                 touch_alfa_back[i] = 255
             elseif touch_alfa_back[i] > 0 then
