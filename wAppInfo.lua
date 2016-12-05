@@ -27,7 +27,7 @@ function WAppInfo( pX, pY, pWidth, pHeight )
         local appInfos = infoController.appInfos 
 
         local currentCategory = infoController.currentCategory 
-        --local currentPlateform = infoController.currentPlateform
+        local currentPlateform = infoController.currentPlateform
 
         local appObject = infoController.currentApp
         if appObject then
@@ -47,9 +47,9 @@ function WAppInfo( pX, pY, pWidth, pHeight )
                 printScreen(appObject.title, xPart[2], yPart[2] + 20)
 
                 printScreen(appObject.category, xPart[3], yPart[3])
-                printScreen(currentPlateform, xPart[3], yPart[3]+20)
+                printScreen("Plat "..currentPlateform, xPart[3], yPart[3]+20)
                 printScreen(appObject.version, xPart[4], yPart[4])
-                printScreen(currentCategory, xPart[4], yPart[4]+20)
+                printScreen("Cat "..currentCategory, xPart[4], yPart[4]+20)
             end
             
             local xShift = 0
