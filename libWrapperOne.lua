@@ -1,33 +1,40 @@
 function splashScreen ()
-    
+    splash.gekihen()
 end
 
+-- games
+function listGames ()
+	return game.list()
+end
+
+-- debug info
 function printScreen ( pString, pX, pY )
-    if pString then
-        screen.print(pX,pY,pString)
-    else
-        screen.print(pX,pY,"nil value")
+    if pString == "" then
+        pString = "nil value"
     end
+    
+    screen.print(pX,pY,pString) 
 end
 
 function printScreen2 ( pString, pX, pY, pSize, pColor )
-    if pString then
-        screen.print(pX,pY,pString, pSize, pColor)
-    else
-        screen.print(pX,pY,"nil value")
+    if pString == "" then
+        pString = "nil value"
     end
+    
+    screen.print(pX,pY,pString, pSize, pColor)
 end
 
+-- should not be here
 function printAppTable ( pTable, pDebug )
     local nbCol = 1
     local xText = 10
     local yText = 30
 
     if pDebug == true then
-        printScreen("Print Table : "..#appInfos.." items", 400, 10)
+        printScreen("Print Table : "..#pTable.." items", 400, 10)
     end
 
-    for key,value in pairs(appInfos) do
+    for key,value in pairs(pTable) do
         printScreen("dir : "..value.id, xText,yText)
         yText += 20
 
@@ -53,33 +60,26 @@ end
 
 -- battery
 function batteryExists ()
-    --~ return batt.exists()
-    return true
+    return batt.exists()
 end
 
 function batteryCharge ()
-    local res =  System.getBatteryPercentage() / 100
+    local res = batt.lifepercent() / 100
     
     return res
 end
 
 function isBatteryLow ()
-	local res = false
-	 
-	if batteryCharge () < 0.1 then
-		res = true
-	end
-	
-    return res
+    return batt.low()
 end
 
 function isBatteryCharging ()
-    return System.isBatteryCharging()
+    return batt.charging()
 end
 
 -- files
 function listDirectories ( pPath )
-    local res = System.listDirectory(pPath)
+    local res = files.listdirs(pPath)
 
     return res
 end
@@ -88,7 +88,7 @@ function filesExists ( pFilename )
     local res = false 
 
     if pFilename then
-        res = System.doesFileExist(pFilename)
+        res = files.exists(pFilename)
     end
     
     return res
@@ -181,4 +181,29 @@ end
 
 function launchGame ( pId )
     game.launch(pId)
+end
+
+-- debug console
+function initDebug ()
+	console.init()
+end
+
+function printDebug ( pText )
+	console.print(pText)
+end
+
+function renderDebug ()
+	console.render()
+end
+
+function clearDebug ()
+	console.clear(color.new())
+end
+
+function stateDebug ()
+	return console.state()
+end
+
+function stopDebug ()
+	console.term()
 end

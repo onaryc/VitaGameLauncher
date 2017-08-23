@@ -68,7 +68,7 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
     end
 
     function self.initRegionIcons ()
-        for key,value in pairs(infoController.regions) do
+        for key,value in pairs(gameController.regions) do
             self.regionIcons[value] = loadPlateformIcon(app0.."images/",value)
         end
     end

@@ -2,7 +2,7 @@
 -- * bug : no plateform icon for snes plateform after the first folder
 -- * merge psvita and rom gather info
 
-function InfoController()
+function GameController()
     local self = {}
 
     self.vitaFilters = {'^PCS.*'}
@@ -41,24 +41,36 @@ function InfoController()
 
     -- get vita application information in a specified directories
     function self.gatherVitaInfo ( pPath )
-        local directories = listDirectories(pPath)
+        local games = listGames()
 
+		printDebug("test\n")
+		printDebug("game nb "..tostring(#games).."\n")
+		renderDebug ()
+		
+		--~ printScreen ("test2", 0,0) 
+		screenFlip()
+		buttons.waitforkey() 
         insertTable(self.plateforms, "PSVita")
         
-        for key,value in pairs(directories) do
+        for key,value in pairs(games) do
+			--~ printDebug("id "..value.id.."\n")
+			--~ printDebug("path "..value.path.."\n")
+			--~ printScreen (value.id, 50,20) 
+			--~ printScreen (value.path, 50,40)
+			
             local test = false
-            
+ 
             for key1,value1 in pairs(self.vitaFilters) do
-                local testFilter = string.match(value.name, value1)
+                local testFilter = string.match(value.id, value1)
 
                 if testFilter != nil then
                     test = true
                     break
                 end
             end 
-            
+ 
             if test == true then
-                local gameObject = GameVitaObject(value.name, value.path)
+                local gameObject = GameVitaObject(value.id, value.path)
                 --gameObject.plateformIcon = self.vitaIcon
                 --gameObject.regionIcon = self.getAppRegionIcon(gameObject.region)
                 
@@ -74,6 +86,9 @@ function InfoController()
                     insertTable(self.regions, gameObject.region)
                 end
             end
+            --~ renderDebug ()
+			--~ screenFlip()
+			--~ buttons.waitforkey() 
         end
     end
 
@@ -82,49 +97,52 @@ function InfoController()
     -- ux0:/roms/<system name>
     function self.gatherRomInfo ( pPlateform, pPath, pCategory )
         local files = files.listfiles(pPath)
-
-        insertTable(self.plateforms, pPlateform)
         
-        if pPlateform == "snes" then
-            filters = self.snesFilters
-        else
-            filters = ".*"
-        end
-        
-        for key,value in pairs(files) do
-            local test = false
-            
-            for key1,ext in pairs(filters) do
-                if ext == value.ext then
-                    test = true
-                    break
-                end 
-            end
-            
-            if test == true then
-                local gameObject = GameRomObject(pPlateform, value.name, value.path)
-                --gameObject.plateformIcon = pPlateformIcon
-                --gameObject.regionIcon = self.getAppRegionIcon(gameObject.region)
+        if files != nil then
 
-                insertMatrix2(self.appInfos, "All", "All", gameObject)
-                insertMatrix2(self.appInfos, pPlateform, "All", gameObject)
-                if gameObject.category then
-                    insertMatrix2(self.appInfos, "All", gameObject.category, gameObject)
-                    insertMatrix2(self.appInfos, pPlateform, gameObject.category, gameObject)
-                    insertTable(self.categories, gameObject.category)
-                end
+			insertTable(self.plateforms, pPlateform)
+			
+			if pPlateform == "snes" then
+				filters = self.snesFilters
+			else
+				filters = ".*"
+			end
+			
+			for key,value in pairs(files) do
+				local test = false
+				
+				for key1,ext in pairs(filters) do
+					if ext == value.ext then
+						test = true
+						break
+					end 
+				end
+				
+				if test == true then
+					local gameObject = GameRomObject(pPlateform, value.name, value.path)
+					--gameObject.plateformIcon = pPlateformIcon
+					--gameObject.regionIcon = self.getAppRegionIcon(gameObject.region)
 
-                if gameObject.region then
-                    insertTable(self.regions, gameObject.region)
-                end
-            end
-        end
+					insertMatrix2(self.appInfos, "All", "All", gameObject)
+					insertMatrix2(self.appInfos, pPlateform, "All", gameObject)
+					if gameObject.category then
+						insertMatrix2(self.appInfos, "All", gameObject.category, gameObject)
+						insertMatrix2(self.appInfos, pPlateform, gameObject.category, gameObject)
+						insertTable(self.categories, gameObject.category)
+					end
 
-        -- consider sub directory as category
-        local directories = listDirectories(pPath)
-        for key,value in pairs(directories) do
-            self.gatherRomInfo(pPlateform, value.path, value.name)
-        end 
+					if gameObject.region then
+						insertTable(self.regions, gameObject.region)
+					end
+				end
+			end
+
+			-- consider sub directory as category
+			local directories = listDirectories(pPath)
+			for key,value in pairs(directories) do
+				self.gatherRomInfo(pPlateform, value.path, value.name)
+			end
+		end
     end
 
     function self.getGamesCategory ( pPlateform )

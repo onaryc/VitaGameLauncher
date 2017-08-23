@@ -1,25 +1,24 @@
 function main ( )
-    splashScreen()
-
+    --~ splashScreen()
+	initDebug()
+	
     -- create main controllers
     ftpController = FtpController()
-    infoController = InfoController()
+    gameController = GameController()
 
     -- initialize controllers
     ftpController.initialize()
-
 
     if not filesExists("ux0:/data/VGLauncher") then
         files.mkdir("ux0:/data/VGLauncher")
     end
 
-    
     -- gather or compute all info needed on game/applications    
-    infoController.refreshInfo()
+    gameController.refreshInfo()
     
-    local appInfos = infoController.appInfos
-    local categories = infoController.categories
-    local plateforms = infoController.plateforms
+    local appInfos = gameController.appInfos
+    local categories = gameController.categories
+    local plateforms = gameController.plateforms
 
     mmi = Mmi(960, 544, appInfos, categories, plateforms)
     
@@ -30,4 +29,6 @@ function main ( )
             mmi.update()
         end
     end
+    
+    stopDebug()
 end

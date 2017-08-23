@@ -2,7 +2,7 @@
 -- TODO :
 
 -- * scrollbar ?
--- * sort by name, release date, ... => ask the infoController
+-- * sort by name, release date, ... => ask the gameController
 
 -- DONE :
 -- * center the selection!!!
@@ -57,11 +57,11 @@ function WAppList( pX, pY, pWidth, pHeight )
     local currentPlateformIndex = 1
 
     function self.update ( )
-        local currentCategory = infoController.currentCategory 
-        local currentPlateform = infoController.currentPlateform
+        local currentCategory = gameController.currentCategory 
+        local currentPlateform = gameController.currentPlateform
          
         -- sort the list if needed
-        local sortedAppInfos = infoController.sortBy("title", currentPlateform, currentCategory)
+        local sortedAppInfos = gameController.sortBy("title", currentPlateform, currentCategory)
         if sortedAppInfos then
             -- update current selection
             self.updateCurrentSelection(sortedAppInfos)
@@ -80,13 +80,13 @@ function WAppList( pX, pY, pWidth, pHeight )
     end
 
     function self.updateCurrentSelection ( pAppList )
-        local currentCategory = infoController.currentCategory 
-        local currentPlateform = infoController.currentPlateform
+        local currentCategory = gameController.currentCategory 
+        local currentPlateform = gameController.currentPlateform
         local nbAppInfo = #pAppList
 
         -- get the current app index
-        --local currentAppIndex = infoController.indexByContext[currentPlateform][currentCategory]
-        local currentAppIndex = infoController.getCurrentIndex()
+        --local currentAppIndex = gameController.indexByContext[currentPlateform][currentCategory]
+        local currentAppIndex = gameController.getCurrentIndex()
         
         -- limit end and start of the list
         if mode != "center" then
@@ -153,9 +153,9 @@ function WAppList( pX, pY, pWidth, pHeight )
             end
         end
 
-        infoController.indexByContext[currentPlateform][currentCategory] = currentAppIndex
+        gameController.indexByContext[currentPlateform][currentCategory] = currentAppIndex
 
-        infoController.currentApp = pAppList[currentAppIndex]
+        gameController.currentApp = pAppList[currentAppIndex]
 
         -- plateform selection
         if inputManager.analogLUpPressed then
@@ -167,12 +167,12 @@ function WAppList( pX, pY, pWidth, pHeight )
         
         if inputManager.analogLDownPressed then
             currentPlateformIndex = currentPlateformIndex + 1
-            if currentPlateformIndex > #infoController.plateforms then
+            if currentPlateformIndex > #gameController.plateforms then
                 currentPlateformIndex = currentPlateformIndex - 1
             end
         end
 
-        infoController.setCurrentPlateform(currentPlateformIndex)
+        gameController.setCurrentPlateform(currentPlateformIndex)
 
         -- category selection
         if inputManager.analogRUpPressed then -- right analog up
@@ -184,16 +184,16 @@ function WAppList( pX, pY, pWidth, pHeight )
 
         if inputManager.analogRDownPressed then -- right analog down
             currentCatIndex = currentCatIndex + 1
-            if currentCatIndex > #infoController.categories then
+            if currentCatIndex > #gameController.categories then
                 currentCatIndex = currentCatIndex - 1
             end
         end
 
-        infoController.setCurrentCategory(currentCatIndex)
+        gameController.setCurrentCategory(currentCatIndex)
     end
 
     function self.displayLaunchButton ( )
-        local startupImage = infoController.currentApp.startupImage
+        local startupImage = gameController.currentApp.startupImage
         if startupImage then
             imageResize(startupImage, lbWidth, lbHeight) -- shall be scale in order to respect aspect ratio!!!
             --imageScale(startupImage, 2.0)
@@ -201,17 +201,17 @@ function WAppList( pX, pY, pWidth, pHeight )
 
              -- launch app if needed : shall be somewhere else, callback system??
             if inputManager.tfX[1] > lbX and inputManager.tfX[1] < lbX + lbWidth and inputManager.tfY[1] > lbY and inputManager.tfY[1] < lbY + lbHeight then
-                launchGame(infoController.currentApp.id)
+                launchGame(gameController.currentApp.id)
             end
         end
     end
 
     function self.displayList ( pAppList )
-        --local currentCategory = infoController.currentCategory 
-        --local currentPlateform = infoController.currentPlateform
+        --local currentCategory = gameController.currentCategory 
+        --local currentPlateform = gameController.currentPlateform
         
-        --local currentAppIndex = infoController.indexByContext[currentPlateform][currentCategory]
-        local currentAppIndex = infoController.getCurrentIndex()
+        --local currentAppIndex = gameController.indexByContext[currentPlateform][currentCategory]
+        local currentAppIndex = gameController.getCurrentIndex()
         local appObject = ""
         local y = 0
 
@@ -247,7 +247,7 @@ function WAppList( pX, pY, pWidth, pHeight )
         
         -- display the selection
         y = currentY
-        self.printLine (infoController.currentApp, currentX, y, selectionSize, selectionColor)
+        self.printLine (gameController.currentApp, currentX, y, selectionSize, selectionColor)
         nbAppDisplay = nbAppDisplay + 1
         
         -- display the list above the selection
@@ -280,8 +280,8 @@ function WAppList( pX, pY, pWidth, pHeight )
     end
 
     function self.printLine ( pAppObject, pX, pY, pFontSize, pFontColor )
-        local currentCategory = infoController.currentCategory 
-        local currentPlateform = infoController.currentPlateform
+        local currentCategory = gameController.currentCategory 
+        local currentPlateform = gameController.currentPlateform
 
         local xShift = 0
 

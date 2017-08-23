@@ -6,6 +6,7 @@ function SfoInformation ( )
     --self.sfoInfos = {}
 
     function self.analyze ( pFilename )
+		printDebug("analyze "..pFilename.."\n")
         sfoInfos = {}
 
         --printScreen ("file "..pFilename, 1, 20)
@@ -41,6 +42,7 @@ function SfoInformation ( )
                 -- get the param name
                 local paramName = self.getParamName(sfoContent,keyTableOffset+paramNameOffset)
 
+				printDebug("paramname "..paramName.."\n")
                 if paramName == "APP_VER" or
                     paramName == "PARENTAL_LEVEL" or
                     paramName == "PSP2_SYSTEM_VER" or

@@ -7,7 +7,7 @@ function WBackground( pAlpha )
     function self.update( pType )
         local bgImage = nil
         
-        local appObject = infoController.currentApp
+        local appObject = gameController.currentApp
         if appObject then
             if pType == "appBackground" then
                 bgImage = appObject.appBgImage

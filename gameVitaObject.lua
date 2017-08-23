@@ -10,41 +10,41 @@ function GameVitaObject( pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate
         --self.initialization2()
 
         if self.region == nil then
-            self.region = self.computeVitaRegion(pId)
+            self.computeVitaRegion()
         end
 
         if self.title == nil and self.version == nil then 
-            self.title, self.version = self.getVitaInfo(pPath)
+            self.computeVitaInfo()
         end
 
         if self.dumperVersion == nil then
-            self.dumperVersion = self.computeVitaDumper(pPath)
+            self.computeVitaDumper()
         end
 
         self.initialization2()
     end
     
-    function self.computeVitaRegion ( pId )
+    function self.computeVitaRegion ( )
         local region = ""
 
         --string.find (s, pattern [, init [, plain]])
         
         --local testFilter = string.match(pId, '.*PCS(E)|(A).*')
-        local testFilter = string.match(pId, '.*PCSE.*')
-        local testFilter2 = string.match(pId, '.*PCSA.*')
+        local testFilter = string.match(self.id, '.*PCSE.*')
+        local testFilter2 = string.match(self.id, '.*PCSA.*')
         if testFilter != nil or testFilter2 != nil then
             region = "usa"
         else
-            local testFilter = string.match(pId, '.*PCSB.*')
-            local testFilter2 = string.match(pId, '.*PCSF.*')
+            local testFilter = string.match(self.id, '.*PCSB.*')
+            local testFilter2 = string.match(self.id, '.*PCSF.*')
             if testFilter != nil or testFilter2 != nil then
                 region = "europe"
             else
-                testFilter = string.match(pId, '.*PCSG.*')
+                testFilter = string.match(self.id, '.*PCSG.*')
                 if testFilter != nil then
                     region = "japan"
                 else
-                    testFilter = string.match(pId, '.*PCSH.*')
+                    testFilter = string.match(self.id, '.*PCSH.*')
                     if testFilter != nil then
                         region = "asia"
                     else
@@ -53,31 +53,32 @@ function GameVitaObject( pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate
                 end
             end
         end
-
-        return region
+        
+        self.region = region
     end
 
-    function self.getVitaInfo ( pPath )
-        local title, version  = ""
-
+    function self.computeVitaInfo ()
         local sfoInformation = SfoInformation()
-        local paramSfoFile = self.path.."/sce_sys/param.sfo"
+        --~ local paramSfoFile = self.path.."/sce_sys/param.sfo"
 
-        res = sfoInformation.analyze(paramSfoFile)
-        title = res.TITLE
+        res = sfoInformation.analyze(string.format("%s/sce_sys/param.sfo",self.path))
+        --~ res = game.info(string.format("%s/sce_sys/param.sfo",list.data[i].path))
+        local title = res.TITLE
         
-        -- remove uppercase (exept for word beginning) and useless char ;)
-        title = string.gsub (title, "™", "")
-        title = string.gsub (title, "®", "")
-        title = string.gsub (title, "³", " 3")
-
+        if title != nil then
+			-- remove uppercase (exept for word beginning) and useless char ;)
+			title = string.gsub (title, "™", "")
+			title = string.gsub (title, "®", "")
+			title = string.gsub (title, "³", " 3")
+			
+			self.title = title
+		end
+		
         --title = string.gsub (title, "%a(%u)", string.lower("%1"))
         --title = string.lower(title)
 
         -- get app version
-        version = res.APP_VER
-        
-        return title, version
+        self.version = res.APP_VER        
     end
 
     --function self.getVitaCategory ( pName )
@@ -86,8 +87,8 @@ function GameVitaObject( pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate
         --return category
     --end
 
-    function self.computeVitaDumper( pPath )
-
+    function self.computeVitaDumper( )
+		self.dumperVersion = nil
     end
     
     function self.serialize ( pType )

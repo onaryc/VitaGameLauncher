@@ -24,12 +24,12 @@ function WAppInfo( pX, pY, pWidth, pHeight )
     end
     
     function self.update( )
-        local appInfos = infoController.appInfos 
+        local appInfos = gameController.appInfos 
 
-        local currentCategory = infoController.currentCategory 
-        local currentPlateform = infoController.currentPlateform
+        local currentCategory = gameController.currentCategory 
+        local currentPlateform = gameController.currentPlateform
 
-        local appObject = infoController.currentApp
+        local appObject = gameController.currentApp
         if appObject then
             if mmi.debug == true then
                 --printScreen("Game Selected : "..pAppInfos[pCurrentAppIndex].id, xULP, yULP)

@@ -46,12 +46,13 @@ function InputManager()
 
     function self.update ( pAppInfos )
         buttons.read()
+        touch.read()
 
         -- launching game
         if buttons.cross then
             --printScreen("Launching game : "..pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id, 400, 10)
             --launchGame(pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id)
-            launchGame(infoController.currentApp.id)
+            launchGame(gameController.currentApp.id)
         end
         
         if buttons.up then
@@ -141,7 +142,7 @@ function InputManager()
         end
 
         -- compute touch shift, ...
-        self.computeFTouch ()
+        --~ self.computeFTouch ()
 
         -- exit app
         if buttons.released.start then
@@ -159,7 +160,7 @@ function InputManager()
     end
 
     function self.computeFTouch ( )
-        for i=1,6 do
+        for i=1,touch.front.count do
             if buttons.touchf[i].moved == true then
                 if previousFState[i] == "released" then -- first touch, shift shall be equal to 0
                     previousFX[i] = buttons.touchf[i].x
