@@ -14,6 +14,7 @@ function FtpController()
            ftp.init()
         end
     end
+    
     -- return the instance
     return self
 end

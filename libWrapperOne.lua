@@ -9,7 +9,7 @@ end
 
 -- debug info
 function printScreen ( pString, pX, pY )
-    if pString == "" then
+    if pString == nil then
         pString = "nil value"
     end
     
@@ -17,7 +17,7 @@ function printScreen ( pString, pX, pY )
 end
 
 function printScreen2 ( pString, pX, pY, pSize, pColor )
-    if pString == "" then
+    if pString == nil then
         pString = "nil value"
     end
     

@@ -132,7 +132,7 @@ function WAppList( pX, pY, pWidth, pHeight )
             end
         end
 
-        if buttons.down then
+        if inputManager.down then
             currentAppIndex = currentAppIndex + 1
             if currentAppIndex > nbAppInfo then
                 currentAppIndex = currentAppIndex - 1

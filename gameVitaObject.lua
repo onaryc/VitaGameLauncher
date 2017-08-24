@@ -61,8 +61,8 @@ function GameVitaObject( pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate
         local sfoInformation = SfoInformation()
         --~ local paramSfoFile = self.path.."/sce_sys/param.sfo"
 
-        res = sfoInformation.analyze(string.format("%s/sce_sys/param.sfo",self.path))
-        --~ res = game.info(string.format("%s/sce_sys/param.sfo",list.data[i].path))
+        --res = sfoInformation.analyze(string.format("%s/sce_sys/param.sfo",self.path))
+        res = game.info(string.format("%s/sce_sys/param.sfo",self.path))
         local title = res.TITLE
         
         if title != nil then

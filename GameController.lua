@@ -43,21 +43,14 @@ function GameController()
     function self.gatherVitaInfo ( pPath )
         local games = listGames()
 
-		printDebug("test\n")
-		printDebug("game nb "..tostring(#games).."\n")
-		renderDebug ()
-		
-		--~ printScreen ("test2", 0,0) 
-		screenFlip()
-		buttons.waitforkey() 
+		--printDebug("test\n")
+		--printDebug("game nb "..tostring(#games).."\n")
+		--renderDebug ()
+		--screenFlip()
+		--buttons.waitforkey() 
         insertTable(self.plateforms, "PSVita")
         
         for key,value in pairs(games) do
-			--~ printDebug("id "..value.id.."\n")
-			--~ printDebug("path "..value.path.."\n")
-			--~ printScreen (value.id, 50,20) 
-			--~ printScreen (value.path, 50,40)
-			
             local test = false
  
             for key1,value1 in pairs(self.vitaFilters) do
@@ -86,9 +79,6 @@ function GameController()
                     insertTable(self.regions, gameObject.region)
                 end
             end
-            --~ renderDebug ()
-			--~ screenFlip()
-			--~ buttons.waitforkey() 
         end
     end
 

@@ -7,16 +7,23 @@
 function InputManager()
     local self = {}
 
+    -- touch
     self.shiftTFX = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
     self.shiftTFY = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
     self.tfX = {[1]=-1, [2]=-1, [3]=-1, [4]=-1, [5]=-1, [6]=-1}
     self.tfY = {[1]=-1, [2]=-1, [3]=-1, [4]=-1, [5]=-1, [6]=-1}
 
+    --local previousFState = {[1]="released", [2]="released", [3]="released", [4]="released", [5]="released", [6]="released"}
+    local previousFX = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
+    local previousFY = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
+
+    -- digital
     self.up = false
     self.down = false
     self.left = false
     self.right = false
 
+    -- analogic
     self.analogLUpPressed = false
     self.analogLUpReleased = true
 
@@ -28,50 +35,83 @@ function InputManager()
 
     self.analogRDownPressed = false
     self.analogRDownReleased = true
-    
-    --local categories = {"All"}
-    --local plateforms = {"All"}
-    
+
     local analogDeadzone = 30
 
-    local previousFState = {[1]="released", [2]="released", [3]="released", [4]="released", [5]="released", [6]="released"}
-    local previousFX = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
-    local previousFY = {[1]=0, [2]=0, [3]=0, [4]=0, [5]=0, [6]=0}
-
+    local repeatButton = timer.new()
+    repeatButton:start()
+    local repeatInterval = 150
     --buttons.interval(10, 7)
-    
-    --local timerDir = timer.new()
-    --local timerAnalogLeftDir = timer.new()
-    --local timerAnalogRightDir = timer.new()
 
     function self.update ( pAppInfos )
         buttons.read()
         touch.read()
+        
+        -- generic input action
+        self.genericInputAction()
 
+        -- compute digital state
+        self.computeDigital()
+
+        -- compute analog state
+        self.computeAnalog()
+
+        -- compute touch shift, ...
+        self.computeFTouch()
+    end
+
+    function self.genericInputAction()
         -- launching game
         if buttons.cross then
             --printScreen("Launching game : "..pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id, 400, 10)
             --launchGame(pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id)
             launchGame(gameController.currentApp.id)
         end
-        
-        if buttons.up then
-            --buttons.interval(10, 7)
-            self.up = true
+
+        -- exit app
+        if buttons.released.start then
+            os.exit()
+        end
+
+        -- manage debug level
+        if buttons.held.select then
+            mmi.debug = true
+        end
+
+        if buttons.released.select then
+            mmi.debug = false
+        end
+    end
+
+    function self.computeDigital()
+        --printScreen(tostring(repeatButton:time()), 30, 0)
+        if buttons.held.up then
+            if repeatButton:time() >= repeatInterval then
+                repeatButton:reset()
+                repeatButton:start()
+
+                self.up = true
+            else
+                self.up = false
+            end
         end
         
         if buttons.released.up then
-            --buttons.interval()
             self.up = false
         end
         
-        if buttons.down then
-            --buttons.interval(10, 7)
-            self.down = true            
+        if buttons.held.down then
+            if repeatButton:time() >= repeatInterval then
+                repeatButton:reset()
+                repeatButton:start()
+
+                self.down = true
+            else
+                self.down = false
+            end        
         end
 
         if buttons.released.down then
-            --buttons.interval()
             self.down = false
         end
 
@@ -80,7 +120,6 @@ function InputManager()
         end
 
         if buttons.released.left then
-            --buttons.interval()
             self.left = false
         end
         
@@ -89,10 +128,36 @@ function InputManager()
         end
 
         if buttons.released.right then
-            --buttons.interval()
             self.right = false
         end
+    end
+    
+    function self.computeFTouch ( )
+        for i=1,touch.front.count do
+            self.tfX[i] = touch.front[i].x
+            self.tfY[i] = touch.front[i].y
+            if touch.front[i].pressed == true then
+                previousFX[i] = self.tfX[i]
+                previousFY[i] = self.tfY[i]
+            elseif touch.front[i].released == true then
+                self.tfX[i] = -1
+                self.tfY[i] = -1
+                --
+                self.shiftTFX[i] = 0
+                self.shiftTFY[i] = 0
+            elseif touch.front[i].held == true then
+                -- compute shift
+                self.shiftTFX[i] = self.tfX[i] - previousFX[i]
+                self.shiftTFY[i] = self.tfY[i] - previousFY[i]
 
+                -- update previous coordinates
+                previousFX[i] = self.tfX[i]
+                previousFY[i] = self.tfY[i]
+            end
+        end
+    end
+
+    function self.computeAnalog ( )
         if buttons.analogly > analogDeadzone then -- left analog up
             if self.analogLUpReleased == true then
                 self.analogLUpPressed = true
@@ -140,57 +205,8 @@ function InputManager()
             self.analogRDownPressed = false
             self.analogRDownReleased = true
         end
-
-        -- compute touch shift, ...
-        --~ self.computeFTouch ()
-
-        -- exit app
-        if buttons.released.start then
-            os.exit()
-        end
-
-        -- manage debug level
-        if buttons.held.select then
-            mmi.debug = true
-        end
-
-        if buttons.released.select then
-            mmi.debug = false
-        end
     end
 
-    function self.computeFTouch ( )
-        for i=1,touch.front.count do
-            if buttons.touchf[i].moved == true then
-                if previousFState[i] == "released" then -- first touch, shift shall be equal to 0
-                    previousFX[i] = buttons.touchf[i].x
-                    previousFY[i] = buttons.touchf[i].y
-                end
-
-                -- set touch x and Y
-                self.tfX[i] = buttons.touchf[i].x
-                self.tfY[i] = buttons.touchf[i].y
-
-                -- compute shift
-                self.shiftTFX[i] = buttons.touchf[i].x - previousFX[i]
-                self.shiftTFY[i] = buttons.touchf[i].y - previousFY[i]
-
-                -- update previous coordinates
-                previousFX[i] = buttons.touchf[i].x
-                previousFY[i] = buttons.touchf[i].y
-
-                previousFState[i] = "moved"
-            else
-                self.tfX[i] = -1
-                self.tfY[i] = -1
-                
-                self.shiftTFX[i] = 0
-                self.shiftTFY[i] = 0
-
-                previousFState[i] = "released"
-            end
-        end
-    end
         
     -- return the instance
     return self
