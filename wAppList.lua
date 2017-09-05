@@ -46,10 +46,10 @@ function WAppList( pX, pY, pWidth, pHeight )
     local lineSeparator = 35
 
     -- launch button coordinates
-    local lbWidth = wWAppList / 3
-    local lbHeight = hWAppList / 2
-    local lbX = wWAppList - lbWidth - xShift
-    local lbY = yWAppList + (lbHeight / 2)
+    --local lbWidth = wWAppList / 3
+    --local lbHeight = hWAppList / 2
+    --local lbX = wWAppList - lbWidth - xShift
+    --local lbY = yWAppList + (lbHeight / 2)
 
     local nbAppDisplay = 0
 
@@ -70,12 +70,12 @@ function WAppList( pX, pY, pWidth, pHeight )
             self.displayList(sortedAppInfos)
 
             -- display the launch button
-            self.displayLaunchButton()
+            --self.displayLaunchButton()
         end
 
         if mmi.debug then
             drawRectangle(xWAppList, yWAppList+1, wWAppList, hWAppList-2, color.orange)
-            drawRectangle(lbX, lbY, lbWidth, lbHeight, color.orange)
+            --drawRectangle(lbX, lbY, lbWidth, lbHeight, color.orange)
         end
     end
 
@@ -192,19 +192,19 @@ function WAppList( pX, pY, pWidth, pHeight )
         gameController.setCurrentCategory(currentCatIndex)
     end
 
-    function self.displayLaunchButton ( )
-        local startupImage = gameController.currentApp.startupImage
-        if startupImage then
-            imageResize(startupImage, lbWidth, lbHeight) -- shall be scale in order to respect aspect ratio!!!
-            --imageScale(startupImage, 2.0)
-            imageBlit(startupImage, lbX, lbY)
+    --function self.displayLaunchButton ( )
+        --local startupImage = gameController.currentApp.startupImage
+        --if startupImage then
+            --imageResize(startupImage, lbWidth, lbHeight) -- shall be scale in order to respect aspect ratio!!!
+            ----imageScale(startupImage, 2.0)
+            --imageBlit(startupImage, lbX, lbY)
 
-             -- launch app if needed : shall be somewhere else, callback system??
-            if inputManager.tfX[1] > lbX and inputManager.tfX[1] < lbX + lbWidth and inputManager.tfY[1] > lbY and inputManager.tfY[1] < lbY + lbHeight then
-                launchGame(gameController.currentApp.id)
-            end
-        end
-    end
+             ---- launch app if needed : shall be somewhere else, callback system??
+            --if inputManager.tfX[1] > lbX and inputManager.tfX[1] < lbX + lbWidth and inputManager.tfY[1] > lbY and inputManager.tfY[1] < lbY + lbHeight then
+                --launchGame(gameController.currentApp.id)
+            --end
+        --end
+    --end
 
     function self.displayList ( pAppList )
         --local currentCategory = gameController.currentCategory 
@@ -293,21 +293,21 @@ function WAppList( pX, pY, pWidth, pHeight )
         end
 
         -- display region icon
-        local regionIcon = mmi.getRegionIcon(pAppObject.region)
-        imageBlit(regionIcon, pX + xShift, pY)
-        xShift = xShift + 40
+        --local regionIcon = mmi.getRegionIcon(pAppObject.region)
+        --imageBlit(regionIcon, pX + xShift, pY)
+        --xShift = xShift + 40
 
         -- display title
         local title = pAppObject.title
 
         -- reduce title if needed
-        local titleWidth = screen.textwidth(title, pFontSize)
-        if titleWidth + xShift > lbX then
-
-        end
+        --local titleWidth = screen.textwidth(title, pFontSize)
+        --if titleWidth + xShift > lbX then
+--
+        --end
         
         printScreen2(title, pX + xShift, pY, pFontSize, pFontColor)
-        xShift = xShift + titleWidth
+        --xShift = xShift + titleWidth
         
     end
     

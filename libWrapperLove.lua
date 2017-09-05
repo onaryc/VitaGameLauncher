@@ -1,10 +1,11 @@
 function splashScreen ()
-    splash.gekihen()
 end
 
 -- games
 function listGames ()
-	return game.list()
+    local gamesList = ""
+    
+	return gamesList
 end
 
 -- debug info
@@ -13,15 +14,16 @@ function printScreen ( pString, pX, pY )
         pString = "nil value"
     end
     
-    screen.print(pX,pY,pString) 
+    love.graphics.print(pString, pX, pY)
 end
 
 function printScreen2 ( pString, pX, pY, pSize, pColor )
     if pString == nil then
         pString = "nil value"
     end
-    
-    screen.print(pX,pY,pString, pSize, pColor)
+
+    -- missing print with color
+    love.graphics.print(pString, pX, pY, 0, pSize)
 end
 
 -- should not be here
@@ -47,7 +49,8 @@ function printAppTable ( pTable, pDebug )
 end
 
 function drawRectangle ( pX, pY, pWidth, pHeight, pColor )
-    draw.rect(pX, pY, pWidth, pHeight, pColor)
+    -- missing print with color
+    love.graphics.rectangle(line, pX, pY, pWidth, pHeight )
 end
 
 function screenFlip ()
@@ -210,9 +213,7 @@ end
 
 -- ftp
 function ftpInit ()
-    ftp.init()
 end
 
 function ftpTerm ()
-    ftp.term()
 end

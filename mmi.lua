@@ -33,9 +33,16 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
     -- app list coordinates
     local appListX = 1
     local appListY = sysInfoHeight
-    local appListWidth = self.screenWidth - appListX
+    --local appListWidth = self.screenWidth - appListX
+    local appListWidth = self.screenWidth * (2 / 3)
     local appListHeight = self.screenHeight - sysInfoHeight - appInfoHeight
 
+    -- app launch coordinates
+    local appLaunchWidth = self.screenWidth / 3
+    local appLaunchHeight = self.screenHeight / 2
+    local appLaunchX = appListWidth
+    local appLaunchY = sysInfoHeight + (appLaunchHeight / 4)
+    
     function self.initialization ( )
         --splashScreen()
         loadpalette()
@@ -48,6 +55,7 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
         wAppInfo = WAppInfo(appInfoX, appInfoY, appInfoWidth, appInfoHeight)
         wBackground = WBackground(100)
         wAppList = WAppList(appListX, appListY, appListWidth, appListHeight)
+        wAppLaunch = WAppLaunch(appLaunchX, appLaunchY, appLaunchWidth, appLaunchHeight)
 
         -- mmi icons
         self.initCategoryIcons()
@@ -80,6 +88,7 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
 
         wBackground.update("appBackground")
         wAppList.update()
+        wAppLaunch.update()
         wSystemInfo.update()
         wAppInfo.update()
 

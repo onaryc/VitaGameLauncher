@@ -1,3 +1,28 @@
+-- tool files
+dofile(app0.."slaxml.lua")
+dofile(app0.."tools.lua")
+dofile(app0.."sfoTools.lua")
+
+-- model files
+dofile(app0.."gameObject.lua")
+dofile(app0.."gameVitaObject.lua")
+dofile(app0.."gameRomObject.lua")
+
+-- controllers file
+--dofile(app0.."buttonController.lua")
+dofile(app0.."gameController.lua")
+dofile(app0.."ftpController.lua")
+
+dofile(app0.."inputManager.lua")
+
+-- view/widget files
+dofile(app0.."wSystemInfo.lua")
+dofile(app0.."wAppInfo.lua")
+dofile(app0.."wBackground.lua")
+dofile(app0.."wAppList.lua")
+dofile(app0.."wAppLaunch.lua")
+dofile(app0.."mmi.lua")
+
 function main ( )
     --~ splashScreen()
 	initDebug()
