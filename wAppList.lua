@@ -155,7 +155,7 @@ function WAppList( pX, pY, pWidth, pHeight )
 
         gameController.indexByContext[currentPlateform][currentCategory] = currentAppIndex
 
-        gameController.currentApp = pAppList[currentAppIndex]
+        gameController.setCurrentApp (pAppList[currentAppIndex])
 
         -- plateform selection
         if inputManager.analogLUpPressed then
@@ -247,7 +247,7 @@ function WAppList( pX, pY, pWidth, pHeight )
         
         -- display the selection
         y = currentY
-        self.printLine (gameController.currentApp, currentX, y, selectionSize, selectionColor)
+        self.printLine (gameController.getCurrentApp(), currentX, y, selectionSize, selectionColor)
         nbAppDisplay = nbAppDisplay + 1
         
         -- display the list above the selection

@@ -21,7 +21,7 @@ function GameVitaObject( pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate
             self.computeVitaDumper()
         end
 
-        self.initialization2()
+        --self.initialization2()
     end
     
     function self.computeVitaRegion ( )

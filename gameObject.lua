@@ -15,108 +15,60 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
 
     -- background image (use by wBackground)
     self.appBgImage = nil
-    --self.plateformBgImage = nil
-    --self.categoryBgImage = nil
-
-    -- plateform icon (use by wApplist)
-    --self.plateformIcon = nil
-    --self.regionIcon = nil
 
     -- startup image (use by wApplist)
     self.startupImage = nil
 
-    function self.initialization2 ()
+    function self.loadData ()
         self.appBgImage = self.computeAppBgImage()
-        --self.plateformBgImage = self.computePlateformBgImage()
-        --self.categoryBgImage = self.computeCategoryImage()
-        --
-        --self.plateformIcon = self.computePlateformIcon()
 
-        self.startupImage = self.computeStartupImage()
+        self.startupImage = self.computeAppStartupImage()
     end
-    
-    --function self.computePlateformBgImage( )
-        --local bgImage = nil
 
-        --local bgFile = nil
-        --if self.plateform then
-            --bgFile = app0.."images/"..self.plateform.."BG.png"
-        --end
-        
-        ----if not filesExists(bgFile) then
-            ----bgFile = app0.."images/missing.png"
-        ----end
-        
-        --if filesExists(bgFile) then
-            --bgImage = imageLoad(bgFile)
-        --end
+    function self.freeData ()
+        self.appBgImage = nil
 
-        --return bgImage
-    --end
-    
-    --function self.computePlateformIcon( )
-        --local bgImage = nil
-
-        --local bgFile = nil
-        --if self.plateform then
-            --bgFile = app0.."images/"..self.plateform..".png"
-        --end
-        
-        ----if not filesExists(bgFile) then
-            ----bgFile = app0.."images/iconError.png"
-        ----end
-        
-        --if filesExists(bgFile) then
-            --bgImage = imageLoad(bgFile)
-        --end
-
-        --return bgImage
-    --end
+        self.startupImage = nil
+    end
 
     function self.computeAppBgImage ( )
         local bgImage = nil
 
-        local bgFile = nil
+        local bgImageFile = ""
+
         if self.plateform == "PSVita" then
-            bgFile = self.path.."/sce_sys/pic0.png"
+            bgImageFile = "ur0:appmeta/"..self.id.."/pic0.png"
         else
             if self.title and self.plateform then
-                bgFile = app0.."images/"..self.plateform.."/"..self.title..".png"
+                bgImageFile = app0.."images/"..self.plateform.."/"..self.title..".png"
             end
         end
         
-        --if not filesExists(bgFile) then
-            --bgFile = app0.."images/missing.png"
-        --end
-        
-        if filesExists(bgFile) then
-            bgImage = imageLoad(bgFile)
+        if filesExists(bgImageFile) then
+            bgImage = image.load(bgImageFile)
         end
 
         return bgImage
     end
     
-    function self.computeStartupImage ( )
-        local bgImage = nil
+    function self.computeAppStartupImage ( )
+        local startUpImage = nil
 
-        local bgFile = nil
+        local startUpImageFile = nil
         if self.plateform == "PSVita" then
-            bgFile = self.path.."/sce_sys/icon0.png"
+            startUpImageFile = "ur0:appmeta/"..self.id.."/icon0.png"
+            --bgFile = self.path.."/sce_sys/icon0.png"
         else
             if self.title and self.plateform then
-                bgFile = app0.."images/"..self.plateform.."/"..self.title..".png"
+                startUpImageFile = app0.."images/"..self.plateform.."/"..self.title..".png"
             end
         end
-
-        --if not filesExists(bgFile) then
-            --bgFile = app0.."images/missing.png"
-        --end
         
-        if filesExists(bgFile) then
-            bgImage = imageLoad(bgFile)
+        if filesExists(startUpImageFile) then
+            startUpImage = imageLoad(startUpImageFile)
         end
 
-        return bgImage
+        return startUpImage
     end
     
     --function self.computeCategoryImage ( )

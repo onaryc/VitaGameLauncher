@@ -94,6 +94,9 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
 
         -- specific debug info
         if self.debug  == true then
+            local threadID = gameController.getRefreshThread ()
+            printScreen (tostring(threadID).." status: "..tostring(threadID:state()), 1, 1)
+            printScreen (tostring(thread.geterror(threadID)), 1, 30)
             --local fps = screen.fps()
             --printScreen (tostring(fps), 1, 1)
             --printScreen ("App index : "..tostring(pCurrentAppIndex), 100, 100)

@@ -9,10 +9,8 @@ dofile(app0.."gameVitaObject.lua")
 dofile(app0.."gameRomObject.lua")
 
 -- controllers file
---dofile(app0.."buttonController.lua")
 dofile(app0.."gameController.lua")
 dofile(app0.."ftpController.lua")
-
 dofile(app0.."inputManager.lua")
 
 -- view/widget files

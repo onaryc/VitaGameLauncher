@@ -11,7 +11,7 @@ function GameRomObject( pPlateform, pFilename, pPath, pTitle, pRegion, pVersion,
         self.region = self.computeRomRegion()
         self.version = self.computeRomVersion()
 
-        self.initialization2()
+        --self.initialization2()
     end
     
     function self.computeRomTitle( )
