@@ -1,0 +1,9 @@
+* instead of loading the background image into the ram, load it the the video ram
+* instead of creating the game background image at initialization step, try to create it only when the image has to be diplayed : can be slow, perhaps the vram loading can help
+* add a new widget : nes mini style app list
+* add a new widget : app contextual info, use the view and modify them (category, ...)
+* support for retroarch
+* support for game homebrew
+* seriliaze game info, use to
+* implement the scroll text for the appList
+
