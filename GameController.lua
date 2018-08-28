@@ -20,8 +20,7 @@ function GameController()
     self.indexByContext = {}
 
     self.loadBGImageTimer = timer.new()
-    self.loadBGImageTimer:start()
-    --local refreshAppDataThread = nil
+    self.loadBGImageTimer:reset()
 
     function self.initIndex()
         -- intialize a list which contains current app index for each category
@@ -219,57 +218,28 @@ function GameController()
     end
 
     function self.setCurrentApp ( pCurrentApp )
-        if self.previousApp != nil then
-            -- test if the new value is indeed different from the previous one
-            if pCurrentApp != self.previousApp then
-                self.previousApp = self.currentApp
-                self.currentApp = pCurrentApp
+        -- initialize values
+        if self.previousApp == nil then
+            self.previousApp = self.currentApp
+            self.currentApp = pCurrentApp
+        end
 
-                -- recompute app data in order to preserve memory
-                self.previousApp.freeData()
-                --local chTo = channel.new("toLoadAppData")
-                --local chFrom = channel.new("fromLoadAppData")
-                --if not chTo or not chFrom then
-                    --error("Can not create canal! :(")
-                --else
-                    --refreshAppDataThread = thread.new("loadAppData.lua")
-                    --channel.push(chTo,self.currentApp.id)
-                    --local bgImage = channel.pop(chFrom)
-                    --self.currentApp.appBgImage = bgImage
-                --end
-
-                if self.loadBGImageTimer:time() >= 200 then
-                    self.currentApp.loadData()
-                    self.loadBGImageTimer:reset()
-                    self.loadBGImageTimer:start()
-                end
-            end
-        else
+        -- test if the new value is indeed different from the previous one
+        if pCurrentApp != self.previousApp then
+            self.loadBGImageTimer:reset()
+            self.loadBGImageTimer:start()
+        
             self.previousApp = self.currentApp
             self.currentApp = pCurrentApp
 
             -- recompute app data in order to preserve memory
-            --local chTo = channel.new("toLoadAppData")
-            --local chFrom = channel.new("fromLoadAppData")
-            --if not chTo or not chFrom then
-                --error("Can not create canal! :(")
-            --else
-                --refreshAppDataThread = thread.new("loadAppData.lua")
-                --channel.push(chTo,self.currentApp.id)
-                --local bgImage = channel.pop(chFrom)
-                --self.currentApp.appBgImage = bgImage
-            --end
-            if self.loadBGImageTimer:time() >= 200 then
+            self.previousApp.freeData()
+        else
+            if self.loadBGImageTimer:time() >= 300 then
                 self.currentApp.loadData()
-                self.loadBGImageTimer:reset()
-                self.loadBGImageTimer:start()
+                self.loadBGImageTimer:reset() -- if the timer is not reset, the data are continusly loaded
             end
         end
-
-        --if hand and thread.state(hand) == -1 then
-            --screen.print(10,50,"MSG Error Thread:",1,color.white,color.black)
-            --screen.print(10,70,tostring(thread.geterror(hand)),1,color.white,color.black)
-        --end
     end
 
     function self.setCurrentPlateform ( pIndex )
@@ -278,10 +248,6 @@ function GameController()
 
     function self.setCurrentCategory ( pIndex )
         self.currentCategory = self.categories[pIndex]
-    end
-
-    function self.getRefreshThread ()
-        return refreshAppDataThread
     end
     
     function self.writeToXml ()
