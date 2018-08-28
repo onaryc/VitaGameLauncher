@@ -38,10 +38,11 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
     local appListHeight = self.screenHeight - sysInfoHeight - appInfoHeight
 
     -- app launch coordinates
-    local appLaunchWidth = self.screenWidth / 3
-    local appLaunchHeight = self.screenHeight / 2
-    local appLaunchX = appListWidth
-    local appLaunchY = sysInfoHeight + (appLaunchHeight / 4)
+    local appLaunchWidth = self.screenWidth / 4
+    --local appLaunchHeight = self.screenHeight / 2
+    local appLaunchHeight = appLaunchWidth
+    local appLaunchX = self.screenWidth - appLaunchWidth - 20
+    local appLaunchY = sysInfoHeight + ((self.screenHeight - sysInfoHeight - appInfoHeight) / 2) - appLaunchHeight / 2
     
     function self.initialization ( )
         --splashScreen()

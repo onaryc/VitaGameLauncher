@@ -44,9 +44,8 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
             end
         end
         
-        if filesExists(bgImageFile) then
-            bgImage = image.load(bgImageFile)
-        end
+        bgImage = imageLoad(bgImageFile)
+        --bgImage = game.bg0("ux0:/app/"..self.id)
 
         return bgImage
     end
@@ -55,18 +54,17 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
         local startUpImage = nil
 
         local startUpImageFile = nil
+        
         if self.plateform == "PSVita" then
             startUpImageFile = "ur0:appmeta/"..self.id.."/icon0.png"
-            --bgFile = self.path.."/sce_sys/icon0.png"
         else
             if self.title and self.plateform then
                 startUpImageFile = app0.."images/"..self.plateform.."/"..self.title..".png"
             end
         end
         
-        if filesExists(startUpImageFile) then
-            startUpImage = imageLoad(startUpImageFile)
-        end
+        startUpImage = imageLoad(startUpImageFile)
+        --startUpImage = game.startup("ux0:/app/"..self.id)
 
         return startUpImage
     end
