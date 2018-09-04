@@ -16,7 +16,7 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
     -- background image (use by wBackground)
     self.appBgImage = nil
 
-    -- startup image (use by wApplist)
+    -- startup image (use by WList)
     self.startupImage = nil
 
     function self.loadData ()
@@ -64,7 +64,7 @@ function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersio
         end
         
         startUpImage = imageLoad(startUpImageFile)
-        --startUpImage = game.startup("ux0:/app/"..self.id)
+        --startUpImage = game.startup("ur0:appmeta/"..self.id.."/")
 
         return startUpImage
     end

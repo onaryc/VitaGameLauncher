@@ -1,24 +1,26 @@
 -- display app background image
-function WBackground( pAlpha )
-    local self = {}
+function WBackground( pId, pX, pY, pWidth, pHeight, pAlpha, pDebugColor )
+    local self = WImage(pId, pX, pY, pWidth, pHeight, "", pAlpha, pDebugColor)
 
-    local alpha = pAlpha
-
+    local baseUpdate = self.update -- in order to reuse parent function
     function self.update( pType )
-        local bgImage = nil
+        self.image = nil
         
         local appObject = gameController.getCurrentApp()
         if appObject then
             if pType == "appBackground" then
-                bgImage = appObject.appBgImage
+                self.image = appObject.appBgImage
+                --if self.image != nil then
+                    --self.image = image.fxold(self.image)
+                --end
             elseif pType == "plateformBackground" then
-                bgImage = appObject.plateformBgImage
+                self.image = appObject.plateformBgImage
             elseif pType == "categoryBackground" then
-                bgImage = appObject.genreBgImage
+                self.image = appObject.genreBgImage
             end
         end
-        
-        imageBlit(bgImage, 0, 0, alpha)
+
+        baseUpdate()
     end
     
     -- return the instance

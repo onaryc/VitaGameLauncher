@@ -1,4 +1,4 @@
-function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
+function Mmi(pScreenWidth, pScreenHeight, pCategories, pPlateforms)
     local self = {}
 
     self.screenWidth = pScreenWidth
@@ -10,7 +10,6 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
     self.plateformIcons = {}
     self.categoryIcons = {}
 
-    local appInfos = pAppInfos
     local categories = pCategories
     local plateforms = pPlateforms
 
@@ -49,14 +48,15 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
         loadpalette()
 
         -- input manager
-        inputManager = InputManager()
+        --inputManager = InputManager()
 
+        -- profile loading
         -- widget creation
-        wSystemInfo = WSystemInfo(sysInfoX, sysInfoY, sysInfoWidth, sysInfoHeight)
-        wAppInfo = WAppInfo(appInfoX, appInfoY, appInfoWidth, appInfoHeight)
-        wBackground = WBackground(100)
-        wAppList = WAppList(appListX, appListY, appListWidth, appListHeight)
-        wAppLaunch = WAppLaunch(appLaunchX, appLaunchY, appLaunchWidth, appLaunchHeight)
+        wSystemInfo = WSystemInfo("sysInfo", sysInfoX, sysInfoY, sysInfoWidth, sysInfoHeight, color.yellow)
+        wAppInfo = WAppInfo("appInfo", appInfoX, appInfoY, appInfoWidth, appInfoHeight, color.blue)
+        wBackground = WBackground("appBackground", 0, 0, self.screenWidth, self.screenHeight, 100, "")
+        wList = WList("appList", appListX, appListY, appListWidth, appListHeight, "center", 10, color.orange, 1.2, color.white, 1.2, 35, color.orange)
+        wAppLaunch = WAppLaunch("appLaunch", appLaunchX, appLaunchY, appLaunchWidth, appLaunchHeight, color.orange)
 
         -- mmi icons
         self.initCategoryIcons()
@@ -84,11 +84,8 @@ function Mmi(pScreenWidth, pScreenHeight, pAppInfos, pCategories, pPlateforms)
 
 
     function self.update( )
-        -- global input management
-        inputManager.update(appInfos)
-
         wBackground.update("appBackground")
-        wAppList.update()
+        wList.update()
         wAppLaunch.update()
         wSystemInfo.update()
         wAppInfo.update()

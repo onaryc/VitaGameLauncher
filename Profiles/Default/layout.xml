@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<profile name="test">
+    <WSystemInfo id="sysInfo" x="1" y="1" w="960" h="40" debugColor="yellow"/>
+    <WAppInfo id="appInfo" x="1" y="484" w="960" h="60" debugColor="blue"/>
+    <WBackground id="appBackground" x="0" y="0" w="960" h="544" alpha="100" debugColor=""/>
+    <WList id="appList" x="1" y="40" w="629" h="444" mode="center" xIdent="10" selectionColor="orange" selectionSize="1.2" fontColor="white" fontSize="1.2" lineSeparator="35" debugColor="orange"/>
+    <WAppLaunch id="appLaunch" x="700" y="142" w="240" h="240" debugColor="orange"/>
+</profile>

@@ -1,37 +1,17 @@
-function WAppLaunch ( pX, pY, pWidth, pHeight )
-    local self = {}
+function WAppLaunch ( pId, pX, pY, pWidth, pHeight, pDebugColor )
+    local self = WButton(pId, pX, pY, pWidth, pHeight, "", "circle", 5, pDebugColor)
 
-    local lbWidth = pWidth
-    local lbHeight = pHeight
-    local lbX = pX
-    local lbY = pY
-    
+    local baseUpdate = self.update -- in order to reuse parent function
     function self.update ( )
-        local startupImage = gameController.getCurrentApp().startupImage
-        if startupImage then
-            imageResize(startupImage, lbWidth, lbHeight) -- shall be scale in order to respect aspect ratio!!!
-            --imageScale(startupImage, 2.0)
-            --screen.clip(lbX,lbY, 128/2)
-            local minLength = math.min(lbWidth,lbHeight)
-            local clipRadius = minLength / 2
-            local clipX = lbX + clipRadius
-            local clipY = lbY + clipRadius
+        self.image = gameController.getCurrentApp().startupImage
+        
+        baseUpdate()
 
-            draw.circle(clipX, clipY, clipRadius+5, color.gray, 30)
-            
-            screen.clip(clipX, clipY, clipRadius)
-            imageBlit(startupImage, lbX, lbY)
-            screen.clip()
-
-             -- launch app if needed : shall be somewhere else, callback system??
-            if (inputManager.tfX[1] > lbX) and (inputManager.tfX[1] < lbX + lbWidth) and (inputManager.tfY[1] > lbY) and (inputManager.tfY[1] < lbY + lbHeight) then
-                launchGame(gameController.getCurrentApp().id)
-            end
+        -- launch app if needed : shall be somewhere else, callback system??
+        if (inputManager.tfX[1] > self.x) and (inputManager.tfX[1] < self.x + self.w) and (inputManager.tfY[1] > self.y) and (inputManager.tfY[1] < self.y + self.h) then
+            launchGame(gameController.getCurrentApp().id)
         end
-
-        if mmi.debug then
-            drawRectangle(lbX, lbY, lbWidth, lbHeight, color.orange)
-        end
+        
     end
     
     return self

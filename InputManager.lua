@@ -72,7 +72,9 @@ function InputManager()
         if buttons.cross then
             --printScreen("Launching game : "..pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id, 400, 10)
             --launchGame(pAppInfos[self.currentPlateform][self.currentCategory][currentAppIndex].id)
-            launchGame(gameController.currentApp.id)
+            if gameController.currentApp != nil then
+                launchGame(gameController.currentApp.id)
+            end
         end
 
         -- exit app

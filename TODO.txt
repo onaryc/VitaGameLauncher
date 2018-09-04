@@ -1,9 +1,21 @@
-* instead of loading the background image into the ram, load it the the video ram
-* instead of creating the game background image at initialization step, try to create it only when the image has to be diplayed : can be slow, perhaps the vram loading can help
+INTERFACE
 * add a new widget : nes mini style app list
 * add a new widget : app contextual info, use the view and modify them (category, ...)
-* support for retroarch
-* support for game homebrew
-* seriliaze game info, use to
 * implement the scroll text for the appList
+* add the battery percentage near the icon
+* manage the widget list and location through an xml file
+* add an option widget : configuration of Vita Game Manager
 
+GAME SUPPORT
+* add support for oldies thanks to retroarch
+* add support for game homebrew
+* add support for PSP and PSX games
+
+GAME FEATURE
+* add an option to move game from ux0 to uma0 and vice versa (game.move, check if the new partiton has enough space)
+* add an option to delete a game (game.delete, add a warning)
+* seriliaze game info, which will be loaded at initializion time (really necessary? can be if the game list is huge?)
+
+OTHER
+* change the name to Vita Game Manager
+* add an ini file

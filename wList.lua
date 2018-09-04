@@ -1,6 +1,7 @@
 -- display a list of app name
 -- TODO :
 
+-- * separate the pure list features in WList (in order to reuse it) and the app specific parts in WAppList
 -- * scrollbar ?
 -- * sort by name, release date, ... => ask the gameController
 
@@ -8,54 +9,35 @@
 -- * center the selection!!!
 -- * highlight selection
 
-function WAppList( pX, pY, pWidth, pHeight )
-    local self = {}
+function WList( pId, pX, pY, pWidth, pHeight, pMode, pXIndent, pSelectionColor, pSelectionSize, pFontColor, pFontSize, pLineSeparator, pDebugColor )
+    local self = Widget(pId, pX, pY, pWidth, pHeight, pDebugColor)
 
-    local mode = "center" -- center, scroll
+    -- public variables
+    self.mode = pMode -- center, scroll
+    self.xIndent = pXIndent
+    self.selectionColor = pSelectionColor
+    self.selectionSize = pSelectionSize
+    --self.listFontColor = color.blue
+    self.listFontColor = pFontColor
+    self.listFontSize = pFontSize
+    self.lineSeparator = pLineSeparator
     
-    -- list widget coordinates
-    local xWAppList = pX
-    local yWAppList = pY
-    local wWAppList = pWidth
-    local hWAppList = pHeight
-
-    local xShift = 10
-    local yShift = 10
-
     -- list coordinates/move/font/color
-    local xList = xWAppList + xShift
-    --local yList = yWAppList + yShift
-    local yList = yWAppList
-    local wList = wWAppList
-    local hList = hWAppList
-
-    local initListY = yList
-    if mode == "center" then
-        initListY = yList + hWAppList / 2
+    local initListY = self.y
+    if self.mode == "center" then
+        initListY = self.y + self.h / 2
     end
     
-    local currentX = xList
+    local currentX = self.x + self.xIndent
     local currentY = initListY
     local cumulateY = 0
-
-    local selectionColor = color.orange
-    local selectionSize = 1.2
-    --local listFontColor = color.blue
-    local listFontColor = color.white
-    local listFontSize = 1.2
-    local lineSeparator = 35
-
-    -- launch button coordinates
-    --local lbWidth = wWAppList / 3
-    --local lbHeight = hWAppList / 2
-    --local lbX = wWAppList - lbWidth - xShift
-    --local lbY = yWAppList + (lbHeight / 2)
 
     local nbAppDisplay = 0
 
     local currentCatIndex = 1
     local currentPlateformIndex = 1
 
+    local baseUpdate = self.update -- in order to reuse parent function
     function self.update ( )
         local currentCategory = gameController.currentCategory 
         local currentPlateform = gameController.currentPlateform
@@ -68,15 +50,13 @@ function WAppList( pX, pY, pWidth, pHeight )
             
             -- display the list
             self.displayList(sortedAppInfos)
-
-            -- display the launch button
-            --self.displayLaunchButton()
         end
 
-        if mmi.debug then
-            drawRectangle(xWAppList, yWAppList+1, wWAppList, hWAppList-2, color.orange)
-            --drawRectangle(lbX, lbY, lbWidth, lbHeight, color.orange)
-        end
+        baseUpdate()
+        --if mmi.debug then
+            --drawRectangle(self.x, self.y+1, self.w, self.h-2, color.orange)
+            ----drawRectangle(lbX, lbY, lbWidth, lbHeight, color.orange)
+        --end
     end
 
     function self.updateCurrentSelection ( pAppList )
@@ -89,7 +69,7 @@ function WAppList( pX, pY, pWidth, pHeight )
         local currentAppIndex = gameController.getCurrentIndex()
         
         -- limit end and start of the list
-        if mode != "center" then
+        if self.mode != "center" then
             currentY = currentY + inputManager.shiftTFY[1]
         end
 
@@ -108,7 +88,7 @@ function WAppList( pX, pY, pWidth, pHeight )
         end
         
         -- change app selection
-        if math.abs(cumulateY) > lineSeparator then
+        if math.abs(cumulateY) > self.lineSeparator then
             if cumulateY < 0 then
                 currentAppIndex = currentAppIndex + 1
                 if currentAppIndex > nbAppInfo then
@@ -228,15 +208,15 @@ function WAppList( pX, pY, pWidth, pHeight )
                 break
             end
             
-            y = currentY - cpt * lineSeparator
+            y = currentY - cpt * self.lineSeparator
 
             -- if there is no space left on the screen, exit
-            if y < yList then
+            if y < self.y then
                 break
             end
 
             -- print the app line
-            self.printLine (appObject, currentX, y, listFontSize, listFontColor)
+            self.printLine (appObject, currentX, y, self.listFontSize, self.listFontColor)
 
             -- update the counters
             i = i - 1
@@ -247,7 +227,7 @@ function WAppList( pX, pY, pWidth, pHeight )
         
         -- display the selection
         y = currentY
-        self.printLine (gameController.getCurrentApp(), currentX, y, selectionSize, selectionColor)
+        self.printLine (gameController.getCurrentApp(), currentX, y, self.selectionSize, self.selectionColor)
         nbAppDisplay = nbAppDisplay + 1
         
         -- display the list above the selection
@@ -261,15 +241,15 @@ function WAppList( pX, pY, pWidth, pHeight )
                 break
             end
             
-            y = currentY + cpt * lineSeparator
+            y = currentY + cpt * self.lineSeparator
 
             -- if there is no space left on the screen, exit
-            if y > hList + yList then
+            if y > self.h + self.y then
                 break
             end
 
             -- print the app line
-            self.printLine (appObject, currentX, y, listFontSize, listFontColor)
+            self.printLine (appObject, currentX, y, self.listFontSize, self.listFontColor)
 
             -- update the counters
             i = i + 1

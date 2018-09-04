@@ -1,11 +1,7 @@
-function WSystemInfo( pX, pY, pWidth, pHeight )
-    local self = {}
+function WSystemInfo( pId, pX, pY, pWidth, pHeight, pDebugColor )
+    local self = Widget(pId, pX, pY, pWidth, pHeight, pDebugColor)
 
-    -- private variables
-    local width = pWidth -1
-    local height = pHeight
-    local xULP = 1
-    local yULP = 1
+    --~ self.w = self.w - 1
 
     local batteryWidth = 50
 
@@ -38,12 +34,14 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
     }
 
     local ftpImage = imageLoad(app0.."images/ftp.png")
-    
+
+    local baseUpdate = self.update -- in order to reuse parent function
     function self.update( pDebug )
-        if mmi.debug == true then
-            draw.fillrect(xULP, yULP, width, height, color.black)  
-            drawRectangle(xULP, yULP, width, height, color.yellow)
-        end
+        baseUpdate()
+        --if mmi.debug == true then
+            --draw.fillrect(self.x, self.y, self.w, self.h, color.black)  
+            --drawRectangle(self.x, self.y, self.w, self.h, color.yellow)
+        --end
 
         -- battery info
         self.batteryDisplay()
@@ -65,7 +63,7 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
         local textWidth = screen.textwidth(currentTime)
 
         -- center the time in the upper part of the screen
-        local x = width / 2 - textWidth / 2
+        local x = self.w / 2 - textWidth / 2
         local y = 10
 
         printScreen (tostring(currentTime), x, y)
@@ -75,7 +73,7 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
         local ftpState = ftp.state()
 
         if ftpState then
-            local x = width - batteryWidth - 30
+            local x = self.w - batteryWidth - 30
             local y = 10
 
             imageBlit(ftpImage, x, y)
@@ -129,15 +127,11 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
             battery.anim = math.floor(-5 * batteryCharge + 5)
 
             --local x = screenWidth - imgWidth - 10
-            local x = width - batteryWidth
+            local x = self.w - batteryWidth
             local y = 10
 
             spriteBlit(battery.sprite,x,y,battery.anim)
             spriteBlit(spriteTmp,x,y,anim)
-
-            if mmi.debug then
-
-            end
         end
     end
     
@@ -160,7 +154,7 @@ function WSystemInfo( pX, pY, pWidth, pHeight )
             local imgWidth = imageGetWidth(imgTmp)
             local imgHeight = imageGetHeight(imgTmp)
 
-            local x = width - imgWidth - 10
+            local x = self.w - imgWidth - 10
             local y = 10
             local xi = 0
             local yi = 0

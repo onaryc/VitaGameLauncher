@@ -1,28 +1,23 @@
 -- display app information on the screen : version, region, genre, ...
-function WAppInfo( pX, pY, pWidth, pHeight )
-    local self = {}
-
-    local width = pWidth
-    local height = pHeight
-    
-    local xULP = pX
-    local yULP = pY
+function WAppInfo( pId, pX, pY, pWidth, pHeight, pDebugColor )
+    local self = Widget(pId, pX, pY, pWidth, pHeight, pDebugColor)
 
     local xPart = {}
     local yPart = {}
     local nbPart = 4
-    local partWidth = width / nbPart
+    local partWidth = self.w / nbPart
     
     function self.initialization ()
         --part coordaintes
-        xPart[1] = xULP
-        yPart[1] = yULP
+        xPart[1] = self.x
+        yPart[1] = self.y
         for i=2,nbPart do
             xPart[i] = (i - 1) * partWidth
-            yPart[i] = yULP
+            yPart[i] = self.y
         end
     end
-    
+
+    local baseUpdate = self.update -- in order to reuse parent function
     function self.update( )
         local appInfos = gameController.appInfos 
 
@@ -32,12 +27,12 @@ function WAppInfo( pX, pY, pWidth, pHeight )
         local appObject = gameController.getCurrentApp()
         if appObject then
             if mmi.debug == true then
-                --printScreen("Game Selected : "..pAppInfos[pCurrentAppIndex].id, xULP, yULP)
-                --printScreen("Game Path : "..pAppInfos[pCurrentAppIndex].path, xULP, yULP + 20)
+                --printScreen("Game Selected : "..pAppInfos[pCurrentAppIndex].id, self.x, self.y)
+                --printScreen("Game Path : "..pAppInfos[pCurrentAppIndex].path, self.x, self.y + 20)
 
-                draw.fillrect(xULP, yULP, width, height, color.black)
+                draw.fillrect(self.x, self.y, self.w, self.h, color.black)
                 for i=1,nbPart do
-                    drawRectangle(xPart[i], yPart[i], partWidth, height, color.blue)
+                    drawRectangle(xPart[i], yPart[i], partWidth, self.h, self.debugColor)
                 end
 
                 printScreen(appObject.plateform, xPart[1], yPart[1])
@@ -53,7 +48,7 @@ function WAppInfo( pX, pY, pWidth, pHeight )
             end
             
             local xShift = 0
-            local yShift = height / 2
+            local yShift = self.h / 2
             
             -- display plateform icon
             local plateformIcon = mmi.getPlateformeIcon(appObject.plateform)

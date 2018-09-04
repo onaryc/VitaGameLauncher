@@ -20,10 +20,39 @@ indent_mode=2
 [project]
 name=VGL
 base_path=T:\\Projets\\VitaGameLauncher
+description=
 
 [long line marker]
 long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=0
+current_page=27
+FILE_NAME_0=22;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FftpController.lua;0;4
+FILE_NAME_1=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FGameController.lua;0;4
+FILE_NAME_2=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FgameObject.lua;0;4
+FILE_NAME_3=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FgameRomObject.lua;0;4
+FILE_NAME_4=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FgameVitaObject.lua;0;4
+FILE_NAME_5=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FiniController.lua;0;4
+FILE_NAME_6=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FiniFile.lua;0;4
+FILE_NAME_7=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FInputManager.lua;0;4
+FILE_NAME_8=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FlibWrapper.lua;0;4
+FILE_NAME_9=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FlibWrapperLove.lua;0;4
+FILE_NAME_10=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FlibWrapperOne.lua;0;4
+FILE_NAME_11=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FlibWrapperOther.lua;0;4
+FILE_NAME_12=1071;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2Fmain.lua;0;4
+FILE_NAME_13=1712;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2Fmmi.lua;0;4
+FILE_NAME_14=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2Fscript.lua;0;4
+FILE_NAME_15=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FsfoTools.lua;0;4
+FILE_NAME_16=280;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2Fslaxml.lua;0;4
+FILE_NAME_17=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2Ftools.lua;0;4
+FILE_NAME_18=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FwAppInfo.lua;0;4
+FILE_NAME_19=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FwAppLaunch.lua;0;4
+FILE_NAME_20=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FwBackground.lua;0;4
+FILE_NAME_21=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FWButton.lua;0;4
+FILE_NAME_22=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FWidget.lua;0;4
+FILE_NAME_23=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FWImage.lua;0;4
+FILE_NAME_24=0;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FwList.lua;0;4
+FILE_NAME_25=147;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FwSystemInfo.lua;0;4
+FILE_NAME_26=118;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FWProfile.lua;0;4
+FILE_NAME_27=288;Lua;0;EUTF-8;0;1;0;%2Fmedia%2Fjerome%2FADeterminer%2FProjets%2FVitaGameLauncher%2FProfileControler.lua;0;4
