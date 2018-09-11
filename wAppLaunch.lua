@@ -1,5 +1,5 @@
-function WAppLaunch ( pId, pX, pY, pWidth, pHeight, pDebugColor )
-    local self = WButton(pId, pX, pY, pWidth, pHeight, "", "circle", 5, pDebugColor)
+function WAppLaunch ( pId, pParent, pX, pY, pWidth, pHeight, pDebugColor )
+    local self = WButton(pId, pParent, pX, pY, pWidth, pHeight, "", "circle", 5, pDebugColor)
 
     local baseUpdate = self.update -- in order to reuse parent function
     function self.update ( )

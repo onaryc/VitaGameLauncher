@@ -1,5 +1,5 @@
 function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersion, pDate, pDescription )
-    local self = {}
+    local self = VGLObject ()
 
     -- public variables
     self.plateform = pPlateform

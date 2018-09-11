@@ -1,5 +1,5 @@
-function WSystemInfo( pId, pX, pY, pWidth, pHeight, pDebugColor )
-    local self = Widget(pId, pX, pY, pWidth, pHeight, pDebugColor)
+function WSystemInfo( pId, pParent, pX, pY, pWidth, pHeight, pDebugColor )
+    local self = WFrame(pId, pParent, pX, pY, pWidth, pHeight, pDebugColor)
 
     --~ self.w = self.w - 1
 

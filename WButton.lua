@@ -1,5 +1,5 @@
-function WButton ( pId, pX, pY, pWidth, pHeight, pImage, pShape, pBordure, pDebugColor )
-    local self = Widget(pId, pX, pY, pWidth, pHeight, pDebugColor)
+function WButton ( pId, pParent, pX, pY, pWidth, pHeight, pImage, pShape, pBordure, pDebugColor )
+    local self = WFrame(pId, pParent, pX, pY, pWidth, pHeight, pDebugColor)
 
     -- public variables
     self.image = pImage

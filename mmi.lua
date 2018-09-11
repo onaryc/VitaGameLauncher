@@ -52,11 +52,14 @@ function Mmi(pScreenWidth, pScreenHeight, pCategories, pPlateforms)
 
         -- profile loading
         -- widget creation
-        wSystemInfo = WSystemInfo("sysInfo", sysInfoX, sysInfoY, sysInfoWidth, sysInfoHeight, color.yellow)
-        wAppInfo = WAppInfo("appInfo", appInfoX, appInfoY, appInfoWidth, appInfoHeight, color.blue)
-        wBackground = WBackground("appBackground", 0, 0, self.screenWidth, self.screenHeight, 100, "")
-        wList = WList("appList", appListX, appListY, appListWidth, appListHeight, "center", 10, color.orange, 1.2, color.white, 1.2, 35, color.orange)
-        wAppLaunch = WAppLaunch("appLaunch", appLaunchX, appLaunchY, appLaunchWidth, appLaunchHeight, color.orange)
+        profileController.evalProfile()
+        wMainFrame = WFrame("main", nil, 0, 0, self.screenWidth, self.screenHeight, color.yellow)
+        wGamesFrame = WFrame("games", wMainFrame, 0, 0, self.screenWidth, self.screenHeight, color.yellow)
+        wSystemInfo = WSystemInfo("sysInfo", wGamesFrame, sysInfoX, sysInfoY, sysInfoWidth, sysInfoHeight, color.yellow)
+        wAppInfo = WAppInfo("appInfo", wGamesFrame, appInfoX, appInfoY, appInfoWidth, appInfoHeight, color.blue)
+        wBackground = WBackground("appBackground", wGamesFrame, 0, 0, self.screenWidth, self.screenHeight, "appBackground", 100, "")
+        wList = WList("appList", wGamesFrame, appListX, appListY, appListWidth, appListHeight, "center", 10, color.orange, 1.2, color.white, 1.2, 35, color.orange)
+        wAppLaunch = WAppLaunch("appLaunch", wGamesFrame, appLaunchX, appLaunchY, appLaunchWidth, appLaunchHeight, color.orange)
 
         -- mmi icons
         self.initCategoryIcons()
@@ -84,29 +87,7 @@ function Mmi(pScreenWidth, pScreenHeight, pCategories, pPlateforms)
 
 
     function self.update( )
-        wBackground.update("appBackground")
-        wList.update()
-        wAppLaunch.update()
-        wSystemInfo.update()
-        wAppInfo.update()
-
-        -- specific debug info
-        if self.debug  == true then
-            --printScreen (tostring(threadID).." status: "..tostring(threadID:state()), 1, 1)
-            --printScreen (tostring(thread.geterror(threadID)), 1, 30)
-            --local fps = screen.fps()
-            --printScreen (tostring(fps), 1, 1)
-            --printScreen ("App index : "..tostring(pCurrentAppIndex), 100, 100)
-            --printScreen ("Current Plateform : "..tostring(pCurrentPlateform), 100, 120)
-            --printScreen ("Current Category : : "..tostring(pCurrentCategory), 100, 140)
-
-            --self.touchDebug()
-            --ramVal1, ramVal2, ramVal3, ramVal4 = os.ram()
-            --printScreen ("ramVal1 : "..tostring(ramVal1), 600, 100)
-            --printScreen ("ramVal2 : "..tostring(ramVal2), 600, 120)
-            --printScreen ("ramVal3 : "..tostring(ramVal3), 600, 140)
-            --printScreen ("ramVal4 : "..tostring(ramVal4), 600, 160)
-        end
+        wMainFrame.update()
 
         screenFlip()
     end
@@ -115,15 +96,6 @@ function Mmi(pScreenWidth, pScreenHeight, pCategories, pPlateforms)
         local regionIcon = nil    
 
         regionIcon = self.regionIcons[pRegion]
-        --if pRegion == "USA" then
-            --regionIcon = self.usaIcon
-        --elseif pRegion == "Japan" then
-            --regionIcon = self.japanIcon
-        --elseif pRegion == "Europe" then
-            --regionIcon = self.europeIcon
-        --elseif pRegion == "World" then
-            --regionIcon = self.worldIcon
-        --end
         
         return regionIcon
     end
@@ -132,12 +104,6 @@ function Mmi(pScreenWidth, pScreenHeight, pCategories, pPlateforms)
         local plateformIcon = nil    
 
         plateformIcon = self.plateformIcons[pPlateform]
-
-        --if pPlateform == "PSVita" then
-            --plateformIcon = self.vitaIcon
-        --elseif pPlateform == "snes" then
-            --plateformIcon = self.snesIcon
-        --end
         
         return plateformIcon
     end
@@ -146,35 +112,8 @@ function Mmi(pScreenWidth, pScreenHeight, pCategories, pPlateforms)
         local categoryIcon = nil    
 
         categoryIcon = self.categoryIcons[pCategory]
-        --if pCategory == "action" then
-            --categoryIcon = self.actionIcon
-        --elseif pCategory == "actionPlateformer" then
-            --categoryIcon = self.actionPlateformerIcon
-        --end
         
         return categoryIcon
-    end
-
-    function self.touchDebug( )
-        for i=1,6 do
-            printScreen2("+", buttons.touchf[i].x,buttons.touchf[i].y,1,touch_col[i]:a(touch_alfa_top[i]))
-
-            if buttons.touchf[i].moved then
-                touch_alfa_top[i] = 255
-            elseif touch_alfa_top[i] > 0 then
-                touch_alfa_top[i] -= 2
-            end
-        end
-
-        for i=1,4 do
-            printScreen2("X", buttons.touchb[i].x,buttons.touchb[i].y,1,touch_col[i]:a(touch_alfa_back[i]))
-
-            if buttons.touchb[i].moved then
-                touch_alfa_back[i] = 255
-            elseif touch_alfa_back[i] > 0 then
-                touch_alfa_back[i] -= 2
-            end
-        end
     end
 
     self.initialization()

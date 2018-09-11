@@ -9,8 +9,8 @@
 -- * center the selection!!!
 -- * highlight selection
 
-function WList( pId, pX, pY, pWidth, pHeight, pMode, pXIndent, pSelectionColor, pSelectionSize, pFontColor, pFontSize, pLineSeparator, pDebugColor )
-    local self = Widget(pId, pX, pY, pWidth, pHeight, pDebugColor)
+function WList( pId, pParent, pX, pY, pWidth, pHeight, pMode, pXIndent, pSelectionColor, pSelectionSize, pFontColor, pFontSize, pLineSeparator, pDebugColor )
+    local self = WFrame(pId, pParent, pX, pY, pWidth, pHeight, pDebugColor)
 
     -- public variables
     self.mode = pMode -- center, scroll

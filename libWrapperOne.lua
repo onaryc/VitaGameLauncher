@@ -197,7 +197,7 @@ function renderDebug ()
 end
 
 function clearDebug ()
-	console.clear(color.new())
+	console.clear(color.black)
 end
 
 function stateDebug ()

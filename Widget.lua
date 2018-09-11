@@ -1,5 +1,5 @@
 function Widget ( pId, pX, pY, pWidth, pHeight, pDebugColor )
-    local self = {}
+    local self = VGLObject ()
 
     -- public variables
     self.id = pId

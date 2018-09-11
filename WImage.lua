@@ -1,5 +1,5 @@
-function WImage ( pId, pX, pY, pWidth, pHeight, pImage, pAlpha, pDebugColor )
-    local self = Widget(pId, pX, pY, pWidth, pHeight, pDebugColor)
+function WImage ( pId, pParent, pX, pY, pWidth, pHeight, pImage, pAlpha, pDebugColor )
+    local self = WFrame(pId, pParent, pX, pY, pWidth, pHeight, pDebugColor)
 
     -- public variables
     self.image = pImage

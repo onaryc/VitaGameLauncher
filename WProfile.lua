@@ -10,7 +10,13 @@ function WProfile ( pName, pCommands )
 
     function self.eval( )
         for key,value in pairs(self.commands) do
-            local res = load(value)()
+            for key1,value1 in pairs(value) do
+                printDebug(key1.." = "..value1.." ")
+            end
+                printDebug("\n")
+            --printDebug("key "..key.."value "..value.."\n")
+            
+            --local res = load(value)()
             
         end
     end
