@@ -1,8 +1,8 @@
-function WFrame ( pId, pParent, pX, pY, pWidth, pHeight, pDebugColor )
-    local self = Widget(pId, pX, pY, pWidth, pHeight, pDebugColor)
+function WFrame ( pArg )
+    local self = Widget(pArg)
 
     -- public variables
-    self.parent = pParent
+    self.parent = pArg.frame
     self.children = {}
     
     function self.updateParent()

@@ -6,55 +6,10 @@ function ProfileController( pPath )
     self.profiles = {}
 
     local SLAXML = require 'slaxml'
-    --function self.profileParse( pXml )
-        --local profileCommands = {}
-        --local cmdString = ""
-        --local cmdAttributes = {}
-        --local firstTag = true
-        --local rootTag = ""
-        --local currentTag = ""
-        --local profileName = ""
-
-        --local builder = SLAXML:parser{
-            --startElement = function(name,nsURI) -- name is the opening tag
-                --currentTag = name
-                --if firstTag == true then
-                    --rootTag = name
-                    --firstTag = false
-                --end
-                
-                --if currentTag != rootTag then
-                    --cmdString = name.."("
-                --end
-            --end,
-            --attribute = function(name,value,nsURI) -- name : the attribute name, value : the attribute value
-                --if currentTag != rootTag then
-                    --table.insert(cmdAttributes, value)
-                --else
-                    --profileName = value
-                --end
-            --end,
-            --closeElement = function(name) -- name is the closing tag
-                --if currentTag != rootTag then
-                    --if cmdString != "" then
-                        --local attrStr = table.concat(cmdAttributes, ",")
-                        --cmdString = cmdString..attrStr..")"
-                        --printDebug("cmdString "..cmdString.."\n")
-                        --table.insert(profileCommands, cmdString)
-                    --end
-
-                    -- -- reinit values for further commands
-                    --cmdString = ""
-                    --cmdAttributes = {}
-                --end
-            --end,
-        --}
-        --builder:parse(pXml)
-        --return profileName, profileCommands
-    --end
     function self.profileParse( pXml )
         local profileCommands = {}
         local profileCommand = {}
+        local commandAttributes = {}
 
         local firstTag = true
         local rootTag = ""
@@ -75,19 +30,23 @@ function ProfileController( pPath )
             end,
             attribute = function(name,value,nsURI) -- name : the attribute name, value : the attribute value
                 if currentTag != rootTag then
-                    profileCommand[name] = value
+					--table.insert(commandAttributes, { name = name, value = value })
+					--table.insert(commandAttributes, name, value)
+                    commandAttributes[name] = value
                 else
                     profileName = value
                 end
-            end,
+            end,	
             closeElement = function(name) -- name is the closing tag
-                if currentTag != rootTag then
+                if name != rootTag then
                     if profileCommand != {} then
+						profileCommand["attributes"] = commandAttributes
                         table.insert(profileCommands, profileCommand)
                     end
 
                     -- reinit values for further commands
                     profileCommand = {}
+                    commandAttributes = {}
                 end
             end,
         }
@@ -112,9 +71,9 @@ function ProfileController( pPath )
             end
         end
 
-        --renderDebug ()
-        --screenFlip()
-        --buttons.waitforkey() 
+		--~ renderDebug ()
+        --~ screenFlip()
+        --~ buttons.waitforkey() 
     end
     
     --function self.select( pProfile )

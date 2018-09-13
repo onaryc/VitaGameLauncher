@@ -72,3 +72,14 @@ function testTable2 ( pTable, pIndex1, pIndex2 )
 
     return res
 end
+
+function testColor ( pColor )
+	local test = false
+	
+	if pColor == "yellow" or pColor == "blue" or pColor == "orange" or pColor == "white" then 
+		test = true
+	end
+	
+	return test
+end
+

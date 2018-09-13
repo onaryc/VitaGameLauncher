@@ -216,3 +216,9 @@ end
 function ftpTerm ()
     ftp.term()
 end
+
+function toColor ( pColor )
+	local color = "color."..pColor
+	
+	return color
+end

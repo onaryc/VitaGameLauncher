@@ -1,5 +1,5 @@
-function WSystemInfo( pId, pParent, pX, pY, pWidth, pHeight, pDebugColor )
-    local self = WFrame(pId, pParent, pX, pY, pWidth, pHeight, pDebugColor)
+function WSystemInfo( pArg )
+    local self = WFrame(pArg)
 
     --~ self.w = self.w - 1
 

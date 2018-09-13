@@ -1,10 +1,10 @@
-function WButton ( pId, pParent, pX, pY, pWidth, pHeight, pImage, pShape, pBordure, pDebugColor )
-    local self = WFrame(pId, pParent, pX, pY, pWidth, pHeight, pDebugColor)
+function WButton ( pArg )
+    local self = WFrame(pArg)
 
     -- public variables
-    self.image = pImage
-    self.shape = pShape
-    self.bordure = pBordure
+    self.image = pArg.image
+    self.shape = pArg.shape
+    self.bordure = pArg.bordure
     
     local baseUpdate = self.update -- in order to reuse parent function
     function self.update ( )

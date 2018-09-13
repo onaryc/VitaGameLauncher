@@ -53,13 +53,13 @@ function Mmi(pScreenWidth, pScreenHeight, pCategories, pPlateforms)
         -- profile loading
         -- widget creation
         profileController.evalProfile()
-        wMainFrame = WFrame("main", nil, 0, 0, self.screenWidth, self.screenHeight, color.yellow)
-        wGamesFrame = WFrame("games", wMainFrame, 0, 0, self.screenWidth, self.screenHeight, color.yellow)
-        wSystemInfo = WSystemInfo("sysInfo", wGamesFrame, sysInfoX, sysInfoY, sysInfoWidth, sysInfoHeight, color.yellow)
-        wAppInfo = WAppInfo("appInfo", wGamesFrame, appInfoX, appInfoY, appInfoWidth, appInfoHeight, color.blue)
-        wBackground = WBackground("appBackground", wGamesFrame, 0, 0, self.screenWidth, self.screenHeight, "appBackground", 100, "")
-        wList = WList("appList", wGamesFrame, appListX, appListY, appListWidth, appListHeight, "center", 10, color.orange, 1.2, color.white, 1.2, 35, color.orange)
-        wAppLaunch = WAppLaunch("appLaunch", wGamesFrame, appLaunchX, appLaunchY, appLaunchWidth, appLaunchHeight, color.orange)
+        wMainFrame = WFrame{id="main", frame=nil, x=0, y=0, width=self.screenWidth, height=self.screenHeight, debugColor=color.yellow}
+        wGamesFrame = WFrame{id="games", frame=wMainFrame, x=0, y=0, width=self.screenWidth, height=self.screenHeight, debugColor=color.yellow}
+        wSystemInfo = WSystemInfo{id="sysInfo", frame=wGamesFrame, x=sysInfoX, y=sysInfoY, width=sysInfoWidth, height=sysInfoHeight, debugColor=color.yellow}
+        wAppInfo = WAppInfo{id="appInfo", frame=wGamesFrame, x=appInfoX, y=appInfoY, width=appInfoWidth, height=appInfoHeight, debugColor=color.blue}
+        wBackground = WBackground{id="appBackground", frame=wGamesFrame, x=0, y=0, width=self.screenWidth, height=self.screenHeight, type="appBackground", alpha=100}
+        wList = WList{id="appList", frame=wGamesFrame, x=appListX, y=appListY, width=appListWidth, height=appListHeight, mode="center", xIdent=10, selectionColor=color.orange, selectionSize=1.2, fontColor=color.white, fontSize=1.2, lineSeparator=35, debugColor=color.orange}
+        wAppLaunch = WAppLaunch{id="appLaunch", frame=wGamesFrame, x=appLaunchX, y=appLaunchY, width=appLaunchWidth, height=appLaunchHeight, shape="circle", bordure=5, debugColor=color.orange}
 
         -- mmi icons
         self.initCategoryIcons()

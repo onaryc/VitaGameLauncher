@@ -9,18 +9,18 @@
 -- * center the selection!!!
 -- * highlight selection
 
-function WList( pId, pParent, pX, pY, pWidth, pHeight, pMode, pXIndent, pSelectionColor, pSelectionSize, pFontColor, pFontSize, pLineSeparator, pDebugColor )
-    local self = WFrame(pId, pParent, pX, pY, pWidth, pHeight, pDebugColor)
+function WList( pArg )
+    local self = WFrame(pArg)
 
     -- public variables
-    self.mode = pMode -- center, scroll
-    self.xIndent = pXIndent
-    self.selectionColor = pSelectionColor
-    self.selectionSize = pSelectionSize
+    self.mode = pArg.mode -- center, scroll
+    self.xIndent = pArg.xIdent
+    self.selectionColor = pArg.selectionColor
+    self.selectionSize = pArg.selectionSize
     --self.listFontColor = color.blue
-    self.listFontColor = pFontColor
-    self.listFontSize = pFontSize
-    self.lineSeparator = pLineSeparator
+    self.listFontColor = pArg.fontColor
+    self.listFontSize = pArg.fontSize
+    self.lineSeparator = pArg.lineSeparator
     
     -- list coordinates/move/font/color
     local initListY = self.y

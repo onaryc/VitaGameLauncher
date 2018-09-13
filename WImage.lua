@@ -1,9 +1,9 @@
-function WImage ( pId, pParent, pX, pY, pWidth, pHeight, pImage, pAlpha, pDebugColor )
-    local self = WFrame(pId, pParent, pX, pY, pWidth, pHeight, pDebugColor)
+function WImage ( pArg )
+    local self = WFrame(pArg)
 
     -- public variables
-    self.image = pImage
-    self.alpha = pAlpha
+    self.image = pArg.image
+    self.alpha = pArg.alpha
     
     local baseUpdate = self.update -- in order to reuse parent function
     function self.update ( )

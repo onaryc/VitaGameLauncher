@@ -1,13 +1,27 @@
-function Widget ( pId, pX, pY, pWidth, pHeight, pDebugColor )
+function Widget ( pArg )
     local self = VGLObject ()
 
+    local functionName = debug.getinfo(1, "n").name
+    
+    -- check mandatory options
+    local errorMessage = functionName.." : "
+    if type(pArg.x) ~= "number" then
+        error(errorMessage.."x attribute")
+    elseif type(pArg.y) ~= "number" then
+        error(errorMessage.."y attribute")
+    elseif type(pArg.width) ~= "number" then
+        error(errorMessage.."width attribute")
+    elseif type(pArg.height) ~= "number" then
+        error(errorMessage.."height attribute")
+    end
+      
     -- public variables
-    self.id = pId
-    self.x = pX
-    self.y = pY
-    self.w = pWidth
-    self.h = pHeight
-    self.debugColor = pDebugColor
+    self.id = pArg.id
+    self.x = pArg.x
+    self.y = pArg.y
+    self.w = pArg.width
+    self.h = pArg.height
+    self.debugColor = pArg.debugColor
 
     function self.update( )
         if mmi.debug == true then

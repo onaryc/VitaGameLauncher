@@ -1,8 +1,8 @@
 -- display app background image
-function WBackground( pId, pParent, pX, pY, pWidth, pHeight, pType, pAlpha, pDebugColor )
-    local self = WImage(pId, pParent, pX, pY, pWidth, pHeight, "", pAlpha, pDebugColor)
+function WBackground( pArg )
+    local self = WImage(pArg)
 
-    self.type = pType
+    self.type = pArg.type
     
     local baseUpdate = self.update -- in order to reuse parent function
     function self.update( )

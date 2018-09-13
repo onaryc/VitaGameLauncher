@@ -6,7 +6,7 @@
     <WAppInfo id="appInfo" frame="games" x="1" y="484" w="960" h="60" debugColor="blue"/>
     <WBackground id="appBackground" frame="games" x="0" y="0" w="960" h="544" type="app" alpha="100" debugColor=""/>
     <WList id="appList" frame="games" x="1" y="40" w="629" h="444" mode="center" xIdent="10" selectionColor="orange" selectionSize="1.2" fontColor="white" fontSize="1.2" lineSeparator="35" debugColor="orange"/>
-    <WAppLaunch id="appLaunch" frame="main" x="700" y="142" w="240" h="240" debugColor="orange"/>
+    <WAppLaunch id="appLaunch" frame="main" x="700" y="142" w="240" h="240" shape="circle" bordure=5 debugColor="orange"/>
     <WFrame id="gameOptions" frame="main" x="0" y="0" w="960" h="544" debugColor="yellow"/>
     <WFrame id="mainOptions" frame="main" x="0" y="0" w="960" h="544" debugColor="yellow"/>
 </profile>

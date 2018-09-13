@@ -1,6 +1,6 @@
 -- display app information on the screen : version, region, genre, ...
-function WAppInfo( pId, pParent, pX, pY, pWidth, pHeight, pDebugColor )
-    local self = WFrame(pId, pParent, pX, pY, pWidth, pHeight, pDebugColor)
+function WAppInfo( pArg )
+    local self = WFrame(pArg)
 
     local xPart = {}
     local yPart = {}
