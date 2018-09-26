@@ -1,6 +1,6 @@
 -- display app information on the screen : version, region, genre, ...
-function WAppInfo( pArg )
-    local self = WFrame(pArg)
+function VGLWAppInfo( pArg )
+    local self = VGLWFrame(pArg)
 
     local xPart = {}
     local yPart = {}
@@ -19,12 +19,12 @@ function WAppInfo( pArg )
 
     local baseUpdate = self.update -- in order to reuse parent function
     function self.update( )
-        local appInfos = gameController.appInfos 
+        local appInfos = api.getAppData() 
 
-        local currentCategory = gameController.currentCategory 
-        local currentPlateform = gameController.currentPlateform
+        local currentCategory = api.getCurrentCategory()
+        local currentPlateform = api.getCurrentPlateform()
 
-        local appObject = gameController.getCurrentApp()
+        local appObject = api.getCurrentApp()
         if appObject then
             if mmi.debug == true then
                 --printScreen("Game Selected : "..pAppInfos[pCurrentAppIndex].id, self.x, self.y)

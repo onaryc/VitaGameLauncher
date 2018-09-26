@@ -1,5 +1,5 @@
-function GameRomObject( pPlateform, pFilename, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription)
-    local self = GameObject(pPlateform, pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription)
+function VGLRetroGameObject( pPlateform, pFilename, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription)
+    local self = VGLGameObject(pPlateform, pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription)
     
     -- specific game rom
     self.filename = pFilename

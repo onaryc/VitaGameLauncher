@@ -19,8 +19,6 @@
 
 app0 = ""
 
-dofile(app0.."libWrapperOne.lua")
-
 -- main file
 dofile(app0.."main.lua")
 

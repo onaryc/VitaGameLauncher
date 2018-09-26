@@ -1,5 +1,5 @@
-function Mmi(pScreenWidth, pScreenHeight, pCategories, pPlateforms)
-    local self = {}
+function VitaMmi(pScreenWidth, pScreenHeight)
+    local self = VGLObject()
 
     self.screenWidth = pScreenWidth
     self.screenHeight = pScreenHeight
@@ -9,9 +9,6 @@ function Mmi(pScreenWidth, pScreenHeight, pCategories, pPlateforms)
     self.regionIcons = {}
     self.plateformIcons = {}
     self.categoryIcons = {}
-
-    local categories = pCategories
-    local plateforms = pPlateforms
 
     local touch_alfa_top = {0,0,0,0,0,0}
     local touch_alfa_back = {0,0,0,0,0,0}
@@ -68,19 +65,19 @@ function Mmi(pScreenWidth, pScreenHeight, pCategories, pPlateforms)
     end
 
     function self.initCategoryIcons ()
-        for key,value in pairs(categories) do
+        for key,value in pairs(api.getCategories()) do
             self.categoryIcons[value] = loadPlateformIcon(app0.."images/",value)
         end
     end
     
     function self.initPlateformIcons ()
-        for key,value in pairs(plateforms) do
+        for key,value in pairs(api.getPlateforms()) do
             self.plateformIcons[value] = loadPlateformIcon(app0.."images/",value)
         end
     end
 
     function self.initRegionIcons ()
-        for key,value in pairs(gameController.regions) do
+        for key,value in pairs(api.getRegions()) do
             self.regionIcons[value] = loadPlateformIcon(app0.."images/",value)
         end
     end

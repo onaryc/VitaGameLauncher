@@ -1,5 +1,5 @@
-function iniFile( pPath, pSections )
-    local self = {}
+function VGLIniFile( pPath, pSections )
+    local self = VGLObject()
 
     -- public variables
     self.path = pPath

@@ -1,4 +1,4 @@
-function Widget ( pArg )
+function VGLWidget ( pArg )
     local self = VGLObject ()
 
     local functionName = debug.getinfo(1, "n").name

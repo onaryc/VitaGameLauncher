@@ -1,5 +1,5 @@
-function WButton ( pArg )
-    local self = WFrame(pArg)
+function VGLWButton ( pArg )
+    local self = VGLWFrame(pArg)
 
     -- public variables
     self.image = pArg.image

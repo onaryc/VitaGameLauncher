@@ -1,5 +1,5 @@
-function FtpController()
-    local self = {}
+function VGLFTPController()
+    local self = VGLController()
 
     function self.initialize()
         ftpInit()
@@ -19,3 +19,5 @@ function FtpController()
     return self
 end
 
+vglFTPController = VGLFTPController()
+api.addController(vglFTPController)

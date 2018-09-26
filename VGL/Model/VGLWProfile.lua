@@ -1,6 +1,6 @@
 
-function WProfile ( pName, pCommands )
-    local self = {}
+function VGLWProfile ( pName, pCommands )
+    local self = VGLObject()
 
     -- public variables
     self.name = pName

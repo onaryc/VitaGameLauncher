@@ -1,6 +1,6 @@
 -- display app background image
-function WBackground( pArg )
-    local self = WImage(pArg)
+function VGLWBackground( pArg )
+    local self = VGLWImage(pArg)
 
     self.type = pArg.type
     
@@ -8,7 +8,7 @@ function WBackground( pArg )
     function self.update( )
         self.image = nil
         
-        local appObject = gameController.getCurrentApp()
+        local appObject = api.getCurrentApp()
         if appObject then
             if self.type == "app" then
                 self.image = appObject.appBgImage

@@ -1,5 +1,5 @@
-function GameVitaObject( pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription, pDumper )
-    local self = GameObject("PSVita", pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription)
+function VitaGameObject( pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription, pDumper )
+    local self = VGLGameObject("PSVita", pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription)
 
     -- public
     

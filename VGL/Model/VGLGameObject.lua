@@ -1,4 +1,4 @@
-function GameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersion, pDate, pDescription )
+function VGLGameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersion, pDate, pDescription )
     local self = VGLObject ()
 
     -- public variables

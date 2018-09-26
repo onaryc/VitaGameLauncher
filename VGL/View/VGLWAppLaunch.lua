@@ -1,15 +1,15 @@
-function WAppLaunch ( pArg )
-    local self = WButton(pArg)
+function VGLWAppLaunch ( pArg )
+    local self = VGLWButton(pArg)
 
     local baseUpdate = self.update -- in order to reuse parent function
     function self.update ( )
-        self.image = gameController.getCurrentApp().startupImage
+        self.image = api.getCurrentApp().startupImage
         
         baseUpdate()
 
         -- launch app if needed : shall be somewhere else, callback system??
         if (inputManager.tfX[1] > self.x) and (inputManager.tfX[1] < self.x + self.w) and (inputManager.tfY[1] > self.y) and (inputManager.tfY[1] < self.y + self.h) then
-            launchGame(gameController.getCurrentApp().id)
+            launchGame(api.getCurrentApp().id)
         end
         
     end

@@ -1,5 +1,5 @@
-function iniController( pIniFile )
-    local self = {}
+function VGLIniController( pIniFile )
+    local self = VGLInstanceController()
 
     -- public variables
     self.iniFile = pIniFile

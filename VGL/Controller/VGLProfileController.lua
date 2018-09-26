@@ -1,5 +1,5 @@
-function ProfileController( pPath )
-    local self = {}
+function VGLProfileController( pPath )
+    local self = VGLInstanceController()
 
     self.path = pPath -- folder where all profiles are listed
     --self.selectedProfile = nil

@@ -1,5 +1,5 @@
-function WSystemInfo( pArg )
-    local self = WFrame(pArg)
+function VGLWSystemInfo( pArg )
+    local self = VGLWFrame(pArg)
 
     --~ self.w = self.w - 1
 

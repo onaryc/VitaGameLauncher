@@ -1,5 +1,5 @@
-function WFrame ( pArg )
-    local self = Widget(pArg)
+function VGLWFrame ( pArg )
+    local self = VGLWidget(pArg)
 
     -- public variables
     self.parent = pArg.frame

@@ -1,5 +1,5 @@
-function WImage ( pArg )
-    local self = WFrame(pArg)
+function VGLWImage ( pArg )
+    local self = VGLWFrame(pArg)
 
     -- public variables
     self.image = pArg.image
