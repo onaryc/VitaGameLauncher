@@ -1,6 +1,6 @@
 function iniFile( pPath, pSections )
-    local self = {}
-
+    local self = VGLObject ()
+    
     -- public variables
     self.path = pPath
     self.sections = pSections
