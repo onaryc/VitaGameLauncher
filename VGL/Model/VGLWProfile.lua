@@ -1,11 +1,9 @@
-
-function VGLWProfile ( pName, pCommands )
-    local self = VGLObject()
+function VGLWProfile ( pArg )
+    local self = VGLObject(pArg)
 
     -- public variables
-    self.name = pName
-    self.commands = pCommands
-    
+    self.name = pArg.name
+    self.commands = pArg.commands    
 
     function self.eval( )
         for key,value in pairs(self.commands) do -- all commands

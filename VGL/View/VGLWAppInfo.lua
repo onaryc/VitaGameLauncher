@@ -26,7 +26,7 @@ function VGLWAppInfo( pArg )
 
         local appObject = api.getCurrentApp()
         if appObject then
-            if mmi.debug == true then
+            if api.getDebug() == true then
                 --printScreen("Game Selected : "..pAppInfos[pCurrentAppIndex].id, self.x, self.y)
                 --printScreen("Game Path : "..pAppInfos[pCurrentAppIndex].path, self.x, self.y + 20)
 
@@ -51,17 +51,17 @@ function VGLWAppInfo( pArg )
             local yShift = self.h / 2
             
             -- display plateform icon
-            local plateformIcon = mmi.getPlateformeIcon(appObject.plateform)
+            local plateformIcon = api.getPlateformeIcon(appObject.plateform)
             imageBlit(plateformIcon, xPart[1] + xShift, yPart[1] + yShift)
             xShift = xShift + 40
 
             -- display region icon
-            local regionIcon = mmi.getRegionIcon(appObject.region)
+            local regionIcon = api.getRegionIcon(appObject.region)
             imageBlit(regionIcon, xPart[1] + xShift, yPart[1] + yShift)
             xShift = xShift + 40
             
             -- display category icon
-            local categoryIcon = mmi.getCategoryIcon(appObject.category)
+            local categoryIcon = api.getCategoryIcon(appObject.category)
             imageBlit(categoryIcon, xPart[1] + xShift, yPart[1] + yShift)
             xShift = xShift + 40
             

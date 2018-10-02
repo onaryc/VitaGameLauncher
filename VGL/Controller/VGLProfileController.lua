@@ -1,7 +1,7 @@
-function VGLProfileController( pPath )
-    local self = VGLInstanceController()
+function VGLProfileController( pArg )
+    local self = VGLInstanceController(pArg)
 
-    self.path = pPath -- folder where all profiles are listed
+    self.path = pArg.path -- folder where all profiles are listed
     --self.selectedProfile = nil
     self.profiles = {}
 
@@ -55,6 +55,10 @@ function VGLProfileController( pPath )
     end
 
     function self.initialize()
+        api.register(self.loadingProfiles, "loadingProfiles")
+    end
+
+    function self.loadingProfiles()
         printDebug("loading profiles\n")
         --printDebug("path "..self.path.."\n")
         local directories = listDirectories(self.path)
@@ -71,15 +75,11 @@ function VGLProfileController( pPath )
             end
         end
 
-		--~ renderDebug ()
+        --~ renderDebug ()
         --~ screenFlip()
-        --~ buttons.waitforkey() 
+        --~ buttons.waitforkey()
     end
-    
-    --function self.select( pProfile )
-        --self.selectedProfile = pProfile
-    --end
-    
+        
     function self.createProfile( pPath )
         local res = nil
         
@@ -92,7 +92,7 @@ function VGLProfileController( pPath )
                 local name, commands = self.profileParse(fId)
 
                 -- create the profile
-                res = WProfile(name, commands)
+                res = VGLWProfile({name=name, commands=commands})
 
             end
         end
@@ -100,7 +100,7 @@ function VGLProfileController( pPath )
         return res
     end
 
-    function self.evalProfile( )
+    function self.evalProfile( pProfile )
         printDebug("evalProfile\n")
         for key,value in pairs(self.profiles) do
             --local res = load(value)()
@@ -118,3 +118,6 @@ function VGLProfileController( pPath )
     -- return the instance
     return self
 end
+
+vglProfileController = VGLProfileController({path=profileFolder})
+api.addController(vglProfileController)

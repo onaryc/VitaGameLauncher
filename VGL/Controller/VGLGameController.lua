@@ -1,5 +1,5 @@
-function VGLGameController()
-    local self = VGLInstanceController()
+function VGLGameController(pArg)
+    local self = VGLInstanceController(pArg)
 
     self.currentCategory = "All"
     self.currentPlateform = "All"

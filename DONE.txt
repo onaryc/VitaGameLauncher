@@ -1,0 +1,2 @@
+* instead of loading the background image into the ram, load it the the video ram (not relevant anymore)
+* instead of creating the game background image at initialization step, try to create it only when the image has to be diplayed : can be slow, perhaps the vram loading can help

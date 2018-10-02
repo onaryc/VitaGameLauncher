@@ -24,7 +24,7 @@ function VGLWidget ( pArg )
     self.debugColor = pArg.debugColor
 
     function self.update( )
-        if mmi.debug == true then
+        if api.getDebug() == true then
             drawRectangle(self.x, self.y, self.w, self.h, self.debugColor)
         end
     end

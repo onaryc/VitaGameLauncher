@@ -1,8 +1,8 @@
-function VGLIniController( pIniFile )
-    local self = VGLInstanceController()
+function VGLIniController( pArg )
+    local self = VGLInstanceController(pArg)
 
     -- public variables
-    self.iniFile = pIniFile
+    self.iniFile = pArg.iniFile
     
     function self.initializeIniFile ()
 
@@ -20,3 +20,7 @@ function VGLIniController( pIniFile )
     -- return the instance
     return self
 end
+
+vglIniController = VGLIniController()
+api.addController(vglIniController)
+

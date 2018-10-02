@@ -1,5 +1,5 @@
-function VGLController()
-    local self = VGLObject ()
+function VGLController(pArg)
+    local self = VGLObject (pArg)
 
     function self.initialize()
 

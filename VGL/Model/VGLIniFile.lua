@@ -1,9 +1,9 @@
-function VGLIniFile( pPath, pSections )
+function VGLIniFile( pArg )
     local self = VGLObject()
 
     -- public variables
-    self.path = pPath
-    self.sections = pSections
+    self.path = pArg.path
+    self.sections = pArg.sections
         
     -- return the instance
     return self

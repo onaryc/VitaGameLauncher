@@ -1,5 +1,5 @@
-function VGLFTPController()
-    local self = VGLController()
+function VGLFTPController(pArg)
+    local self = VGLController(pArg)
 
     function self.initialize()
         ftpInit()

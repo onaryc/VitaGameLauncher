@@ -8,7 +8,9 @@ function VGLWAppLaunch ( pArg )
         baseUpdate()
 
         -- launch app if needed : shall be somewhere else, callback system??
-        if (inputManager.tfX[1] > self.x) and (inputManager.tfX[1] < self.x + self.w) and (inputManager.tfY[1] > self.y) and (inputManager.tfY[1] < self.y + self.h) then
+        local tFX1 = api.getTouchFrontX(1)
+        local tFY1 = api.getTouchFrontY(1)
+        if (tFX1 > self.x) and (tFX1 < self.x + self.w) and (tFY1 > self.y) and (tFY1 < self.y + self.h) then
             launchGame(api.getCurrentApp().id)
         end
         

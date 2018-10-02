@@ -1,8 +1,8 @@
-function VGLRetroGameObject( pPlateform, pFilename, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription)
-    local self = VGLGameObject(pPlateform, pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription)
+function VGLRetroGameObject( pArg )
+    local self = VGLGameObject(pArg)
     
     -- specific game rom
-    self.filename = pFilename
+    self.filename = pArg.filename
 
     function self.initialization ()
         -- The id of the info is the id of the retroarch vpk corresponding of the system name

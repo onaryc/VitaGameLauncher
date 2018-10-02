@@ -5,40 +5,10 @@ function VGLWSystemInfo( pArg )
 
     local batteryWidth = 50
 
-    local battery = {
-        sprite = spriteLoad(app0.."images/battery.png", 40, 20),
-        anim = 0,
-    }
-
-    local batteryLow = {
-        timer = timer.new(),
-        sprite = spriteLoad(app0.."images/batteryLow.png", 40, 20),
-        anim = 0,
-        nbAnim = 5,
-        speed = 200,
-        direction = "left",
-    }
-    
-    local batteryCharging = {
-        timer = timer.new(),
-        sprite = spriteLoad(app0.."images/batteryCharging.png", 40, 20),
-        anim = 0,
-        nbAnim = 5,
-        speed = 150,
-        direction = "left",
-    }
-
-    local wifi = {
-        sprite = spriteLoad(app0.."images/wifi.png", 20, 20),
-        anim = 0,
-    }
-
-    local ftpImage = imageLoad(app0.."images/ftp.png")
-
     local baseUpdate = self.update -- in order to reuse parent function
     function self.update( pDebug )
         baseUpdate()
-        --if mmi.debug == true then
+        --if api.getDebug() == true then
             --draw.fillrect(self.x, self.y, self.w, self.h, color.black)  
             --drawRectangle(self.x, self.y, self.w, self.h, color.yellow)
         --end
@@ -73,6 +43,7 @@ function VGLWSystemInfo( pArg )
         local ftpState = ftp.state()
 
         if ftpState then
+            local ftpImage = api.getFtpImage()
             local x = self.w - batteryWidth - 30
             local y = 10
 
@@ -82,55 +53,58 @@ function VGLWSystemInfo( pArg )
 
     function self.batteryDisplay ()
         if batteryExists() == true then
+            local batterySprite = api.getBatterySprite()
+            local batteryLowSprite = api.getBatteryLowSprite()
+            local batteryChargingSprite = api.getBatteryChargingSprite()
             local spriteTmp = nil
             local anim = 0
             local batteryCharge = batteryCharge()
             
             if isBatteryCharging() == true then
                 -- battery is charging
-                if batteryCharging.timer:time() > batteryCharging.speed then
-                    batteryCharging.timer:reset()
-                    batteryCharging.timer:start()
+                if batteryChargingSprite.timer:time() > batteryChargingSprite.speed then
+                    batteryChargingSprite.timer:reset()
+                    batteryChargingSprite.timer:start()
                     
-                    if batteryCharging.direction == "left" then
-                        batteryCharging.anim += 1
-                        if batteryCharging.anim == (batteryCharging.nbAnim - 1) then
-                            batteryCharging.direction = "right"
-                            --batteryCharging.anim = batteryCharging.nbAnim - 1
+                    if batteryChargingSprite.direction == "left" then
+                        batteryChargingSprite.anim += 1
+                        if batteryChargingSprite.anim == (batteryChargingSprite.nbAnim - 1) then
+                            batteryChargingSprite.direction = "right"
+                            --batteryChargingSprite.anim = batteryChargingSprite.nbAnim - 1
                         end
                     else
-                        batteryCharging.anim -= 1
-                        if batteryCharging.anim == 0 then
-                            batteryCharging.direction = "left"
-                            --batteryCharging.anim += 2
+                        batteryChargingSprite.anim -= 1
+                        if batteryChargingSprite.anim == 0 then
+                            batteryChargingSprite.direction = "left"
+                            --batteryChargingSprite.anim += 2
                         end
                     end                    
                 end
 
-                spriteTmp = batteryCharging.sprite
-                anim = batteryCharging.anim
+                spriteTmp = batteryChargingSprite.sprite
+                anim = batteryChargingSprite.anim
             elseif isBatteryLow() == true then
                 -- battery is low
-                if batteryLow.timer:time() > batteryLow.speed then
-                    batteryLow.timer:reset(); batteryLow.timer:start();
+                if batteryLowSprite.timer:time() > batteryLowSprite.speed then
+                    batteryLowSprite.timer:reset(); batteryLowSprite.timer:start();
 
-                    batteryLow.anim += 1
-                    if batteryLow.anim > 5 then
-                        batteryLow.anim = 0
+                    batteryLowSprite.anim += 1
+                    if batteryLowSprite.anim > 5 then
+                        batteryLowSprite.anim = 0
                     end
                 end
 
-                spriteTmp = battery.sprite
-                anim = batteryLow.anim
+                spriteTmp = batterySprite.sprite
+                anim = batteryLowSprite.anim
             end
 
-            battery.anim = math.floor(-5 * batteryCharge + 5)
+            batterySprite.anim = math.floor(-5 * batteryCharge + 5)
 
             --local x = screenWidth - imgWidth - 10
             local x = self.w - batteryWidth
             local y = 10
 
-            spriteBlit(battery.sprite,x,y,battery.anim)
+            spriteBlit(batterySprite.sprite,x,y,batterySprite.anim)
             spriteBlit(spriteTmp,x,y,anim)
         end
     end
@@ -175,6 +149,7 @@ function VGLWSystemInfo( pArg )
 
     function self.wifiDisplay ()
         if wlan.isconnected() == true then
+            local wifiSprite = api.getWifiSprite() 
             local status = wlan.status()
             local strength = wlan.strength()
 
@@ -184,9 +159,9 @@ function VGLWSystemInfo( pArg )
             local x = 10
             local y = 10
             
-            wifiAnim = 3 - status
+            wifiSprite.anim = 3 - status
             
-            spriteBlit(wifi.sprite, x, y, wifiAnim)
+            spriteBlit(wifiSprite.sprite, x, y, wifiSprite.anim)
         end
     end
 

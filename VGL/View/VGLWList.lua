@@ -50,7 +50,7 @@ function VGLWList( pArg )
         end
 
         parentUpdate()
-        --if mmi.debug then
+        --if api.getDebug() then
             --drawRectangle(self.x, self.y+1, self.w, self.h-2, color.orange)
             ----drawRectangle(lbX, lbY, lbWidth, lbHeight, color.orange)
         --end
@@ -63,21 +63,22 @@ function VGLWList( pArg )
 
         -- get the current app index
         local currentAppIndex = api.getCurrentAppIndex()
-        
+
+        local shiftTFY1 = api.getShiftTouchFrontY(1)
         -- limit end and start of the list
         if self.mode != "center" then
-            currentY = currentY + inputManager.shiftTFY[1]
+            currentY = currentY + shiftTFY1
         end
 
         -- compute the current app index
-        cumulateY = cumulateY + inputManager.shiftTFY[1]
+        cumulateY = cumulateY + shiftTFY1
         if currentAppIndex == 1 then
-            if inputManager.shiftTFY[1] > 0 then
+            if shiftTFY1 > 0 then
                 currentY = initListY
                 cumulateY = 0
             end
         elseif currentAppIndex == nbAppInfo then
-            if inputManager.shiftTFY[1] < 0 then
+            if shiftTFY1 < 0 then
                 currentY = initListY
                 cumulateY = 0
             end
@@ -101,28 +102,28 @@ function VGLWList( pArg )
             cumulateY = 0
         end
 
-        if inputManager.up then
+        if api.getDigitalUp() then
             currentAppIndex = currentAppIndex - 1
             if currentAppIndex < 1 then
                 currentAppIndex = 1
             end
         end
 
-        if inputManager.down then
+        if api.getDigitalDown() then
             currentAppIndex = currentAppIndex + 1
             if currentAppIndex > nbAppInfo then
                 currentAppIndex = currentAppIndex - 1
             end
         end
 
-        if inputManager.left then
+        if api.getDigitalLeft() then
             currentAppIndex = currentAppIndex - nbAppDisplay + 1
             if currentAppIndex < 1 then
                 currentAppIndex = 1
             end
         end
 
-        if inputManager.right then
+        if api.getDigitalRight() then
             currentAppIndex = currentAppIndex + nbAppDisplay - 1
             if currentAppIndex > nbAppInfo then
                 currentAppIndex = nbAppInfo
@@ -133,14 +134,14 @@ function VGLWList( pArg )
         api.setCurrentApp (pAppList[currentAppIndex])
 
         -- plateform selection
-        if inputManager.analogLUpPressed then
+        if api.getAnalogLUpPressed() then
             currentPlateformIndex = currentPlateformIndex - 1
             if currentPlateformIndex < 1 then
                 currentPlateformIndex = 1
             end
         end
         
-        if inputManager.analogLDownPressed then
+        if api.getAnalogLDownPressed() then
             currentPlateformIndex = currentPlateformIndex + 1
             if currentPlateformIndex > #api.getPlateforms() then
                 currentPlateformIndex = currentPlateformIndex - 1
@@ -150,14 +151,14 @@ function VGLWList( pArg )
         api.setCurrentPlateform(currentPlateformIndex)
 
         -- category selection
-        if inputManager.analogRUpPressed then -- right analog up
+        if api.getAnalogRUpPressed() then -- right analog up
             currentCatIndex = currentCatIndex - 1
             if currentCatIndex < 1 then
                 currentCatIndex = 1
             end
         end
 
-        if inputManager.analogRDownPressed then -- right analog down
+        if api.getAnalogRDownPressed() then -- right analog down
             currentCatIndex = currentCatIndex + 1
             if currentCatIndex > #api.getCategories() then
                 currentCatIndex = currentCatIndex - 1
@@ -244,13 +245,13 @@ function VGLWList( pArg )
 
         if currentPlateform == "All" then
             -- display plateform icon
-            local plateformIcon = mmi.getPlateformeIcon(pAppObject.plateform)
+            local plateformIcon = api.getPlateformeIcon(pAppObject.plateform)
             imageBlit(plateformIcon, pX + xShift, pY)
             xShift = xShift + 40
         end
 
         -- display region icon
-        --local regionIcon = mmi.getRegionIcon(pAppObject.region)
+        --local regionIcon = api.getRegionIcon(pAppObject.region)
         --imageBlit(regionIcon, pX + xShift, pY)
         --xShift = xShift + 40
 

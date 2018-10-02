@@ -2,8 +2,8 @@
 -- * bug : no plateform icon for snes plateform after the first folder
 -- * merge psvita and rom gather info
 
-function VitaGameController()
-    local self = VGLGameController()
+function VitaGameController(pArg)
+    local self = VGLGameController(pArg)
 
     self.vitaFilters = {'^PCS.*'}
 

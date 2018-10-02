@@ -1,10 +1,11 @@
-function VitaGameObject( pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription, pDumper )
-    local self = VGLGameObject("PSVita", pId, pPath, pTitle, pRegion, pVersion, pCategory, pDate, pDescription)
+function VitaGameObject( pArg )
+    insertTable(pArg, {plateform = "PSVita"})
+    local self = VGLGameObject(pArg)
 
     -- public
     
     -- specific vita
-    self.dumperVersion = pDumper
+    self.dumperVersion = pArg.dumper
 
     function self.initialization ()
         --self.initialization2()

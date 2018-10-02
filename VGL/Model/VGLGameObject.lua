@@ -1,16 +1,16 @@
-function VGLGameObject( pPlateform, pId, pPath, pCategory, pTitle, pRegion, pVersion, pDate, pDescription )
-    local self = VGLObject ()
+function VGLGameObject( pArg )
+    local self = VGLObject ( pArg )
 
     -- public variables
-    self.plateform = pPlateform
-    self.id = pId
-    self.path = pPath
-    self.title = pTitle
-    self.region = pRegion
-    self.version = pVersion
-    self.date = pDate
-    self.description = pDescription
-    self.category = pCategory
+    self.plateform = pArg.plateform
+    self.id = pArg.id
+    self.path = pArg.path
+    self.title = pArg.title
+    self.region = pArg.region
+    self.version = pArg.version
+    self.date = pArg.date
+    self.description = pArg.description
+    self.category = pArg.category
     self.nbPlayer = 1
 
     -- background image (use by wBackground)
